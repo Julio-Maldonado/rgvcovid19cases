@@ -9,7 +9,7 @@ const Header = ({ endpoint, category, updateCategory }) => {
   const data = ENDPOINT_MAP[endpoint];
   return (
     <div>
-      <h1 className="h1" id="h1">Cameron County Covid-19</h1>
+      <h1 className="h1" id="h1">Cameron County Covid-19 {data}</h1>
         <h2 id="h2">
           This graph shows the Covid-19 {endpoint} in Cameron County since the beginning.
         </h2>
