@@ -11,3 +11,197 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 25%;
+} */
+
+td, th {
+  border: 1px solid #dddddd;
+  /* justify-content: center;
+  align-items: center;
+  align-content: center; */
+}
+/* 
+tr:nth-child(even) {
+  background-color: #dddddd;
+} */
+
+@media (max-width: 700px) {
+  h1, .h1, #h1 {
+    font-size: 24px;
+  }
+  h2, #h2 {
+    font-size: 18px;
+  }
+  h3, #h3 {
+    font-size: 14px;
+  }
+  h4, #h4 {
+    font-size: 12px;
+  }
+  h5, #h5 {
+    font-size: 9px;
+  }
+  h6, #h6 {
+    font-size: 8px;
+  }
+  a, #a {
+    font-size: 16px;
+  }
+  i, #i {
+    font-size: 12px;
+  }
+  b, #b {
+    font-size: 12px;
+  }
+  select, #select {
+    font-size: 12px;
+  }
+  .my-navbar-p {
+    font-size: 24px;
+  }
+  .my-navbar {
+    z-index: 99;
+    color: black;
+    background-color: white;
+    height: 7vh;
+    width: 100vw;
+    position: fixed;
+    padding-left: 5vw;
+    padding-top: 1vh;
+  }
+  table {
+    width: 60%;
+  }
+}
+
+@media (min-width: 700px) {
+  h1, .h1, #h1 {
+    font-size: 28px;
+  }
+  h2, #h2 {
+    font-size: 22px;
+  }
+  h3, #h3 {
+    font-size: 18px;
+  }
+  h4, #h4 {
+    font-size: 14px;
+  }
+  h5, #h5 {
+    font-size: 12px;
+  }
+  h6, #h6 {
+    font-size: 10px;
+  }
+  a, #a {
+    font-size: 16px;
+  }
+  i, #i {
+    font-size: 14px;
+  }
+  b, #b {
+    font-size: 14px;
+  }
+  select, #select {
+    font-size: 14px;
+  }
+  .my-navbar-p {
+    font-size: 26px;
+  }
+  table {
+    width: 50%;
+  }
+}
+
+@media (min-width: 992px) {
+  h1, .h1, #h1 {
+    font-size: 30px;
+  }
+  h2, #h2 {
+    font-size: 23px;
+  }
+  h3, #h3 {
+    font-size: 18px;
+  }
+  h4, #h4 {
+    font-size: 15px;
+  }
+  h5, #h5 {
+    font-size: 13px;
+  }
+  h6, #h6 {
+    font-size: 10px;
+  }
+  a, #a {
+    font-size: 15px;
+  }
+  i, #i {
+    font-size: 15px;
+  }
+  b, #b {
+    font-size: 15px;
+  }
+  select, #select {
+    font-size: 15px;
+  }
+  .my-navbar-p {
+    font-size: 28px;
+  }
+  table {
+    width: 30%;
+  }
+  .my-line-chart {
+    margin-left: 3vw;
+  }
+}
+
+@media (min-width: 1200px) {
+  h1, .h1, #h1 {
+    font-size: 32px;
+  }
+  h2, #h2 {
+    font-size: 24px;
+  }
+  h3, #h3 {
+    font-size: 18.72px;
+  }
+  h4, #h4 {
+    font-size: 16px;
+  }
+  h5, #h5 {
+    font-size: 13.28px;
+  }
+  h6, #h6 {
+    font-size: 10.72px;
+  }
+  a, #a {
+    font-size: 18px;
+  }
+  i, #i {
+    font-size: 16px;
+  }
+  b, #b {
+    font-size: 16px;
+  }
+  select, #select {
+    font-size: 16px;
+  }
+  .my-navbar-p {
+    font-size: 30px;
+    width: 30%;
+  }
+  .my-navbar {
+    z-index: 99;
+    color: black;
+    background-color: white;
+    height: 7vh;
+    width: 100vw;
+    position: fixed;
+    padding-left: 3vw;
+    padding-top: 0.2vh;
+  }
+}

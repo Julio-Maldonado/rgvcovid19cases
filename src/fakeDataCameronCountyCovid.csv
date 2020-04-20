@@ -1,0 +1,92 @@
+Country,State,County,City,Date,Transmission,Age,Gender
+USA,TX,Cameron,Rancho Viejo,3/19,Travel,21,Male
+USA,TX,Cameron,Harlingen,3/20,Travel,81,Male
+USA,TX,Cameron,Harlingen,3/21,Travel,57,Female
+USA,TX,Cameron,Brownsville,3/21,Travel,20,Male
+USA,TX,Cameron,Rancho Viejo,3/21,Travel,21,Male
+USA,TX,Cameron,Brownsville,3/21,Travel,20,Female
+USA,TX,Cameron,Rio Hondo,3/24,Community,40,Male
+USA,TX,Cameron,Rancho Viejo,3/25,Travel,20,Male
+USA,TX,Cameron,Brownsville,3/25,Travel,21,Male
+USA,TX,Cameron,Brownsville,3/25,Travel,21,Female
+USA,TX,Cameron,Brownsville,3/26,Travel,27,Male
+USA,TX,Cameron,Laguna Vista,3/26,Travel,44,Male
+USA,TX,Cameron,Los Fresnos,3/26,Travel,59,Male
+USA,TX,Cameron,Brownsville,3/28,Community,43,Male
+USA,TX,Cameron,Brownsville,3/28,Travel,38,Female
+USA,TX,Cameron,Brownsville,3/28,Travel,21,Male
+USA,TX,Cameron,Brownsville,3/28,Travel,31,Male
+USA,TX,Cameron,Brownsville,3/28,Travel,53,Male
+USA,TX,Cameron,San Benito,3/28,Travel,50,Female
+USA,TX,Cameron,Los Fresnos,3/28,Travel,62,Male
+USA,TX,Cameron,Harlingen,3/30,Travel,36,Male
+USA,TX,Cameron,Harlingen,3/30,Travel,25,Male
+USA,TX,Cameron,Harlingen,3/30,Travel,38,Male
+USA,TX,Cameron,Harlingen,3/30,Travel,48,Male
+USA,TX,Cameron,Harlingen,3/30,Travel,52,Female
+USA,TX,Cameron,Brownsville,3/30,Community,18,Female
+USA,TX,Cameron,Brownsville,4/01,Travel,38,Female
+USA,TX,Cameron,Brownsville,4/01,Community,48,Female
+USA,TX,Cameron,Brownsville,4/01,Community,38,Female
+USA,TX,Cameron,Brownsville,4/01,Community,47,Female
+USA,TX,Cameron,Brownsville,4/01,Travel,46,Male
+USA,TX,Cameron,Brownsville,4/01,Community,44,Male
+USA,TX,Cameron,Brownsville,4/01,Community,43,Male
+USA,TX,Cameron,Harlingen,4/01,Travel,36,Male
+USA,TX,Cameron,Harlingen,4/01,Community,43,Male
+USA,TX,Cameron,San Benito,4/01,Community,66,Female
+USA,TX,Cameron,Rio Hondo,4/01,Community,29,Male
+USA,TX,Cameron,San Benito,4/02,Travel,30,Female
+USA,TX,Cameron,San Benito,4/02,Community,34,Female
+USA,TX,Cameron,Harlingen,4/02,Community,89,Female
+USA,TX,Cameron,Harlingen,4/02,Community,86,Male
+USA,TX,Cameron,Harlingen,4/02,Travel,57,Female
+USA,TX,Cameron,Harlingen,4/02,Community,48,Female
+USA,TX,Cameron,Los Fresnos,4/02,Community,39,Male
+USA,TX,Cameron,Santa Rosa,4/02,Community,9,Female
+USA,TX,Cameron,Santa Rosa,4/02,Travel,38,Female
+USA,TX,Cameron,Brownsville,4/02,Community,33,Male
+USA,TX,Cameron,Brownsville,4/02,Community,40,Female
+USA,TX,Cameron,Brownsville,4/02,Community,46,Female
+USA,TX,Cameron,Brownsville,4/02,Community,1,Female
+USA,TX,Cameron,Brownsville,4/02,Community,29,Male
+USA,TX,Cameron,Harlingen,4/02,Community,22,Female
+USA,TX,Cameron,Los Fresnos,4/02,Community,18,Female
+USA,TX,Cameron,Los Fresnos,4/02,Community,21,Male
+USA,TX,Cameron,La Feria,4/02,Community,59,Female
+USA,TX,Cameron,Brownsville,4/03,Community,23,Female
+USA,TX,Cameron,Brownsville,4/03,Community,90,Male
+USA,TX,Cameron,Brownsville,4/03,Community,57,Female
+USA,TX,Cameron,Brownsville,4/03,Community,43,Male
+USA,TX,Cameron,Harlingen,4/03,Community,42,Female
+USA,TX,Cameron,Santa Rosa,4/03,Travel,49,Female
+USA,TX,Cameron,Port Isabel,4/03,Community,61,Male
+USA,TX,Cameron,Brownsville,4/04,Community,16,Female
+USA,TX,Cameron,Brownsville,4/04,Travel,45,Female
+USA,TX,Cameron,Brownsville,4/04,Community,54,Male
+USA,TX,Cameron,Harlingen,4/04,Community,48,Male
+USA,TX,Cameron,Harlingen,4/04,Community,69,Female
+USA,TX,Cameron,Harlingen,4/04,Community,78,Male
+USA,TX,Cameron,Harlingen,4/04,Community,81,Male
+USA,TX,Cameron,Harlingen,4/04,Community,81,Female
+USA,TX,Cameron,Harlingen,4/04,Community,82,Female
+USA,TX,Cameron,Harlingen,4/04,Community,84,Male
+USA,TX,Cameron,Harlingen,4/04,Community,87,Male
+USA,TX,Cameron,Harlingen,4/04,Community,87,Female
+USA,TX,Cameron,Harlingen,4/04,Community,88,Male
+USA,TX,Cameron,Harlingen,4/04,Travel,54,Male
+USA,TX,Cameron,San Benito,4/04,Community,28,Female
+USA,TX,Cameron,Brownsville,4/06,Community,33,Male
+USA,TX,Cameron,Brownsville,4/06,Community,37,Female
+USA,TX,Cameron,Brownsville,4/06,Travel,45,Female
+USA,TX,Cameron,Brownsville,4/06,Community,64,Male
+USA,TX,Cameron,Harlingen,4/06,Community,40,Female
+USA,TX,Cameron,Harlingen,4/06,Community,55,Male
+USA,TX,Cameron,Harlingen,4/06,Community,71,Female
+USA,TX,Cameron,Harlingen,4/06,Community,86,Female
+USA,TX,Cameron,Harlingen,4/06,Community,94,Female
+USA,TX,Cameron,Los Fresnos,4/06,Community,18,Female
+USA,TX,Cameron,Los Fresnos,4/06,Community,55,Female
+USA,TX,Cameron,San Benito,4/06,Community,47,Female
+USA,TX,Cameron,Santa Rosa,4/06,Community,45,Female
+USA,TX,Cameron,Santa Rosa,4/06,Community,49,Female

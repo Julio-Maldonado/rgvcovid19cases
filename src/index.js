@@ -1,13 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+
+import { Router } from "react-router-dom";
+
+import Routes from './components/Routes';
+import history from './utils/history';
+import MyNavBar from './components/MyNavBar';
+
 import * as serviceWorker from './serviceWorker';
 
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
+import './index.css';
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Router history={history}>
+    <MyNavBar />
+    <Routes />
+  </Router>,
   document.getElementById('root')
 );
 
