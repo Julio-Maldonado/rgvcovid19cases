@@ -5,7 +5,6 @@ import { Router } from "react-router-dom";
 
 import Routes from './components/Routes';
 import history from './utils/history';
-import MyNavBar from './components/MyNavBar';
 
 import * as serviceWorker from './serviceWorker';
 
@@ -15,7 +14,6 @@ import './index.css';
 
 ReactDOM.render(
   <Router history={history}>
-    <MyNavBar />
     <Routes />
   </Router>,
   document.getElementById('root')

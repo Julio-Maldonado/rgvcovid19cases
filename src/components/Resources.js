@@ -3,6 +3,7 @@ import React from 'react';
 import SideMenu from './SideMenu';
 import RGVResources from './RGVResources';
 import PressReleases from './PressReleases';
+import MyNavBar from './MyNavBar';
 
 import { ENDPOINT_MAP } from '../constants/constants';
 
@@ -34,6 +35,7 @@ class Resources extends React.Component {
     const {width} = this.state;
     return (
       <div className="App">
+        <MyNavBar navClick={this.navClick}/>
         <div onClick={() => this.setState({isOpen: !this.state.isOpen})}>
           <SideMenu
             right

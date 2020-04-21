@@ -10,11 +10,13 @@ const PressReleases = () => {
             PRESS_RELEASES.map(({title, url, date}, i) => {
               return (
                 <li key={i + title}>
-                  <p id="p">{date.substr(1,4)}: <div
+                  <div>
+                  <p id="p" style={{display:'inline'}}>{date.substr(1,4)}: </p> <div
                     onClick={() => ReactGA.event({
                     category: "Press Release Visit",
                     action: `User navigated to ${title}: url = ${url} with date: ${date}`,
-                  })}><a href={url} rel="noopener noreferrer" target="_blank" className="App-link">{title}</a></div></p>
+                  })}><a href={url} rel="noopener noreferrer" target="_blank" className="App-link">{title}</a></div>
+                  </div>
                 </li>
               );
             })

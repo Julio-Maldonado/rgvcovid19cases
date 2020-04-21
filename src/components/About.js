@@ -3,7 +3,7 @@ import React from 'react';
 import ReactGA from 'react-ga';
 
 import { HashLink as Link } from 'react-router-hash-link';
-import { ENDPOINT_MAP } from '../constants/constants';
+import MyNavBar from './MyNavBar';
 
 import SideMenu from './SideMenu';
 
@@ -34,6 +34,7 @@ class About extends React.Component {
     const {width} = this.state;
     return (
       <div className="App">
+        <MyNavBar navClick={this.navClick}/>
         <div onClick={() => this.setState({isOpen: !this.state.isOpen})}>
           <SideMenu
             right

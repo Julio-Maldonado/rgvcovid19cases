@@ -7,6 +7,7 @@ import RefreshButton from './RefreshButton';
 import SideMenu from './SideMenu';
 import TableDisplay from './TableDisplay';
 import Footer from './Footer';
+import MyNavBar from './MyNavBar';
 
 import { getUsefulData, getCameronCountyCoronaData, determineScreenState, shallowCompare, compare } from '../constants/helperFunctions';
 
@@ -85,6 +86,7 @@ class Home extends React.Component {
       endpoint = "cases"
     else 
       this.updateEndpoint(endpoint);
+
     const cameronCountyCoronaData = await getCameronCountyCoronaData(endpoint);
     this.setState({ coronaData: cameronCountyCoronaData });
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -117,9 +119,10 @@ class Home extends React.Component {
       this.endpoint === this.props.location['pathname'].substr(1) &&
       endpoint !== this.state.endpoint &&
       endpoint in ENDPOINT_MAP
-    )
+    ) {
       this.getLatestConfirmedCases(endpoint);
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
   render() {
@@ -157,9 +160,9 @@ class Home extends React.Component {
 
     const screenState = determineScreenState(width);
     this.endpoint = this.props.location['pathname'].substr(1);
-    console.log({endpoint})
     return (
       <div className="App">
+        <MyNavBar navClick={this.navClick}/>
         <div onClick={() => this.navigateSideMenu()}>
           <SideMenu
             right

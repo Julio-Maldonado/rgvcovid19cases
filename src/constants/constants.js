@@ -243,37 +243,6 @@ const DEFAULT_CASES = [
     }
   },
   {
-    "Date": "3/18",
-    "Count": 0,
-    "Gender": {
-      "Male": 4,
-      "Female": 0
-    },
-    "Transmission": {
-      "Travel": 4,
-      "Community": 0
-    },
-    "Ages": {
-      "0 - 20": 0,
-      "21 - 40": 0,
-      "41 - 60": 0,
-      "61 - 80": 0,
-      "81+": 4
-    },
-    "Cities": {
-      "Harlingen": 4,
-      "Brownsville": 0,
-      "Rancho Viejo": 0,
-      "Rio Hondo": 0,
-      "Los Fresnos": 0,
-      "La Feria": 0,
-      "San Benito": 0,
-      "Laguna Vista": 0,
-      "Santa Rosa": 0,
-      "Port Isabel": 0
-    }
-  },
-  {
     "Date": "3/21",
     "Count": 16,
     "Gender": {
@@ -1031,5 +1000,5 @@ export {
   CATEGORY_MAP,
   DEFAULT_CASES,
   DEFAULT_DEATHS,
-  DEFAULT_RECOVERIES
+  DEFAULT_RECOVERIES,
 };

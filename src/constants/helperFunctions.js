@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {DEFAULT_CASES, DEFAULT_DEATHS, DEFAULT_RECOVERIES} from './constants';
 
 const getCount = (obj, field) => obj[field] ? obj[field] : 0;
@@ -117,25 +118,27 @@ const shallowCompare = (instance, nextProps, nextState) =>{
 }
 
 const getCameronCountyCoronaData = async(data) => {
-  console.log("hey")
-  console.log("if you're reading this you should definitely email me at julio.maldonado.guzman@gmail.com to help contribute to this project")
-  console.log("Send a :p as the subject & ill know")
+  console.log("hey");
+  console.log("if you're reading this");
+  console.log("you should definitely email me at julio.maldonado.guzman@gmail.com to help contribute to this project");
   let coronaMap = {};
   let endpoint = getEndpoint(data);
   let cameronCountyData = await getCoronaCases(endpoint);
+
   if (cameronCountyData['status'] !== 200) {
     console.error('api call failed');
     console.error({cameronCountyData});
     alert('There was an error getting the latest data. Please try refreshing the page later.')
-    if (endpoint === "cases")
+    if (endpoint === "getRGVCoronaCases")
       return DEFAULT_CASES;
-    else if (endpoint === "deaths")
+    else if (endpoint === "getRGVCoronaDeaths")
       return DEFAULT_DEATHS;
-    else if (endpoint === "recoveries")
+    else if (endpoint === "getRGVRecoveredCases")
       return DEFAULT_RECOVERIES;
     else 
       return DEFAULT_CASES;
   }
+
   cameronCountyData = cameronCountyData['cases'];
   cameronCountyData.forEach(data => {
     const date = data["date"].substr(1, 4);
