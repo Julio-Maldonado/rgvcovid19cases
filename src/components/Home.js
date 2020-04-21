@@ -125,6 +125,15 @@ class Home extends React.Component {
     }
   }
 
+  homeClick = (endpoint) => {
+    ReactGA.event({
+      category: "Home Click",
+      action: `User navigated to ${endpoint}`,
+    });
+    this.getLatestConfirmedCases(endpoint);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   render() {
     const {coronaData, category, height, width, endpoint} = this.state;
     const {
@@ -162,7 +171,7 @@ class Home extends React.Component {
     this.endpoint = this.props.location['pathname'].substr(1);
     return (
       <div className="App">
-        <MyNavBar navClick={this.navClick}/>
+        <MyNavBar navClick={this.homeClick}/>
         <div onClick={() => this.navigateSideMenu()}>
           <SideMenu
             right
