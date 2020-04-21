@@ -118,9 +118,6 @@ const shallowCompare = (instance, nextProps, nextState) =>{
 }
 
 const getCameronCountyCoronaData = async(data) => {
-  console.log("hey");
-  console.log("if you're reading this");
-  console.log("you should definitely email me at julio.maldonado.guzman@gmail.com to help contribute to this project");
   let coronaMap = {};
   let endpoint = getEndpoint(data);
   let cameronCountyData = await getCoronaCases(endpoint);

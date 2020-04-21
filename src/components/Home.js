@@ -44,6 +44,9 @@ class Home extends React.Component {
   }
 
   justMounted = async () => {
+    console.log("hey");
+    console.log("if you're reading this");
+    console.log("you should definitely email me at julio.maldonado.guzman@gmail.com to help contribute to this project");
     let {endpoint} = this.state;
     let {location} = this.props;
 
