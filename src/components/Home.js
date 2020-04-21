@@ -30,6 +30,9 @@ class Home extends React.Component {
     setTimeout(this.justMounted, 1000);
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
+    document.addEventListener('touchmove', function (event) {
+      if (event.scale !== 1) { event.preventDefault(); }
+    }, { passive: false });
   }
 
   updateEndpoint = (endpoint) => { endpoint in ENDPOINT_MAP ? this.setState({ endpoint }): this.setState({ endpoint: 'cases'}); };
