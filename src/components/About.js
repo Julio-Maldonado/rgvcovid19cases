@@ -1,11 +1,13 @@
 import React from 'react';
 
-import SideMenu from './SideMenu';
 import ReactGA from 'react-ga';
 
+import { HashLink as Link } from 'react-router-hash-link';
 import { ENDPOINT_MAP } from '../constants/constants';
 
-import { FacebookIcon, FacebookShareButton, FacebookShareCount } from "react-share";
+import SideMenu from './SideMenu';
+
+import { FacebookIcon, FacebookShareButton } from "react-share";
 
 import './App.css';
 
@@ -22,13 +24,10 @@ class About extends React.Component {
   updateWindowDimensions = () => { this.setState({ width: window.innerWidth, height: window.innerHeight }) }
 
   navClick = (endpoint) => {
-    if (
-      this.state.isOpen &&
-      this.endpoint === this.props.location['pathname'].substr(1) &&
-      endpoint !== this.state.endpoint &&
-      endpoint in ENDPOINT_MAP
-    )
-      this.getLatestConfirmedCases(endpoint);
+    ReactGA.event({
+      category: "Nav Click",
+      action: `User navigated to ${endpoint}`,
+    });
   }
 
   render() {
@@ -58,6 +57,23 @@ class About extends React.Component {
             <p id="p">You can read all of the Press Releases <a rel="noopener noreferrer" target="_blank" href="https://www.cameroncounty.us/announcements-press-releases/">here</a> or check out the Cameron County <a rel="noopener noreferrer" target="_blank" href="http://www.co.cameron.tx.us/">website</a>.</p>
             <br />
             {/* <FacebookShareButton url="https://julio-maldonado.github.io/rgvcovid19cases/"> */}
+            <button className="my-button">
+              <Link onClick={() => this.navClick("cases")} smooth to="/cases">
+                View Confirmed Cases
+              </Link>
+            </button>
+            <button className="my-button">
+              <Link onClick={() => this.navClick("recoveries")} smooth to="/recoveries">
+                View Confirmed Recoveries
+              </Link>
+            </button>
+            <button className="my-button">
+              <Link onClick={() => this.navClick("deaths")} smooth to="/deaths">
+                View Confirmed Deaths
+              </Link>
+            </button>
+            <br />
+            <br />
             <p id="p">Share this site on {` `}
               <FacebookShareButton onShareWindowClose={() => { ReactGA.event({ category: "Facebook Share", action: `Website shared to Facebook`});}} url="rgvcovid19cases.com" >
                 <FacebookIcon
@@ -66,6 +82,8 @@ class About extends React.Component {
                 />
               </FacebookShareButton>
             </p>
+            <br />
+            <br />
           </div>
         </div>
       </div>

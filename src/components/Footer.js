@@ -10,7 +10,7 @@ const RefreshButton = ({ navClick, endpoint, refreshData }) => {
       </p>
       <br />
       <Link onClick={() => navClick("about")} smooth to="/about" className="menu-item">
-        Why was this site created?
+        About this site
       </Link>
       <br/>
       <br/>
