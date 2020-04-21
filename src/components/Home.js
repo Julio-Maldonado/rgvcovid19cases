@@ -1,10 +1,12 @@
 import React from 'react';
+import ReactGA from 'react-ga';
 
 import Header from './Header';
 import CoronaChart from './CoronaChart';
 import RefreshButton from './RefreshButton';
 import SideMenu from './SideMenu';
 import TableDisplay from './TableDisplay';
+import Footer from './Footer';
 
 import { getUsefulData, getCameronCountyCoronaData, determineScreenState, shallowCompare, compare } from '../constants/helperFunctions';
 
@@ -33,7 +35,12 @@ class Home extends React.Component {
 
   componentWillUnmount() { window.removeEventListener('resize', this.updateWindowDimensions); }
 
-  updateWindowDimensions = () => { this.setState({ width: window.innerWidth, height: window.innerHeight }) }
+  updateWindowDimensions = () => {
+    let height = window.innerHeight;
+    if (Math.abs(this.state.height - window.innerHeight) < 100)
+      height = this.state.height;
+    this.setState({ width: window.innerWidth, height })
+  }
 
   justMounted = async () => {
     let {endpoint} = this.state;
@@ -54,22 +61,26 @@ class Home extends React.Component {
     const usefulData = await getUsefulData();
 
     this.setState({
-      casesCount: usefulData['cases']['count'],
+      casesCount: usefulData['cases']['count'] - 1,
       cityCasesData: usefulData['cases']['cities'].sort(compare),
       ageCasesData: usefulData['cases']['ages'].sort(compare),
       transmissionCasesData: usefulData['cases']['transmission'].sort(compare),
       genderCasesData: usefulData['cases']['gender'].sort(compare),
-      deathsCount: usefulData['deaths']['count'],
+      deathsCount: usefulData['deaths']['count'] - 1,
       cityDeathsData: usefulData['deaths']['cities'].sort(compare),
       ageDeathsData: usefulData['deaths']['ages'].sort(compare),
       transmissionDeathsData: usefulData['deaths']['transmission'].sort(compare),
       genderDeathsData: usefulData['deaths']['gender'].sort(compare),
-      recoveriesCount: usefulData['recoveries']['count'],
+      recoveriesCount: usefulData['recoveries']['count'] - 1,
       // usefulRecoveriesData: usefulData['recoveries']['cities'],
     });
   }
 
   getLatestConfirmedCases = async(endpoint) => {
+    ReactGA.event({
+      category: `Getting Latest ${endpoint} Data`,
+      action: `User requesting latest data for ${endpoint} from ${this.state.endpoint} page`,
+    });
     if (!endpoint)
       endpoint = "cases"
     else 
@@ -79,7 +90,13 @@ class Home extends React.Component {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  updateCategory = (category) => this.setState({ category });
+  updateCategory = (category) => {
+    this.setState({ category });
+    ReactGA.event({
+      category: "Update Category",
+      action: `User pressed the ${category} from ${this.state.endpoint} page`,
+    });
+  };
 
   shouldComponentUpdate(nextProps, nextState) {
     if (shallowCompare(this, nextProps, nextState)) {
@@ -91,6 +108,10 @@ class Home extends React.Component {
   navigateSideMenu = () => { this.setState({isOpen: !this.state.isOpen}); }
 
   navClick = (endpoint) => {
+    ReactGA.event({
+      category: "Nav Click",
+      action: `User navigated to ${endpoint}`,
+    });
     if (
       this.state.isOpen &&
       this.endpoint === this.props.location['pathname'].substr(1) &&
@@ -98,6 +119,7 @@ class Home extends React.Component {
       endpoint in ENDPOINT_MAP
     )
       this.getLatestConfirmedCases(endpoint);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   render() {
@@ -135,7 +157,7 @@ class Home extends React.Component {
 
     const screenState = determineScreenState(width);
     this.endpoint = this.props.location['pathname'].substr(1);
-
+    console.log({endpoint})
     return (
       <div className="App">
         <div onClick={() => this.navigateSideMenu()}>
@@ -162,6 +184,7 @@ class Home extends React.Component {
           />
           <TableDisplay
             count={casesCount}
+            endpoint={endpoint}
             arrayData={usefulCasesData}
             align="center"
             column1={category}
@@ -169,18 +192,24 @@ class Home extends React.Component {
           />
           <TableDisplay
             count={deathsCount}
+            endpoint={endpoint}
             arrayData={usefulDeathsData}
             align="center"
             column1={category}
             confirmedCasesName="Deaths"
           />
           { 
-            recoveriesCount ?
+            recoveriesCount && endpoint === "recoveries" ?
               <p id="p">Confirmed Recoveries: {recoveriesCount}</p> 
               : null
           }
-          <RefreshButton 
+          <RefreshButton
+            endpoint={endpoint}
+            navClick={this.navClick}
             refreshData={this.getLatestConfirmedCases}
+          />
+          <Footer 
+            navClick={this.navClick}
           />
         </div>
       </div>

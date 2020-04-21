@@ -14,9 +14,11 @@
     "react-bootstrap": "0.32.4",
     "react-burger-menu": "^2.6.13",
     "react-dom": "^16.13.1",
+    "react-ga": "^2.7.0",
     "react-router-dom": "^5.1.2",
     "react-router-hash-link": "^1.2.2",
     "react-scripts": "3.4.1",
+    "react-share": "^4.1.0",
     "recharts": "^1.8.5",
     "styled-components": "^4.4.1"
   },

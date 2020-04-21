@@ -2,15 +2,15 @@ import React from 'react';
 
 import {CATEGORY_MAP} from '../constants/constants';
 
-const TableDisplay = ({confirmedCasesName, count, arrayData, align, column1}) => {
+const TableDisplay = ({confirmedCasesName, endpoint, count, arrayData, align, column1}) => {
   return (
     <div>
-      { count ?
+      { count && endpoint === confirmedCasesName.toLowerCase() ?
           <p id="p">Confirmed {confirmedCasesName}: {count}</p> 
           : null
       }
       {
-        arrayData ?
+        arrayData && endpoint === confirmedCasesName.toLowerCase() ?
         <table align={align}>
           <thead>
           <tr>
@@ -19,7 +19,19 @@ const TableDisplay = ({confirmedCasesName, count, arrayData, align, column1}) =>
           </tr>
           </thead>
             {
-              arrayData.map((obj, i) => {
+              arrayData.filter(obj => {
+                var key = Object.keys(obj)[0];
+                if (column1 === "Cities")
+                  return key !== "null";
+                else if (column1 === "Ages")
+                  return key !== "0";
+                else if (column1 === "Gender")
+                  return key !== "null";
+                else if (column1 === "Transmission")
+                  return key !== "null";
+                else
+                  return true;
+              }).map((obj, i) => {
                 var key = Object.keys(obj)[0];
                 let count = obj[key];
                 if (!key)

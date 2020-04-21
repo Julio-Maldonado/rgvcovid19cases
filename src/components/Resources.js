@@ -50,7 +50,7 @@ class Resources extends React.Component {
           </div>
           <RGVResources />
           <div>
-            <p id="p">Data for this site was obtained from these Press Releases from the Cameron County <a href="https://www.cameroncounty.us/announcements-press-releases/">site</a>:</p>
+            <p id="p">Data for this site was obtained from these Press Releases from the Cameron County <a rel="noopener noreferrer" target="_blank" href="https://www.cameroncounty.us/announcements-press-releases/">site</a>:</p>
           </div>
           <PressReleases />
         </div>

@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactGA from 'react-ga';
+
 import { RESOURCES } from '../constants/constants';
 
 const RGVResources = () => {
@@ -9,7 +11,11 @@ const RGVResources = () => {
             RESOURCES.map(({title, url, description}, i) => {
               return (
                 <li key={i + title}>
-                  {description}: <a href={url} className="App-link">{title}</a>
+                  {description}: <div
+                    onClick={() => ReactGA.event({
+                    category: "Resource Visit",
+                    action: `User navigated to ${title}: url = ${url} with description: ${description}`,
+                  })}><a rel="noopener noreferrer" target="_blank" href={url} className="App-link">{title}</a></div>
                 </li>
               );
             })

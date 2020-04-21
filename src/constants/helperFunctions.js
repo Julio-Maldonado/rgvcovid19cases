@@ -12,7 +12,7 @@ const getEndpoint = (endpoint) => {
     return "getRGVCoronaDeaths";
   else if (endpoint === "recoveries")
     return "getRGVRecoveredCases";
-  return "getUsefulStats";
+  return "getRGVCoronaCases";
 }
 
 const getAgeRangeIfValueIsNumber = (age) => {
@@ -72,7 +72,7 @@ const CustomTooltip = ({ payload, label, active, category, endpoint }) => {
         }) : null}
         {
           category in payload["payload"] && sumOfCategory !== payload["payload"]["Count"] ?
-          <p id="p">Some data is missing, <a href="mailto:julio.maldonado.guzman@gmail.com">email me</a> if you can help.</p>
+          <p id="p" className="category-stats">Unknown: {payload.value - sumOfCategory}</p>
           : null
         }
       </div>
@@ -117,6 +117,9 @@ const shallowCompare = (instance, nextProps, nextState) =>{
 }
 
 const getCameronCountyCoronaData = async(data) => {
+  console.log("hey")
+  console.log("if you're reading this you should definitely email me at julio.maldonado.guzman@gmail.com to help contribute to this project")
+  console.log("Send a :p as the subject & ill know")
   let coronaMap = {};
   let endpoint = getEndpoint(data);
   let cameronCountyData = await getCoronaCases(endpoint);
@@ -130,6 +133,8 @@ const getCameronCountyCoronaData = async(data) => {
       return DEFAULT_DEATHS;
     else if (endpoint === "recoveries")
       return DEFAULT_RECOVERIES;
+    else 
+      return DEFAULT_CASES;
   }
   cameronCountyData = cameronCountyData['cases'];
   cameronCountyData.forEach(data => {
@@ -141,6 +146,20 @@ const getCameronCountyCoronaData = async(data) => {
     for (let d in data)
       updateCount(coronaMap[date], getAgeRangeIfValueIsNumber(data[d]))
   })
+  if (endpoint === "getRGVCoronaCases") {
+    coronaMap["3/18"]["count"] = 0;
+    delete coronaMap["3/18"]["0"];
+  }
+
+  if (endpoint === "getRGVCoronaDeaths") {
+    coronaMap["4/05"]["count"] = 0;
+    delete coronaMap["4/05"]["0"];
+  }
+
+  if (endpoint === "getRGVRecoveredCases") {
+    coronaMap["4/02"]["count"] = 0;
+    delete coronaMap["4/02"]["0"];
+  }
 
   let cameronCountyCoronaData = Object.keys(coronaMap).sort().map(key => {
     return {

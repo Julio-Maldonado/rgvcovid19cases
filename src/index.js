@@ -7,6 +7,8 @@ import Routes from './components/Routes';
 import history from './utils/history';
 import MyNavBar from './components/MyNavBar';
 
+import ReactGA from 'react-ga';
+
 import * as serviceWorker from './serviceWorker';
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';

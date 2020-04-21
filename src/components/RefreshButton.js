@@ -1,29 +1,29 @@
 import React from 'react';
 
-const RefreshButton = ({ refreshData }) => {
+const RefreshButton = ({ endpoint, refreshData }) => {
   return (
     <div>
-      <button className="my-button" onClick={e => refreshData("cases")}>
-        View Confirmed Cases
-      </button>
-      <button className="my-button" onClick={e => refreshData("recoveries")}>
-        View Confirmed Recoveries
-      </button>
-      <button className="my-button" onClick={e => refreshData("deaths")}>
-        View Confirmed Deaths
-      </button>
-      {/* <a href="/cases" className="my-button">
-        View Confirmed Cases
-      </a>
-      <br />
-      <a href="/recoveries" className="my-button">
-        View Confirmed Recoveries
-      </a>
-      <br />
-      <a href="/deaths" className="my-button">
-        View Confirmed Deaths
-      </a>
-      <br /> */}
+      {
+        endpoint !== "cases" ?
+          <button className="my-button" onClick={e => refreshData("cases")}>
+            View Confirmed Cases
+          </button>
+          : null
+      }
+      {
+        endpoint !== "recoveries" ?
+          <button className="my-button" onClick={e => refreshData("recoveries")}>
+            View Confirmed Recoveries
+          </button>
+          : null
+      }
+      {
+        endpoint !== "deaths" ?
+          <button className="my-button" onClick={e => refreshData("deaths")}>
+            View Confirmed Deaths
+          </button>
+          : null
+      }
       <br/>
       <br/>
       <br/>
