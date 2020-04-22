@@ -33,12 +33,12 @@ class Resources extends React.Component {
       this.getLatestConfirmedCases(endpoint);
   }
 
-  homeClick = (endpoint) => {
+  linkClick = (endpoint) => {
     ReactGA.event({
-      category: "Home Click",
+      category: `${endpoint} Click`,
       action: `User navigated to ${endpoint}`,
     });
-    this.getLatestConfirmedCases(endpoint);
+    // this.getLatestConfirmedCases(endpoint);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -67,7 +67,7 @@ class Resources extends React.Component {
           </div>
           <PressReleases />
           <Footer 
-            navClick={this.homeClick}
+            navClick={this.linkClick}
           />
         </div>
       </div>

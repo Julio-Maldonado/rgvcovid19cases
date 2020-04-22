@@ -131,9 +131,9 @@ class Home extends React.Component {
     }
   }
 
-  homeClick = (endpoint) => {
+  linkClick = (endpoint) => {
     ReactGA.event({
-      category: "Home Click",
+      category: `${endpoint} Click`,
       action: `User navigated to ${endpoint}`,
     });
     this.getLatestConfirmedCases(endpoint);
@@ -177,7 +177,7 @@ class Home extends React.Component {
     this.endpoint = this.props.location['pathname'].substr(1);
     return (
       <div className="App">
-        <MyNavBar navClick={this.homeClick}/>
+        <MyNavBar navClick={this.linkClick}/>
         <div onClick={() => this.navigateSideMenu()}>
           <SideMenu
             right
@@ -227,7 +227,7 @@ class Home extends React.Component {
             refreshData={this.getLatestConfirmedCases}
           />
           <Footer 
-            navClick={this.homeClick}
+            navClick={this.linkClick}
           />
         </div>
       </div>

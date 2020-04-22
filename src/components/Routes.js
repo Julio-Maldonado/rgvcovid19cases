@@ -10,6 +10,8 @@ export default () => {
       <Route path="/about" exact component={About} />
       <Route path="/resources" exact component={Resources} />
       <Route path="/" component={Home} />
+      <Route path="*" component={Home} />
+      <Route component={Home} />
     </Switch>
   );
 };

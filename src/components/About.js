@@ -30,6 +30,15 @@ class About extends React.Component {
     });
   }
 
+  linkClick = (endpoint) => {
+    ReactGA.event({
+      category: "Home Click",
+      action: `User navigated to ${endpoint}`,
+    });
+    // this.getLatestConfirmedCases(endpoint);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   render() {
     const {width} = this.state;
     return (
@@ -49,13 +58,13 @@ class About extends React.Component {
             <br />
             <p id="p">This website was set up for Cameron County to closely monitor coronavirus cases and see our curve during this pandemic.</p>
             <br />
-            <p id="p">All of this data was obtained from the Cameron County official Press Releases listed <a href="/resources">here</a>.</p>
+            <p id="p">All of this data was obtained from the Cameron County official Press Releases listed <Link  onClick={() => this.linkClick("resources")} smooth to="/resources">here</Link>.</p>
             <br />
             <p id="p">Future updates will include data for Hidalgo County, Starr County, and Willacy County.</p>
             <br />
             <p id="p">If you want to contribute to this project, gather data, have ideas for updates, or have inquiries, please email <a href="mailto:julio.maldonado.guzman@gmail.com">julio.maldonado.guzman@gmail.com</a>.</p>
             <br />
-            <p id="p">If you need resources, check out our <a href="/resources">resources</a> page.</p>
+            <p id="p">If you need resources, check out our <Link onClick={() => this.linkClick("resources")} smooth to="/resources">resources</Link> page.</p>
             <br />
             {/* <p id="p">You can read all of the Press Releases <a rel="noopener noreferrer" target="_blank" href="https://www.cameroncounty.us/announcements-press-releases/">here</a> or check out the Cameron County <a rel="noopener noreferrer" target="_blank" href="http://www.co.cameron.tx.us/">website</a>.</p>
             <br /> */}
