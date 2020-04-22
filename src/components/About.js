@@ -87,7 +87,7 @@ class About extends React.Component {
             <br />
             <br />
             <p id="p">Share this site on {` `}
-              <FacebookShareButton onShareWindowClose={() => { ReactGA.event({ category: "Facebook Share", action: `Website shared to Facebook`});}} url="rgvcovid19cases.com" >
+              <FacebookShareButton onShareWindowClose={() => { ReactGA.event({ category: "Facebook Share", action: `Website shared to Facebook`});}} url="https://rgvcovid19cases.com/" >
                 <FacebookIcon
                   size={30}
                   round={true}

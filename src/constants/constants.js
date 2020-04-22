@@ -133,6 +133,11 @@ const PRESS_RELEASES = [
     date: "04/20/2020",
     url: "https://www.cameroncounty.us/wp-content/uploads/2020/04/COVID-19-Press-Release_280_298_PR25_4-18-2020-002.pdf",
     title: "Cameron County Confirms Seventh COVID-19 Related Death",
+  },
+  {
+    date: "04/21/2020",
+    url: "https://www.cameroncounty.us/wp-content/uploads/2020/04/COVID-19-Press-Release_311_321_PR27_4-21-2020.pdf",
+    title: "Cameron County Confirms Additional COVID-19 Related Deaths",
   }
 ];
 
