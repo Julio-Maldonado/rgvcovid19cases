@@ -9,7 +9,7 @@ const RefreshButton = ({ navClick, endpoint, refreshData }) => {
         This site will be updated immediately after every Press Release with the latest data.
       </p>
       <br />
-      <Link onClick={() => navClick("about")} smooth to="/about" className="menu-item">
+      <Link smooth to="/about" className="menu-item">
         About this site
       </Link>
       <br/>

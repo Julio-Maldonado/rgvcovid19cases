@@ -128,6 +128,11 @@ const PRESS_RELEASES = [
     date: "04/18/2020",
     url: "https://www.cameroncounty.us/wp-content/uploads/2020/04/COVID-19-Press-Release_280_298_PR25_4-18-2020-002.pdf",
     title: "Cameron County Confirms Sixth COVID-19 Related Death",
+  },
+  {
+    date: "04/20/2020",
+    url: "https://www.cameroncounty.us/wp-content/uploads/2020/04/COVID-19-Press-Release_280_298_PR25_4-18-2020-002.pdf",
+    title: "Cameron County Confirms Seventh COVID-19 Related Death",
   }
 ];
 
@@ -432,6 +437,37 @@ const DEFAULT_CASES = [
 
 const DEFAULT_DEATHS = [
   {
+    "Date": "4/05",
+    "Count": 0,
+    "Gender": {
+      "Male": 0,
+      "Female": 0
+    },
+    "Transmission": {
+      "Travel": 0,
+      "Community": 0
+    },
+    "Ages": {
+      "0 - 20": 0,
+      "21 - 40": 0,
+      "41 - 60": 0,
+      "61 - 80": 0,
+      "81+": 0
+    },
+    "Cities": {
+      "Harlingen": 0,
+      "Brownsville": 0,
+      "Rancho Viejo": 0,
+      "Rio Hondo": 0,
+      "Los Fresnos": 0,
+      "La Feria": 0,
+      "San Benito": 0,
+      "Laguna Vista": 0,
+      "Santa Rosa": 0,
+      "Port Isabel": 0
+    }
+  },
+  {
     "Date": "4/06",
     "Count": 1,
     "Gender": {
@@ -594,6 +630,37 @@ const DEFAULT_DEATHS = [
 ]
 
 const DEFAULT_RECOVERIES = [
+  {
+    "Date": "4/02",
+    "Count": 0,
+    "Gender": {
+      "Male": 0,
+      "Female": 0
+    },
+    "Transmission": {
+      "Travel": 0,
+      "Community": 0
+    },
+    "Ages": {
+      "0 - 20": 0,
+      "21 - 40": 0,
+      "41 - 60": 0,
+      "61 - 80": 0,
+      "81+": 0
+    },
+    "Cities": {
+      "Harlingen": 0,
+      "Brownsville": 0,
+      "Rancho Viejo": 0,
+      "Rio Hondo": 0,
+      "Los Fresnos": 0,
+      "La Feria": 0,
+      "San Benito": 0,
+      "Laguna Vista": 0,
+      "Santa Rosa": 0,
+      "Port Isabel": 0
+    }
+  },
   {
     "Date": "4/03",
     "Count": 10,

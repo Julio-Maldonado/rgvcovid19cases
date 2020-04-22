@@ -115,6 +115,9 @@ tr:nth-child(even) {
   table {
     width: 50%;
   }
+  .my-line-chart {
+    margin-left: 2.5vw;
+  }
 }
 
 @media (min-width: 992px) {

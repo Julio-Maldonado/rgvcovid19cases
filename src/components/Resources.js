@@ -1,9 +1,11 @@
 import React from 'react';
+import ReactGA from 'react-ga';
 
 import SideMenu from './SideMenu';
 import RGVResources from './RGVResources';
 import PressReleases from './PressReleases';
 import MyNavBar from './MyNavBar';
+import Footer from './Footer';
 
 import { ENDPOINT_MAP } from '../constants/constants';
 
@@ -31,6 +33,15 @@ class Resources extends React.Component {
       this.getLatestConfirmedCases(endpoint);
   }
 
+  homeClick = (endpoint) => {
+    ReactGA.event({
+      category: "Home Click",
+      action: `User navigated to ${endpoint}`,
+    });
+    this.getLatestConfirmedCases(endpoint);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   render() {
     const {width} = this.state;
     return (
@@ -55,6 +66,9 @@ class Resources extends React.Component {
             <p id="p">Data for this site was obtained from these Press Releases from the Cameron County <a rel="noopener noreferrer" target="_blank" href="https://www.cameroncounty.us/announcements-press-releases/">site</a>:</p>
           </div>
           <PressReleases />
+          <Footer 
+            navClick={this.homeClick}
+          />
         </div>
       </div>
     );

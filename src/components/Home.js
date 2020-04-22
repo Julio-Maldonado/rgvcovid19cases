@@ -227,7 +227,7 @@ class Home extends React.Component {
             refreshData={this.getLatestConfirmedCases}
           />
           <Footer 
-            navClick={this.navClick}
+            navClick={this.homeClick}
           />
         </div>
       </div>
