@@ -1,6 +1,7 @@
 import React from 'react';
+import ReactGA from 'react-ga';
 
-import {DEFAULT_CASES, DEFAULT_DEATHS, DEFAULT_RECOVERIES} from './constants';
+import {DEFAULT_CASES, DEFAULT_DEATHS, DEFAULT_RECOVERIES, ENDPOINT_SINGULAR_MAP} from './constants';
 
 const getCount = (obj, field) => obj[field] ? obj[field] : 0;
 
@@ -54,8 +55,9 @@ const getIntroOfPage = (label) => {
 const CustomTooltip = ({ payload, label, active, category, endpoint }) => {
   if (active & payload !== null && 0 in payload) {
     payload = payload[0];
-    if (payload.value === 1)
-      endpoint = endpoint.slice(0, -1);
+    if (payload.value === 1) {
+      endpoint = ENDPOINT_SINGULAR_MAP[endpoint];
+    }
     
     const sumOfCategory = Object.keys(payload["payload"][category]).reduce((acc, categoryKey) =>  {
       return acc + payload["payload"][category][categoryKey]
@@ -123,6 +125,10 @@ const getCameronCountyCoronaData = async(data) => {
   let cameronCountyData = await getCoronaCases(endpoint);
 
   if (cameronCountyData['status'] !== 200) {
+    ReactGA.event({
+      category: `Error Retrieving${endpoint} Data`,
+      action: `${cameronCountyData['status']} error from ${JSON.stringify(cameronCountyData)}`,
+    });
     console.error('api call failed');
     console.error({cameronCountyData});
     alert('There was an error getting the latest data. Please try refreshing the page later.')

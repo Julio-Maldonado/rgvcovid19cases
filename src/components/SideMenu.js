@@ -22,7 +22,7 @@ const SideMenu = props => {
         Deaths
       </Link>
       <br />
-      <Link onClick={() => props.navClick("resources")} smooth to="/resources" className="menu-item">
+      <Link onClick={() => {props.navClick("resources"); window.scrollTo({ top: 0, behavior: 'smooth' });}} smooth to="/resources" className="menu-item">
         Resources
       </Link>
       <br />

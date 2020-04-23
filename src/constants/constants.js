@@ -138,6 +138,11 @@ const PRESS_RELEASES = [
     date: "04/21/2020",
     url: "https://www.cameroncounty.us/wp-content/uploads/2020/04/COVID-19-Press-Release_311_321_PR27_4-21-2020.pdf",
     title: "Cameron County Confirms Additional COVID-19 Related Deaths",
+  },
+  {
+    date: "04/22/2020",
+    url: "https://www.cameroncounty.us/wp-content/uploads/2020/04/COVID-19-Press-Release_322_333_PR28_4-22-2020.pdf",
+    title: "Cameron County Confirms Additional COVID-19 Related Deaths",
   }
 ];
 
@@ -146,6 +151,11 @@ const RESOURCES = [
     description: "RGV Meal Pick Up Locations during Coronavirus",
     title: "KRGV Article",
     url: "https://www.valleycentral.com/news/local-news/meal-pickup-locations-for-rgv-school-districts/",
+  },
+  {
+    description: "COVID 19 Impacted Families can Apply for Benefits",
+    title: "Hidalgo County Disaster Assistance Application",
+    url: "https://www.hidalgocounty.us/744/Download-Application",
   },
   {
     description: "MISD Meal Pick Ups during Coronavirus",
@@ -1058,6 +1068,12 @@ const ENDPOINT_MAP = {
   "recoveries": "Recoveries"
 }
 
+const ENDPOINT_SINGULAR_MAP = {
+    "cases": "case",
+    "deaths": "death",
+    "recoveries": "recovery",
+}
+
 const CATEGORY_MAP = {
   "Cities": "City",
   "Ages": "Age Range",
@@ -1069,6 +1085,7 @@ export {
   PRESS_RELEASES,
   RESOURCES,
   ENDPOINT_MAP,
+  ENDPOINT_SINGULAR_MAP,
   CATEGORY_MAP,
   DEFAULT_CASES,
   DEFAULT_DEATHS,

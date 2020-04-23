@@ -11,28 +11,50 @@ import MyNavBar from './MyNavBar';
 
 import { getUsefulData, getCameronCountyCoronaData, determineScreenState, shallowCompare, compare } from '../constants/helperFunctions';
 
-import { DEFAULT_CASES, ENDPOINT_MAP } from '../constants/constants';
+import { DEFAULT_CASES, DEFAULT_RECOVERIES, DEFAULT_DEATHS, ENDPOINT_MAP } from '../constants/constants';
 
 import '../index.css';
 import './App.css';
 
+const getDefaultCases = (endpoint) => {
+  if (endpoint === "cases")
+    return DEFAULT_CASES;
+  else if (endpoint === "deaths")
+    return DEFAULT_DEATHS;
+  else if (endpoint === "recoveries")
+    return DEFAULT_RECOVERIES;
+  return DEFAULT_CASES;
+}
+
 class Home extends React.Component {
   state = {
-    coronaData: DEFAULT_CASES,
+    coronaData: getDefaultCases(this.endpoint),
     category: "Cities",
     height: 0,
     width: 0,
     endpoint: "",
   }
 
+  screenIsSuperLong = false; // not iphone X or 11
+
   componentDidMount()  {
     this.updateEndpoint(this.props.location['pathname'].substr(1))
     setTimeout(this.justMounted, 1000);
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
-    document.addEventListener('touchmove', function (event) {
-      if (event.scale !== 1) { event.preventDefault(); }
-    }, { passive: false });
+    if (this.checkScreenSize())
+      this.screenIsSuperLong = true;
+    else
+      this.screenIsSuperLong = true;
+  }
+
+  checkScreenSize = () => {
+    let iPhone = /iPhone/.test(navigator.userAgent) && !window.MSStream;
+    let aspect = window.screen.width / window.screen.height;
+    if (iPhone && aspect.toFixed(3) === "0.462")
+      return true;
+    else
+      return false;
   }
 
   updateEndpoint = (endpoint) => { endpoint in ENDPOINT_MAP ? this.setState({ endpoint }): this.setState({ endpoint: 'cases'}); };
@@ -41,9 +63,16 @@ class Home extends React.Component {
 
   updateWindowDimensions = () => {
     let height = window.innerHeight;
+    let width = window.innerWidth;
     if (Math.abs(this.state.height - window.innerHeight) < 100)
       height = this.state.height;
-    this.setState({ width: window.innerWidth, height })
+    
+    if (height / width > 1.7 || this.checkScreenSize())
+      this.screenIsSuperLong = true;
+    else
+      this.screenIsSuperLong = false;
+
+    this.setState({ width, height })
   }
 
   justMounted = async () => {
@@ -141,7 +170,7 @@ class Home extends React.Component {
   }
 
   render() {
-    const {coronaData, category, height, width, endpoint} = this.state;
+    const {coronaData, category, width, endpoint} = this.state;
     const {
       casesCount,
       cityCasesData,
@@ -172,6 +201,9 @@ class Home extends React.Component {
       usefulCasesData = transmissionCasesData;
       usefulDeathsData = transmissionDeathsData;
     }
+    let { height } = this.state
+    if (this.screenIsSuperLong)
+      height = height * 0.8
 
     const screenState = determineScreenState(width);
     this.endpoint = this.props.location['pathname'].substr(1);
@@ -226,6 +258,12 @@ class Home extends React.Component {
             navClick={this.navClick}
             refreshData={this.getLatestConfirmedCases}
           />
+          <p>How has the RGV responded to COVID-19? How can we recover? How can we open up again?</p>
+          <div onClick={() => ReactGA.event({category: `Clicking Survey Link`,action: `User pressed survey link from ${endpoint} page`,})}>
+            <p>
+              Fill out <a href="https://qfreeaccountssjc1.az1.qualtrics.com/jfe/form/SV_bmcINjXL5EUEbUF">this survey</a> to let us know what you think.
+            </p>
+          </div>
           <Footer 
             navClick={this.linkClick}
           />

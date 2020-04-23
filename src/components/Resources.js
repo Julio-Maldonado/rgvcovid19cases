@@ -66,6 +66,12 @@ class Resources extends React.Component {
             <p id="p">Data for this site was obtained from these Press Releases from the Cameron County <a rel="noopener noreferrer" target="_blank" href="https://www.cameroncounty.us/announcements-press-releases/">site</a>:</p>
           </div>
           <PressReleases />
+          <div onClick={() => ReactGA.event({category: `Clicking Survey Link`,action: `User pressed survey link from resources page`,})}>
+            <p>How has the RGV responded to COVID-19? How can we recover? How can we open up again?</p>
+            <p>
+              Fill out <a href="https://qfreeaccountssjc1.az1.qualtrics.com/jfe/form/SV_bmcINjXL5EUEbUF">this survey</a> to let us know what you think.
+            </p>
+          </div>
           <Footer 
             navClick={this.linkClick}
           />

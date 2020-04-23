@@ -86,6 +86,12 @@ class About extends React.Component {
             </button>
             <br />
             <br />
+            <p>How has the RGV responded to COVID-19? How can we recover? How can we open up again?</p>
+            <div onClick={() => ReactGA.event({category: `Clicking Survey Link`,action: `User pressed survey link from about page`,})}>
+              <p>
+                Fill out <a href="https://qfreeaccountssjc1.az1.qualtrics.com/jfe/form/SV_bmcINjXL5EUEbUF">this survey</a> to let us know what you think.
+              </p>
+            </div>
             <p id="p">Share this site on {` `}
               <FacebookShareButton onShareWindowClose={() => { ReactGA.event({ category: "Facebook Share", action: `Website shared to Facebook`});}} url="https://rgvcovid19cases.com/" >
                 <FacebookIcon
