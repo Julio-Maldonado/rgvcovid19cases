@@ -26,7 +26,7 @@ const SideMenu = props => {
         Resources
       </Link>
       <br />
-      <Link onClick={() => props.navClick("about")} smooth to="/about" className="menu-item">
+      <Link onClick={() => {props.navClick("about"); window.scrollTo({ top: 0, behavior: 'smooth' });}} smooth to="/about" className="menu-item">
         About
       </Link>
       <br />
