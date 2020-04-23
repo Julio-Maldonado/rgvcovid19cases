@@ -76,6 +76,10 @@ class Home extends React.Component {
   }
 
   justMounted = async () => {
+    ReactGA.event({
+      category: `Just Mounted`,
+      action: `Home website was just mounted`,
+    });
     console.log("hey");
     console.log("if you're reading this");
     console.log("you should definitely email me at julio.maldonado.guzman@gmail.com to help contribute to this project");
