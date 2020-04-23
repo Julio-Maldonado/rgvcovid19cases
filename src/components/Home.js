@@ -144,11 +144,12 @@ class Home extends React.Component {
 
   navigateSideMenu = () => { this.setState({isOpen: !this.state.isOpen}); }
 
-  navClick = (endpoint) => {
+  aClick = (endpoint, prevEndpoint) => {
     ReactGA.event({
-      category: "Nav Click",
-      action: `User navigated to ${endpoint}`,
+      category: `A Click Nagivation`,
+      action: `User navigated to ${endpoint} from ${prevEndpoint}`,
     });
+    console.log(prevEndpoint, " => ", endpoint)
     if (
       this.state.isOpen &&
       this.endpoint === this.props.location['pathname'].substr(1) &&
@@ -160,12 +161,14 @@ class Home extends React.Component {
     }
   }
 
-  linkClick = (endpoint) => {
+  linkClick = (endpoint, prevEndpoint) => {
+    console.log(prevEndpoint, " => ", endpoint)
     ReactGA.event({
-      category: `${endpoint} Click`,
-      action: `User navigated to ${endpoint}`,
+      category: `Link Click Navigation`,
+      action: `User navigated to ${endpoint} from ${prevEndpoint}`,
     });
-    this.getLatestConfirmedCases(endpoint);
+    if (endpoint in ENDPOINT_MAP)
+      this.getLatestConfirmedCases(endpoint);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -209,12 +212,14 @@ class Home extends React.Component {
     this.endpoint = this.props.location['pathname'].substr(1);
     return (
       <div className="App">
-        <MyNavBar navClick={this.linkClick}/>
+        <MyNavBar endpoint={endpoint} linkClick={this.linkClick} aClick={this.aClick}/>
         <div onClick={() => this.navigateSideMenu()}>
           <SideMenu
             right
             width={width}
-            navClick={this.navClick}
+            endpoint={endpoint}
+            aClick={this.aClick}
+            linkClick={this.linkClick}
             isOpen={this.state.isOpen}
           />
         </div>
@@ -255,7 +260,8 @@ class Home extends React.Component {
           }
           <RefreshButton
             endpoint={endpoint}
-            navClick={this.navClick}
+            aClick={this.aClick}
+            linkClick={this.linkClick}
             refreshData={this.getLatestConfirmedCases}
           />
           <p>How has the RGV responded to COVID-19? How can we recover? How can we open up again?</p>
@@ -264,8 +270,10 @@ class Home extends React.Component {
               Fill out <a href="https://qfreeaccountssjc1.az1.qualtrics.com/jfe/form/SV_bmcINjXL5EUEbUF">this survey</a> to let us know what you think.
             </p>
           </div>
-          <Footer 
-            navClick={this.linkClick}
+          <Footer
+            endpoint={endpoint}
+            aClick={this.aClick}
+            linkClick={this.linkClick}
           />
         </div>
       </div>

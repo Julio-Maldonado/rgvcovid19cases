@@ -10,23 +10,23 @@ const SideMenu = props => {
         Home
       </Link>
       <br /> */}
-      <Link onClick={() => props.navClick("cases")} smooth to="/cases" className="menu-item">
+      <Link onClick={() => props.linkClick("cases", props.endpoint)} smooth to="/cases" className="menu-item">
         Cases
       </Link>
       <br />
-      <Link onClick={() => props.navClick("recoveries")} smooth to="/recoveries" className="menu-item">
+      <Link onClick={() => props.linkClick("recoveries", props.endpoint)} smooth to="/recoveries" className="menu-item">
         Recoveries
       </Link>
       <br />
-      <Link onClick={() => props.navClick("deaths")} smooth to="/deaths" className="menu-item">
+      <Link onClick={() => props.linkClick("deaths", props.endpoint)} smooth to="/deaths" className="menu-item">
         Deaths
       </Link>
       <br />
-      <Link onClick={() => {props.navClick("resources"); window.scrollTo({ top: 0, behavior: 'smooth' });}} smooth to="/resources" className="menu-item">
+      <Link onClick={() => {props.linkClick("resources", props.endpoint); window.scrollTo({ top: 0, behavior: 'smooth' });}} smooth to="/resources" className="menu-item">
         Resources
       </Link>
       <br />
-      <Link onClick={() => {props.navClick("about"); window.scrollTo({ top: 0, behavior: 'smooth' });}} smooth to="/about" className="menu-item">
+      <Link onClick={() => {props.linkClick("about", props.endpoint); window.scrollTo({ top: 0, behavior: 'smooth' });}} smooth to="/about" className="menu-item">
         About
       </Link>
       <br />

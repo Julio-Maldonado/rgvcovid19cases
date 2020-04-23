@@ -23,22 +23,20 @@ class Resources extends React.Component {
 
   updateWindowDimensions = () => { this.setState({ width: window.innerWidth, height: window.innerHeight }) }
 
-  navClick = (endpoint) => {
-    if (
-      this.state.isOpen &&
-      this.endpoint === this.props.location['pathname'].substr(1) &&
-      endpoint !== this.state.endpoint &&
-      endpoint in ENDPOINT_MAP
-    )
-      this.getLatestConfirmedCases(endpoint);
+  aClick = (endpoint, prevEndpoint) => {
+    ReactGA.event({
+      category: `A Click Nagivation`,
+      action: `User navigated to ${endpoint} from ${prevEndpoint}`,
+    });
+    console.log(prevEndpoint, " => ", endpoint)
   }
 
-  linkClick = (endpoint) => {
+  linkClick = (endpoint, prevEndpoint) => {
+    console.log(prevEndpoint, " => ", endpoint)
     ReactGA.event({
-      category: `${endpoint} Click`,
-      action: `User navigated to ${endpoint}`,
+      category: `Link Click Navigation`,
+      action: `User navigated to ${endpoint} from ${prevEndpoint}`,
     });
-    // this.getLatestConfirmedCases(endpoint);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -46,12 +44,14 @@ class Resources extends React.Component {
     const {width} = this.state;
     return (
       <div className="App">
-        <MyNavBar navClick={this.navClick}/>
+        <MyNavBar endpoint="resources" linkClick={this.linkClick} aClick={this.aClick} />
         <div onClick={() => this.setState({isOpen: !this.state.isOpen})}>
           <SideMenu
             right
             width={width}
-            navClick={this.navClick}
+            endpoint="resources"
+            linkClick={this.linkClick}
+            aClick={this.aClick}
             isOpen={this.state.isOpen}
           />
         </div>
@@ -72,8 +72,10 @@ class Resources extends React.Component {
               Fill out <a href="https://qfreeaccountssjc1.az1.qualtrics.com/jfe/form/SV_bmcINjXL5EUEbUF">this survey</a> to let us know what you think.
             </p>
           </div>
-          <Footer 
-            navClick={this.linkClick}
+          <Footer
+            endpoint="resources"
+            aClick={this.aClick}
+            linkClick={this.linkClick}
           />
         </div>
       </div>

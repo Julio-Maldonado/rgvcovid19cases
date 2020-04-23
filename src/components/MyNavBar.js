@@ -6,7 +6,7 @@ class MyNavbar extends React.Component{
         return (
           <div className="my-navbar">
             <div className="center-navbar">
-              <Link onClick={() => this.props.navClick("cases")}  smooth to="/home" className="my-navbar-link">
+              <Link onClick={() => this.props.linkClick("cases", this.props.endpoint)}  smooth to="/home" className="my-navbar-link">
                 <p className="my-navbar-p">Home</p>
               </Link>
             </div>

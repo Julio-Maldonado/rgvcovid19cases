@@ -23,19 +23,20 @@ class About extends React.Component {
 
   updateWindowDimensions = () => { this.setState({ width: window.innerWidth, height: window.innerHeight }) }
 
-  navClick = (endpoint) => {
+  aClick = (endpoint, prevEndpoint) => {
     ReactGA.event({
-      category: "Nav Click",
-      action: `User navigated to ${endpoint}`,
+      category: `A Click Nagivation`,
+      action: `User navigated to ${endpoint} from ${prevEndpoint}`,
     });
+    console.log(prevEndpoint, " => ", endpoint)
   }
 
-  linkClick = (endpoint) => {
+  linkClick = (endpoint, prevEndpoint) => {
+    console.log(prevEndpoint, " => ", endpoint)
     ReactGA.event({
-      category: "Home Click",
-      action: `User navigated to ${endpoint}`,
+      category: `Link Click Navigation`,
+      action: `User navigated to ${endpoint} from ${prevEndpoint}`,
     });
-    // this.getLatestConfirmedCases(endpoint);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -43,12 +44,14 @@ class About extends React.Component {
     const {width} = this.state;
     return (
       <div className="App">
-        <MyNavBar navClick={this.navClick}/>
+        <MyNavBar endpoint="about" linkClick={this.linkClick} aClick={this.aClick}/>
         <div onClick={() => this.setState({isOpen: !this.state.isOpen})}>
           <SideMenu
             right
             width={width}
-            navClick={this.navClick}
+            endpoint="about"
+            aClick={this.aClick}
+            linkClick={this.linkClick}
             isOpen={this.state.isOpen}
           />
         </div>
@@ -58,29 +61,29 @@ class About extends React.Component {
             <br />
             <p id="p">This website was set up for Cameron County to closely monitor coronavirus cases and see our curve during this pandemic.</p>
             <br />
-            <p id="p">All of this data was obtained from the Cameron County official Press Releases listed <Link  onClick={() => this.linkClick("resources")} smooth to="/resources">here</Link>.</p>
+            <p id="p">All of this data was obtained from the Cameron County official Press Releases listed <Link  onClick={() => this.linkClick("resources", "about")} smooth to="/resources">here</Link>.</p>
             <br />
             <p id="p">Future updates will include data for Hidalgo County, Starr County, and Willacy County.</p>
             <br />
             <p id="p">If you want to contribute to this project, gather data, have ideas for updates, or have inquiries, please email <a href="mailto:julio.maldonado.guzman@gmail.com">julio.maldonado.guzman@gmail.com</a>.</p>
             <br />
-            <p id="p">If you need resources, check out our <Link onClick={() => this.linkClick("resources")} smooth to="/resources">resources</Link> page.</p>
+            <p id="p">If you need resources, check out our <Link onClick={() => this.linkClick("resources", "about")} smooth to="/resources">resources</Link> page.</p>
             <br />
             {/* <p id="p">You can read all of the Press Releases <a rel="noopener noreferrer" target="_blank" href="https://www.cameroncounty.us/announcements-press-releases/">here</a> or check out the Cameron County <a rel="noopener noreferrer" target="_blank" href="http://www.co.cameron.tx.us/">website</a>.</p>
             <br /> */}
             {/* <FacebookShareButton url="https://julio-maldonado.github.io/rgvcovid19cases/"> */}
             <button className="my-button">
-              <Link onClick={() => this.navClick("cases")} smooth to="/cases">
+              <Link onClick={() => this.linkClick("cases", "about")} smooth to="/cases">
                 View Confirmed Cases
               </Link>
             </button>
             <button className="my-button">
-              <Link onClick={() => this.navClick("recoveries")} smooth to="/recoveries">
+              <Link onClick={() => this.linkClick("recoveries", "about")} smooth to="/recoveries">
                 View Confirmed Recoveries
               </Link>
             </button>
             <button className="my-button">
-              <Link onClick={() => this.navClick("deaths")} smooth to="/deaths">
+              <Link onClick={() => this.linkClick("deaths", "about")} smooth to="/deaths">
                 View Confirmed Deaths
               </Link>
             </button>
