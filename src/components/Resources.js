@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactGA from 'react-ga';
 
 import SideMenu from './SideMenu';
 import RGVResources from './RGVResources';
@@ -7,7 +6,7 @@ import PressReleases from './PressReleases';
 import MyNavBar from './MyNavBar';
 import Footer from './Footer';
 
-import { ENDPOINT_MAP } from '../constants/constants';
+import { sendAnalytics, scrollToTop } from '../constants/helperFunctions';
 
 import './App.css';
 
@@ -24,20 +23,12 @@ class Resources extends React.Component {
   updateWindowDimensions = () => { this.setState({ width: window.innerWidth, height: window.innerHeight }) }
 
   aClick = (endpoint, prevEndpoint) => {
-    ReactGA.event({
-      category: `A Click Nagivation`,
-      action: `User navigated to ${endpoint} from ${prevEndpoint}`,
-    });
-    console.log(prevEndpoint, " => ", endpoint)
+    sendAnalytics(`A Click Nagivation`, `User navigated to ${endpoint} from ${prevEndpoint}`);
   }
 
   linkClick = (endpoint, prevEndpoint) => {
-    console.log(prevEndpoint, " => ", endpoint)
-    ReactGA.event({
-      category: `Link Click Navigation`,
-      action: `User navigated to ${endpoint} from ${prevEndpoint}`,
-    });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    sendAnalytics(`Link Click Navigation`, `User navigated to ${endpoint} from ${prevEndpoint}`);
+    scrollToTop();
   }
 
   render() {
@@ -66,7 +57,7 @@ class Resources extends React.Component {
             <p id="p">Data for this site was obtained from these Press Releases from the Cameron County <a rel="noopener noreferrer" target="_blank" href="https://www.cameroncounty.us/announcements-press-releases/">site</a>:</p>
           </div>
           <PressReleases />
-          <div onClick={() => ReactGA.event({category: `Clicking Survey Link`,action: `User pressed survey link from resources page`,})}>
+          <div onClick={() => sendAnalytics(`Clicking Survey Link`, `User pressed survey link from resources page`)}>
             <p>How has the RGV responded to COVID-19? How can we recover? How can we open up again?</p>
             <p>
               Fill out <a href="https://qfreeaccountssjc1.az1.qualtrics.com/jfe/form/SV_bmcINjXL5EUEbUF">this survey</a> to let us know what you think.

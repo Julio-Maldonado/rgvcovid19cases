@@ -3,13 +3,11 @@ import React from 'react';
 import { slide as Menu } from 'react-burger-menu';
 import { HashLink as Link } from 'react-router-hash-link';
 
+import { scrollToTop } from '../constants/helperFunctions';
+
 const SideMenu = props => {
   return (
     <Menu isOpen={props.isOpen} {...props}>
-      {/* <Link onClick={() => props.navClick("cases")} smooth to="/home" className="menu-item">
-        Home
-      </Link>
-      <br /> */}
       <Link onClick={() => props.linkClick("cases", props.endpoint)} smooth to="/cases" className="menu-item">
         Cases
       </Link>
@@ -22,11 +20,11 @@ const SideMenu = props => {
         Deaths
       </Link>
       <br />
-      <Link onClick={() => {props.linkClick("resources", props.endpoint); window.scrollTo({ top: 0, behavior: 'smooth' });}} smooth to="/resources" className="menu-item">
+      <Link onClick={() => {props.linkClick("resources", props.endpoint); scrollToTop();}} smooth to="/resources" className="menu-item">
         Resources
       </Link>
       <br />
-      <Link onClick={() => {props.linkClick("about", props.endpoint); window.scrollTo({ top: 0, behavior: 'smooth' });}} smooth to="/about" className="menu-item">
+      <Link onClick={() => {props.linkClick("about", props.endpoint); scrollToTop();}} smooth to="/about" className="menu-item">
         About
       </Link>
       <br />

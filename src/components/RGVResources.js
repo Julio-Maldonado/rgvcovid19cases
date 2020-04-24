@@ -1,7 +1,7 @@
 import React from 'react';
-import ReactGA from 'react-ga';
 
 import { RESOURCES } from '../constants/constants';
+import { sendAnalytics } from '../constants/helperFunctions';
 
 const RGVResources = () => {
   return (
@@ -12,10 +12,7 @@ const RGVResources = () => {
               return (
                 <li key={i + title}>
                   {description}: <div
-                    onClick={() => ReactGA.event({
-                    category: "Resource Visit",
-                    action: `User navigated to ${title}: url = ${url} with description: ${description}`,
-                  })}><a rel="noopener noreferrer" target="_blank" href={url} className="App-link">{title}</a></div>
+                    onClick={() => sendAnalytics("Resource Visit", `User navigated to ${title}: url = ${url} with description: ${description}`)}><a rel="noopener noreferrer" target="_blank" href={url} className="App-link">{title}</a></div>
                 </li>
               );
             })

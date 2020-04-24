@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactGA from 'react-ga';
 
 import Header from './Header';
 import CoronaChart from './CoronaChart';
@@ -9,7 +8,15 @@ import TableDisplay from './TableDisplay';
 import Footer from './Footer';
 import MyNavBar from './MyNavBar';
 
-import { getUsefulData, getCameronCountyCoronaData, determineScreenState, shallowCompare, compare } from '../constants/helperFunctions';
+import {
+  getUsefulData,
+  getCameronCountyCoronaData,
+  determineScreenState,
+  shallowCompare,
+  compare,
+  sendAnalytics,
+  scrollToTop,
+} from '../constants/helperFunctions';
 
 import { DEFAULT_CASES, DEFAULT_RECOVERIES, DEFAULT_DEATHS, ENDPOINT_MAP } from '../constants/constants';
 
@@ -76,10 +83,7 @@ class Home extends React.Component {
   }
 
   justMounted = async () => {
-    ReactGA.event({
-      category: `Just Mounted`,
-      action: `Home website was just mounted`,
-    });
+    sendAnalytics(`Just Mounted`, `Home website was just mounted`);
     console.log("hey");
     console.log("if you're reading this");
     console.log("you should definitely email me at julio.maldonado.guzman@gmail.com to help contribute to this project");
@@ -117,10 +121,7 @@ class Home extends React.Component {
   }
 
   getLatestConfirmedCases = async(endpoint) => {
-    ReactGA.event({
-      category: `Getting Latest ${endpoint} Data`,
-      action: `User requesting latest data for ${endpoint} from ${this.state.endpoint} page`,
-    });
+    sendAnalytics(`Getting Latest ${endpoint} Data`, `User requesting latest data for ${endpoint} from ${this.state.endpoint} page`);
     if (!endpoint)
       endpoint = "cases"
     else 
@@ -128,32 +129,25 @@ class Home extends React.Component {
 
     const cameronCountyCoronaData = await getCameronCountyCoronaData(endpoint);
     this.setState({ coronaData: cameronCountyCoronaData });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    scrollToTop();
   }
 
   updateCategory = (category) => {
     this.setState({ category });
-    ReactGA.event({
-      category: "Update Category",
-      action: `User pressed the ${category} from ${this.state.endpoint} page`,
-    });
+    sendAnalytics("Update Category", `User pressed the ${category} from ${this.state.endpoint} page`);
   };
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (shallowCompare(this, nextProps, nextState)) {
+    if (shallowCompare(this, nextProps, nextState))
       return true;
-    }
+
     return false;
   }
 
   navigateSideMenu = () => { this.setState({isOpen: !this.state.isOpen}); }
 
   aClick = (endpoint, prevEndpoint) => {
-    ReactGA.event({
-      category: `A Click Nagivation`,
-      action: `User navigated to ${endpoint} from ${prevEndpoint}`,
-    });
-    console.log(prevEndpoint, " => ", endpoint)
+    sendAnalytics(`A Click Nagivation`, `User navigated to ${endpoint} from ${prevEndpoint}`);
     if (
       this.state.isOpen &&
       this.endpoint === this.props.location['pathname'].substr(1) &&
@@ -161,19 +155,15 @@ class Home extends React.Component {
       endpoint in ENDPOINT_MAP
     ) {
       this.getLatestConfirmedCases(endpoint);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      scrollToTop();
     }
   }
 
   linkClick = (endpoint, prevEndpoint) => {
-    console.log(prevEndpoint, " => ", endpoint)
-    ReactGA.event({
-      category: `Link Click Navigation`,
-      action: `User navigated to ${endpoint} from ${prevEndpoint}`,
-    });
+    sendAnalytics(`Link Click Navigation`, `User navigated to ${endpoint} from ${prevEndpoint}`);
     if (endpoint in ENDPOINT_MAP)
       this.getLatestConfirmedCases(endpoint);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    scrollToTop();
   }
 
   render() {
@@ -262,6 +252,14 @@ class Home extends React.Component {
               <p id="p">Confirmed Recoveries: {recoveriesCount}</p> 
               : null
           }
+          {
+            deathsCount && recoveriesCount ?
+              <div>
+                <p id="p">Recovery rate: {(recoveriesCount / casesCount * 100).toFixed(3)}%</p>
+                <p id="p">Death rate: {(deathsCount / casesCount * 100).toFixed(3)}%</p>
+              </div>
+            : null
+          }
           <RefreshButton
             endpoint={endpoint}
             aClick={this.aClick}
@@ -269,7 +267,7 @@ class Home extends React.Component {
             refreshData={this.getLatestConfirmedCases}
           />
           <p>How has the RGV responded to COVID-19? How can we recover? How can we open up again?</p>
-          <div onClick={() => ReactGA.event({category: `Clicking Survey Link`,action: `User pressed survey link from ${endpoint} page`,})}>
+          <div onClick={() => sendAnalytics(`Clicking Survey Link`, `User pressed survey link from ${endpoint} page`)}>
             <p>
               Fill out <a href="https://qfreeaccountssjc1.az1.qualtrics.com/jfe/form/SV_bmcINjXL5EUEbUF">this survey</a> to let us know what you think.
             </p>

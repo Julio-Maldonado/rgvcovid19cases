@@ -36,21 +36,9 @@ const getAgeRangeIfValueIsNumber = (age) => {
     return "81+";
 }
 
-const getIntroOfPage = (label) => {
-  if (label === 'Page A') {
-    return 'Page A is about mens clothing';
-  } if (label === 'Page B') {
-    return 'Page B is about womens dress';
-  } if (label === 'Page C') {
-    return 'Page C is about womens bag';
-  } if (label === 'Page D') {
-    return 'Page D is about household goods';
-  } if (label === 'Page E') {
-    return 'Page E is about food';
-  } if (label === 'Page F') {
-    return 'Page F is about baby food';
-  }
-}
+const sendAnalytics = (category, action) => { ReactGA.event({ category, action }) }
+
+const scrollToTop = () => { window.scrollTo({ top: 0, behavior: 'smooth' }) };
 
 const CustomTooltip = ({ payload, label, active, category, endpoint }) => {
   if (active & payload !== null && 0 in payload) {
@@ -125,12 +113,9 @@ const getCameronCountyCoronaData = async(data) => {
   let cameronCountyData = await getCoronaCases(endpoint);
 
   if (cameronCountyData['status'] !== 200) {
-    ReactGA.event({
-      category: `Error Retrieving${endpoint} Data`,
-      action: `${cameronCountyData['status']} error from ${JSON.stringify(cameronCountyData)}`,
-    });
+    sendAnalytics(`Error Retrieving${endpoint} Data`, `${cameronCountyData['status']} error from ${JSON.stringify(cameronCountyData)}`);
     console.error('api call failed');
-    console.error({cameronCountyData});
+    console.error({ cameronCountyData });
     alert('There was an error getting the latest data. Please try refreshing the page later.')
     if (endpoint === "getRGVCoronaCases")
       return DEFAULT_CASES;
@@ -270,7 +255,6 @@ export {
   getAgeRangeIfValueIsNumber,
   updateCount,
   CustomTooltip,
-  getIntroOfPage,
   shallowCompare,
   getCameronCountyCoronaData,
   determineScreenState,
@@ -278,4 +262,6 @@ export {
   determineXAxisPadding,
   getUsefulData,
   compare,
+  sendAnalytics,
+  scrollToTop,
 };

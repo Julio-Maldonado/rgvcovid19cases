@@ -1,13 +1,12 @@
 import React from 'react';
 
-import ReactGA from 'react-ga';
-
 import { HashLink as Link } from 'react-router-hash-link';
-import MyNavBar from './MyNavBar';
+import { FacebookIcon, FacebookShareButton } from 'react-share';
 
+import MyNavBar from './MyNavBar';
 import SideMenu from './SideMenu';
 
-import { FacebookIcon, FacebookShareButton } from "react-share";
+import { sendAnalytics, scrollToTop } from '../constants/helperFunctions';
 
 import './App.css';
 
@@ -24,20 +23,12 @@ class About extends React.Component {
   updateWindowDimensions = () => { this.setState({ width: window.innerWidth, height: window.innerHeight }) }
 
   aClick = (endpoint, prevEndpoint) => {
-    ReactGA.event({
-      category: `A Click Nagivation`,
-      action: `User navigated to ${endpoint} from ${prevEndpoint}`,
-    });
-    console.log(prevEndpoint, " => ", endpoint)
+    sendAnalytics(`A Click Nagivation`,`User navigated to ${endpoint} from ${prevEndpoint}`);
   }
 
   linkClick = (endpoint, prevEndpoint) => {
-    console.log(prevEndpoint, " => ", endpoint)
-    ReactGA.event({
-      category: `Link Click Navigation`,
-      action: `User navigated to ${endpoint} from ${prevEndpoint}`,
-    });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    sendAnalytics(`Link Click Navigation`, `User navigated to ${endpoint} from ${prevEndpoint}`);
+    scrollToTop();
   }
 
   render() {
@@ -90,13 +81,13 @@ class About extends React.Component {
             <br />
             <br />
             <p>How has the RGV responded to COVID-19? How can we recover? How can we open up again?</p>
-            <div onClick={() => ReactGA.event({category: `Clicking Survey Link`,action: `User pressed survey link from about page`,})}>
+            <div onClick={() => sendAnalytics(`Clicking Survey Link`, `User pressed survey link from about page`)}>
               <p>
                 Fill out <a href="https://qfreeaccountssjc1.az1.qualtrics.com/jfe/form/SV_bmcINjXL5EUEbUF">this survey</a> to let us know what you think.
               </p>
             </div>
             <p id="p">Share this site on {` `}
-              <FacebookShareButton onShareWindowClose={() => { ReactGA.event({ category: "Facebook Share", action: `Website shared to Facebook`});}} url="https://rgvcovid19cases.com/" >
+              <FacebookShareButton onShareWindowClose={() => sendAnalytics("Facebook Share", `Website shared to Facebook`)} url="https://rgvcovid19cases.com/" >
                 <FacebookIcon
                   size={30}
                   round={true}
