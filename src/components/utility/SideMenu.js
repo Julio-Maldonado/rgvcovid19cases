@@ -3,7 +3,7 @@ import React from 'react';
 import { slide as Menu } from 'react-burger-menu';
 import { HashLink as Link } from 'react-router-hash-link';
 
-import { scrollToTop } from '../constants/helperFunctions';
+import { scrollToTop } from '../../constants/helperFunctions';
 
 const SideMenu = props => {
   return (

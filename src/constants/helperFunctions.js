@@ -1,51 +1,39 @@
 import React from 'react';
 import ReactGA from 'react-ga';
 
-import {DEFAULT_CASES, DEFAULT_DEATHS, DEFAULT_RECOVERIES, ENDPOINT_SINGULAR_MAP} from './constants';
+import { DEFAULT_CASES, DEFAULT_DEATHS, DEFAULT_RECOVERIES, ENDPOINT_SINGULAR_MAP } from './constants';
 
 const getCount = (obj, field) => obj[field] ? obj[field] : 0;
 
 const updateCount = (obj, field) => field in obj ? obj[field] += 1 : obj[field] = 1;
 
 const getEndpoint = (endpoint) => {
-  if (endpoint === "cases")
-    return "getRGVCoronaCases";
-  else if (endpoint === "deaths")
-    return "getRGVCoronaDeaths";
-  else if (endpoint === "recoveries")
-    return "getRGVRecoveredCases";
+  if (endpoint === "cases") return "getRGVCoronaCases";
+  else if (endpoint === "deaths") return "getRGVCoronaDeaths";
+  else if (endpoint === "recoveries") return "getRGVRecoveredCases";
   return "getRGVCoronaCases";
 }
 
 const getAgeRangeIfValueIsNumber = (age) => {
-  if (isNaN(age))
-    return age;
+  if (isNaN(age)) return age;
 
-  if (age === "" || age == null)
-    return 0;
+  if (age === "" || age == null) return 0;
 
-  if (age <= 20)
-    return "0 - 20";
-  else if (age <= 40)
-    return "21 - 40";
-  else if (age <= 60)
-    return "41 - 60";
-  else if (age <= 80)
-    return "61 - 80";
-  else if (age > 80)
-    return "81+";
+  if (age <= 20) return "0 - 20";
+  else if (age <= 40) return "21 - 40";
+  else if (age <= 60) return "41 - 60";
+  else if (age <= 80) return "61 - 80";
+  else if (age > 80) return "81+";
 }
 
 const sendAnalytics = (category, action) => { ReactGA.event({ category, action }) }
 
-const scrollToTop = () => { window.scrollTo({ top: 0, behavior: 'smooth' }) };
+const scrollToTop = () => { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
 const CustomTooltip = ({ payload, label, active, category, endpoint }) => {
   if (active & payload !== null && 0 in payload) {
     payload = payload[0];
-    if (payload.value === 1) {
-      endpoint = ENDPOINT_SINGULAR_MAP[endpoint];
-    }
+    if (payload.value === 1) endpoint = ENDPOINT_SINGULAR_MAP[endpoint];
     
     const sumOfCategory = Object.keys(payload["payload"][category]).reduce((acc, categoryKey) =>  {
       return acc + payload["payload"][category][categoryKey]
@@ -58,12 +46,12 @@ const CustomTooltip = ({ payload, label, active, category, endpoint }) => {
           return payload["payload"][category][categoryKey] > 0;
         }).map((categoryKey, i) => {
             return (
-              <p  id="p" key={i} className="category-stats">{categoryKey}: {payload["payload"][category][categoryKey]}</p>
+              <p  key={i} className="category-stats">{categoryKey}: {payload["payload"][category][categoryKey]}</p>
             );
         }) : null}
         {
           category in payload["payload"] && sumOfCategory !== payload["payload"]["Count"] ?
-          <p id="p" className="category-stats">Unknown: {payload.value - sumOfCategory}</p>
+          <p className="category-stats">Unknown: {payload.value - sumOfCategory}</p>
           : null
         }
       </div>
@@ -74,28 +62,19 @@ const CustomTooltip = ({ payload, label, active, category, endpoint }) => {
 }
 
 const shallowEqual = (objA, objB) => {
-  if (objA === objB) {
-    return true;
-  }
+  if (objA === objB) return true;
 
-  if (typeof objA !== 'object' || objA === null ||
-      typeof objB !== 'object' || objB === null) {
-    return false;
-  }
+  if (typeof objA !== 'object' || objA === null || typeof objB !== 'object' || objB === null) return false;
 
   var keysA = Object.keys(objA);
   var keysB = Object.keys(objB);
 
-  if (keysA.length !== keysB.length) {
-    return false;
-  }
+  if (keysA.length !== keysB.length) return false;
 
   var bHasOwnProperty = hasOwnProperty.bind(objB);
-  for (var i = 0; i < keysA.length; i++) {
-    if (!bHasOwnProperty(keysA[i]) || objA[keysA[i]] !== objB[keysA[i]]) {
+  for (var i = 0; i < keysA.length; i++)
+    if (!bHasOwnProperty(keysA[i]) || objA[keysA[i]] !== objB[keysA[i]])
       return false;
-    }
-  }
 
   return true;
 }
@@ -110,44 +89,32 @@ const shallowCompare = (instance, nextProps, nextState) =>{
 const getCameronCountyCoronaData = async(data) => {
   let coronaMap = {};
   let endpoint = getEndpoint(data);
-  let cameronCountyData = await getCoronaCases(endpoint);
+  let cameronCountyData = await getCoronaCases(endpoint, "cameron");
 
   if (cameronCountyData['status'] !== 200) {
     sendAnalytics(`Error Retrieving${endpoint} Data`, `${cameronCountyData['status']} error from ${JSON.stringify(cameronCountyData)}`);
     console.error('api call failed');
     console.error({ cameronCountyData });
     alert('There was an error getting the latest data. Please try refreshing the page later.')
-    if (endpoint === "getRGVCoronaCases")
-      return DEFAULT_CASES;
-    else if (endpoint === "getRGVCoronaDeaths")
-      return DEFAULT_DEATHS;
-    else if (endpoint === "getRGVRecoveredCases")
-      return DEFAULT_RECOVERIES;
-    else 
-      return DEFAULT_CASES;
+    return getDefaultCases(data);
   }
 
   cameronCountyData = cameronCountyData['cases'];
   cameronCountyData.forEach(data => {
     const date = data["date"].substr(1, 4);
-    if (!(date in coronaMap))
-      coronaMap[date] = {}
+    if (!(date in coronaMap)) coronaMap[date] = {}
 
     updateCount(coronaMap[date], "count")
-    for (let d in data)
-      updateCount(coronaMap[date], getAgeRangeIfValueIsNumber(data[d]))
+    for (let d in data) updateCount(coronaMap[date], getAgeRangeIfValueIsNumber(data[d]))
   })
+
   if (endpoint === "getRGVCoronaCases") {
     coronaMap["3/18"]["count"] = 0;
     delete coronaMap["3/18"]["0"];
-  }
-
-  if (endpoint === "getRGVCoronaDeaths") {
+  } else if (endpoint === "getRGVCoronaDeaths") {
     coronaMap["4/05"]["count"] = 0;
     delete coronaMap["4/05"]["0"];
-  }
-
-  if (endpoint === "getRGVRecoveredCases") {
+  } else if (endpoint === "getRGVRecoveredCases") {
     coronaMap["4/02"]["count"] = 0;
     delete coronaMap["4/02"]["0"];
   }
@@ -190,50 +157,26 @@ const getCameronCountyCoronaData = async(data) => {
 }
 
 const determineScreenState = (width) => {
-  if (width > 1500)
-    return "wide";
-  else if (width > 1200)
-    return "full";
-  else if (width > 900)
-    return "pacman";
-  else if (width > 700)
-    return "half";
-
+  if (width > 1500) return "wide";
+  else if (width > 1200) return "full";
+  else if (width > 900) return "pacman";
+  else if (width > 700) return "half";
   return "mobile";
 }
 
-const determineXAxisInterval = (screenState) => {
-  if (screenState === "wide") 
-    return 1;
-  else if (screenState === "full")
-    return 1;
-  else if (screenState === "pacman")
-    return 2;
-  else if (screenState === "half")
-    return 2;
-  
-  return 2;
-}
-
 const determineXAxisPadding = (screenState) => {
-  if (screenState === "mobile") 
-    return { left: 30, right: 30};
-  
+  if (screenState === "mobile") return { left: 30, right: 30};
   return { left: 0, right: 0};
 }
 
-const getUsefulData = () => {
-  return getCoronaCases("getUsefulStats");
-}
+const getUsefulData = () => { return getCoronaCases("getUsefulStats", "cameron"); }
 
-const getCoronaCases = async(endpoint) => {
+const getCoronaCases = async(endpoint, county) => {
   try {
-    const resp = await fetch(`https://rgvcovid19backend.herokuapp.com/${endpoint}`, {
+    const resp = await fetch(`https://rgvcovid19backend.herokuapp.com/${endpoint}/${county}`, {
       mode: 'cors',
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
     });
 
     return resp.json();
@@ -246,8 +189,14 @@ const getCoronaCases = async(endpoint) => {
 const compare = (obj1, obj2) => {
   if (obj1[Object.keys(obj1)[0]] < obj2[Object.keys(obj2)[0]]) return 1;
   else if (obj1[Object.keys(obj1)[0]] > obj2[Object.keys(obj2)[0]]) return -1;
-
   return 0;
+}
+
+const getDefaultCases = (endpoint) => {
+  if (endpoint === "cases") return DEFAULT_CASES;
+  else if (endpoint === "deaths") return DEFAULT_DEATHS;
+  else if (endpoint === "recoveries") return DEFAULT_RECOVERIES;
+  return DEFAULT_CASES;
 }
 
 export {
@@ -258,10 +207,10 @@ export {
   shallowCompare,
   getCameronCountyCoronaData,
   determineScreenState,
-  determineXAxisInterval,
   determineXAxisPadding,
   getUsefulData,
   compare,
   sendAnalytics,
   scrollToTop,
+  getDefaultCases,
 };

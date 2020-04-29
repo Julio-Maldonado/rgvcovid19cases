@@ -3,12 +3,12 @@ import React from 'react';
 import { HashLink as Link } from 'react-router-hash-link';
 import { FacebookIcon, FacebookShareButton } from 'react-share';
 
-import MyNavBar from './MyNavBar';
-import SideMenu from './SideMenu';
+import MyNavBar from '../components/utility/MyNavBar';
+import SideMenu from '../components/utility/SideMenu';
 
 import { sendAnalytics, scrollToTop } from '../constants/helperFunctions';
 
-import './App.css';
+import '../components/App.css';
 
 class About extends React.Component {
   state = { width: 0 }
@@ -50,17 +50,17 @@ class About extends React.Component {
           <h1 id="h1">About This Site</h1>
           <div className="margin-content">
             <br />
-            <p id="p">This website was set up for Cameron County to closely monitor coronavirus cases and see our curve during this pandemic.</p>
+            <p>This website was set up for Cameron County to closely monitor coronavirus cases and see our curve during this pandemic.</p>
             <br />
-            <p id="p">All of this data was obtained from the Cameron County official Press Releases listed <Link  onClick={() => this.linkClick("resources", "about")} smooth to="/resources">here</Link>.</p>
+            <p>All of this data was obtained from the Cameron County official Press Releases listed <Link  onClick={() => this.linkClick("resources", "about")} smooth to="/resources">here</Link>.</p>
             <br />
-            <p id="p">Future updates will include data for Hidalgo County, Starr County, and Willacy County.</p>
+            <p>Future updates will include data for Hidalgo County, Starr County, and Willacy County.</p>
             <br />
-            <p id="p">If you want to contribute to this project, gather data, have ideas for updates, or have inquiries, please email <a href="mailto:julio.maldonado.guzman@gmail.com">julio.maldonado.guzman@gmail.com</a>.</p>
+            <p>If you want to contribute to this project, gather data, have ideas for updates, or have inquiries, please email <a href="mailto:julio.maldonado.guzman@gmail.com">julio.maldonado.guzman@gmail.com</a>.</p>
             <br />
-            <p id="p">If you need resources, check out our <Link onClick={() => this.linkClick("resources", "about")} smooth to="/resources">resources</Link> page.</p>
+            <p>If you need resources, check out our <Link onClick={() => this.linkClick("resources", "about")} smooth to="/resources">resources</Link> page.</p>
             <br />
-            {/* <p id="p">You can read all of the Press Releases <a rel="noopener noreferrer" target="_blank" href="https://www.cameroncounty.us/announcements-press-releases/">here</a> or check out the Cameron County <a rel="noopener noreferrer" target="_blank" href="http://www.co.cameron.tx.us/">website</a>.</p>
+            {/* <p>You can read all of the Press Releases <a rel="noopener noreferrer" target="_blank" href="https://www.cameroncounty.us/announcements-press-releases/">here</a> or check out the Cameron County <a rel="noopener noreferrer" target="_blank" href="http://www.co.cameron.tx.us/">website</a>.</p>
             <br /> */}
             {/* <FacebookShareButton url="https://julio-maldonado.github.io/rgvcovid19cases/"> */}
             <button className="my-button">
@@ -86,7 +86,7 @@ class About extends React.Component {
                 Fill out <a href="https://qfreeaccountssjc1.az1.qualtrics.com/jfe/form/SV_bmcINjXL5EUEbUF">this survey</a> to let us know what you think.
               </p>
             </div>
-            <p id="p">Share this site on {` `}
+            <p>Share this site on {` `}
               <FacebookShareButton onShareWindowClose={() => sendAnalytics("Facebook Share", `Website shared to Facebook`)} url="https://rgvcovid19cases.com/" >
                 <FacebookIcon
                   size={30}

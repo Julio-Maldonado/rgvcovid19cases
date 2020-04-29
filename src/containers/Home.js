@@ -1,12 +1,12 @@
 import React from 'react';
 
-import Header from './Header';
-import CoronaChart from './CoronaChart';
-import RefreshButton from './RefreshButton';
-import SideMenu from './SideMenu';
-import TableDisplay from './TableDisplay';
-import Footer from './Footer';
-import MyNavBar from './MyNavBar';
+import Header from '../components/Home/Header';
+import CoronaChart from '../components/Home/CoronaChart';
+import RefreshButton from '../components/Home/RefreshButton';
+import SideMenu from '../components/utility/SideMenu';
+import TableDisplay from '../components/Home/TableDisplay';
+import Footer from '../components/utility/Footer';
+import MyNavBar from '../components/utility/MyNavBar';
 
 import {
   getUsefulData,
@@ -16,22 +16,13 @@ import {
   compare,
   sendAnalytics,
   scrollToTop,
+  getDefaultCases,
 } from '../constants/helperFunctions';
 
-import { DEFAULT_CASES, DEFAULT_RECOVERIES, DEFAULT_DEATHS, ENDPOINT_MAP } from '../constants/constants';
+import { ENDPOINT_MAP } from '../constants/constants';
 
 import '../index.css';
-import './App.css';
-
-const getDefaultCases = (endpoint) => {
-  if (endpoint === "cases")
-    return DEFAULT_CASES;
-  else if (endpoint === "deaths")
-    return DEFAULT_DEATHS;
-  else if (endpoint === "recoveries")
-    return DEFAULT_RECOVERIES;
-  return DEFAULT_CASES;
-}
+import '../components/App.css';
 
 class Home extends React.Component {
   state = {
@@ -44,24 +35,23 @@ class Home extends React.Component {
 
   screenIsSuperLong = false; // not iphone X or 11
 
-  componentDidMount()  {
-    this.updateEndpoint(this.props.location['pathname'].substr(1))
+  componentDidMount() {
+    this.updateEndpoint(this.props.location['pathname'].substr(1));
     setTimeout(this.justMounted, 1000);
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
     if (this.checkScreenSize())
       this.screenIsSuperLong = true;
     else
-      this.screenIsSuperLong = true;
+      this.screenIsSuperLong = false;
   }
 
   checkScreenSize = () => {
     let iPhone = /iPhone/.test(navigator.userAgent) && !window.MSStream;
     let aspect = window.screen.width / window.screen.height;
-    if (iPhone && aspect.toFixed(3) === "0.462")
-      return true;
-    else
-      return false;
+    if (iPhone && aspect.toFixed(3) === "0.462") return true;
+
+    return false;
   }
 
   updateEndpoint = (endpoint) => { endpoint in ENDPOINT_MAP ? this.setState({ endpoint }): this.setState({ endpoint: 'cases'}); };
@@ -71,13 +61,10 @@ class Home extends React.Component {
   updateWindowDimensions = () => {
     let height = window.innerHeight;
     let width = window.innerWidth;
-    if (Math.abs(this.state.height - window.innerHeight) < 100)
-      height = this.state.height;
+    if (Math.abs(this.state.height - window.innerHeight) < 100) height = this.state.height;
     
-    if (height / width > 1.7 || this.checkScreenSize())
-      this.screenIsSuperLong = true;
-    else
-      this.screenIsSuperLong = false;
+    if (height / width > 1.7 || this.checkScreenSize()) this.screenIsSuperLong = true;
+    else this.screenIsSuperLong = false;
 
     this.setState({ width, height })
   }
@@ -93,16 +80,14 @@ class Home extends React.Component {
     if (location) {
       let pathname = location['pathname'];
       pathname = pathname.substr(1);
-      
-      if (pathname in ENDPOINT_MAP)
-        endpoint = pathname;
-      else if (!(endpoint in ENDPOINT_MAP))
-        endpoint = "cases";
-      else
-        endpoint = "cases";
+
+      if (pathname in ENDPOINT_MAP) endpoint = pathname;
+      else if (!(endpoint in ENDPOINT_MAP)) endpoint = "cases";
+      else endpoint = "cases";
     }
     this.getLatestConfirmedCases(endpoint);
     const usefulData = await getUsefulData();
+    console.log({usefulData})
 
     this.setState({
       casesCount: usefulData['cases']['count'] - 1,
@@ -122,10 +107,8 @@ class Home extends React.Component {
 
   getLatestConfirmedCases = async(endpoint) => {
     sendAnalytics(`Getting Latest ${endpoint} Data`, `User requesting latest data for ${endpoint} from ${this.state.endpoint} page`);
-    if (!endpoint)
-      endpoint = "cases"
-    else 
-      this.updateEndpoint(endpoint);
+    if (!endpoint) endpoint = "cases"
+    else this.updateEndpoint(endpoint);
 
     const cameronCountyCoronaData = await getCameronCountyCoronaData(endpoint);
     this.setState({ coronaData: cameronCountyCoronaData });
@@ -138,8 +121,7 @@ class Home extends React.Component {
   };
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (shallowCompare(this, nextProps, nextState))
-      return true;
+    if (shallowCompare(this, nextProps, nextState)) return true;
 
     return false;
   }
@@ -161,13 +143,12 @@ class Home extends React.Component {
 
   linkClick = (endpoint, prevEndpoint) => {
     sendAnalytics(`Link Click Navigation`, `User navigated to ${endpoint} from ${prevEndpoint}`);
-    if (endpoint in ENDPOINT_MAP)
-      this.getLatestConfirmedCases(endpoint);
+    if (endpoint in ENDPOINT_MAP) this.getLatestConfirmedCases(endpoint);
     scrollToTop();
   }
 
   render() {
-    const {coronaData, category, width, endpoint} = this.state;
+    const { coronaData, category, width, endpoint } = this.state;
     const {
       casesCount,
       cityCasesData,
@@ -199,8 +180,7 @@ class Home extends React.Component {
       usefulDeathsData = transmissionDeathsData;
     }
     let { height } = this.state
-    if (this.screenIsSuperLong)
-      height = height * 0.8
+    if (this.screenIsSuperLong) height = height * 0.8
 
     const screenState = determineScreenState(width);
     this.endpoint = this.props.location['pathname'].substr(1);
@@ -249,14 +229,14 @@ class Home extends React.Component {
           />
           { 
             recoveriesCount && endpoint === "recoveries" ?
-              <p id="p">Confirmed Recoveries: {recoveriesCount}</p> 
+              <p>Confirmed Recoveries: {recoveriesCount}</p> 
               : null
           }
           {
             deathsCount && recoveriesCount ?
               <div>
-                <p id="p">Recovery rate: {(recoveriesCount / casesCount * 100).toFixed(3)}%</p>
-                <p id="p">Death rate: {(deathsCount / casesCount * 100).toFixed(3)}%</p>
+                <p>Recovery rate: {(recoveriesCount / casesCount * 100).toFixed(3)}%</p>
+                <p>Death rate: {(deathsCount / casesCount * 100).toFixed(3)}%</p>
               </div>
             : null
           }

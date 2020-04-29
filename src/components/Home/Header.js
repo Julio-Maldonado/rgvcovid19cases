@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {ENDPOINT_MAP} from '../constants/constants';
+import {ENDPOINT_MAP} from '../../constants/constants';
 
-import './App.css';
-import '../index.css';
+import '../App.css';
+import '../../index.css';
 
 const Header = ({ endpoint, category, updateCategory }) => {
   const data = ENDPOINT_MAP[endpoint];

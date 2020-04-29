@@ -9,13 +9,9 @@ import {
   Line
 } from 'recharts';
 
-import {
-  CustomTooltip,
-  // determineXAxisInterval,
-  // determineXAxisPadding,
-} from '../constants/helperFunctions';
+import { CustomTooltip } from '../../constants/helperFunctions';
 
-import './App.css';
+import '../App.css';
 // import {ENDPOINT_MAP} from '../constants/constants';
 
 const CoronaChart = ({ width, height, endpoint, category, coronaData, screenState}) => {
@@ -32,8 +28,6 @@ const CoronaChart = ({ width, height, endpoint, category, coronaData, screenStat
       <XAxis
         dataKey="Date"
         scale="auto"
-        // interval={determineXAxisInterval(screenState)}
-        // padding={determineXAxisPadding(screenState)}
       />
       <YAxis />
       <Tooltip content={<CustomTooltip category={category} endpoint={endpoint}/>} />

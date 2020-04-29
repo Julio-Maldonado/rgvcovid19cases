@@ -1,14 +1,14 @@
 import React from 'react';
 
-import SideMenu from './SideMenu';
-import RGVResources from './RGVResources';
-import PressReleases from './PressReleases';
-import MyNavBar from './MyNavBar';
-import Footer from './Footer';
+import SideMenu from '../components/utility/SideMenu';
+import RGVResources from '../components/Resources/RGVResources';
+import PressReleases from '../components/Resources/PressReleases';
+import MyNavBar from '../components/utility/MyNavBar';
+import Footer from '../components/utility/Footer';
 
 import { sendAnalytics, scrollToTop } from '../constants/helperFunctions';
 
-import './App.css';
+import '../components/App.css';
 
 class Resources extends React.Component {
   state = { width: 0 }
@@ -50,11 +50,11 @@ class Resources extends React.Component {
           <h1 id="h1">Resources</h1>
           <div>
             <br />
-            <p id="p">Here are some resources for the RGV during this pandemic:</p>
+            <p>Here are some resources for the RGV during this pandemic:</p>
           </div>
           <RGVResources />
           <div>
-            <p id="p">Data for this site was obtained from these Press Releases from the Cameron County <a rel="noopener noreferrer" target="_blank" href="https://www.cameroncounty.us/announcements-press-releases/">site</a>:</p>
+            <p>Data for this site was obtained from these Press Releases from the Cameron County <a rel="noopener noreferrer" target="_blank" href="https://www.cameroncounty.us/announcements-press-releases/">site</a>:</p>
           </div>
           <PressReleases />
           <div onClick={() => sendAnalytics(`Clicking Survey Link`, `User pressed survey link from resources page`)}>

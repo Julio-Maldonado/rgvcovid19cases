@@ -1,12 +1,12 @@
 import React from 'react';
 
-import {CATEGORY_MAP} from '../constants/constants';
+import {CATEGORY_MAP} from '../../constants/constants';
 
 const TableDisplay = ({confirmedCasesName, endpoint, count, arrayData, align, column1}) => {
   return (
     <div>
       { count && endpoint === confirmedCasesName.toLowerCase() ?
-          <p id="p">Confirmed {confirmedCasesName}: {count}</p> 
+          <p>Confirmed {confirmedCasesName}: {count}</p> 
           : null
       }
       {

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import { Router } from "react-router-dom";
 
-import Routes from './components/Routes';
+import Routes from './containers/Routes';
 import history from './utils/history';
 
 import * as serviceWorker from './serviceWorker';
