@@ -87,7 +87,6 @@ class Home extends React.Component {
     }
     this.getLatestConfirmedCases(endpoint);
     const usefulData = await getUsefulData();
-    console.log({usefulData})
 
     this.setState({
       casesCount: usefulData['cases']['count'] - 1,
@@ -211,6 +210,19 @@ class Home extends React.Component {
             coronaData={coronaData}
             screenState={screenState}
           />
+          { 
+            recoveriesCount && endpoint === "recoveries" ?
+              <p>Confirmed Recoveries: {recoveriesCount}</p> 
+              : null
+          }
+          {
+            deathsCount && recoveriesCount ?
+              <div>
+                <p>Recovery rate: {(recoveriesCount / casesCount * 100).toFixed(3)}%</p>
+                <p>Death rate: {(deathsCount / casesCount * 100).toFixed(3)}%</p>
+              </div>
+            : null
+          }
           <TableDisplay
             count={casesCount}
             endpoint={endpoint}
@@ -227,19 +239,16 @@ class Home extends React.Component {
             column1={category}
             confirmedCasesName="Deaths"
           />
-          { 
-            recoveriesCount && endpoint === "recoveries" ?
-              <p>Confirmed Recoveries: {recoveriesCount}</p> 
-              : null
-          }
-          {
-            deathsCount && recoveriesCount ?
-              <div>
-                <p>Recovery rate: {(recoveriesCount / casesCount * 100).toFixed(3)}%</p>
-                <p>Death rate: {(deathsCount / casesCount * 100).toFixed(3)}%</p>
-              </div>
-            : null
-          }
+          {/* <div>
+            <i id="i">Select a category to view:{` `}</i>
+            <select id="select" value={category} onChange={e => this.updateCategory(e.target.value)}>
+              <option value="Cities">Cities</option>
+              <option value="Ages">Ages</option>
+              <option value="Gender">Gender</option>
+              <option value="Transmission">Transmission</option>
+            </select>
+          </div>
+          < br/> */}
           <RefreshButton
             endpoint={endpoint}
             aClick={this.aClick}

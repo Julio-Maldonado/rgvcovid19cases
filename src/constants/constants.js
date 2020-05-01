@@ -152,10 +152,45 @@ const PRESS_RELEASES = [
     date: "04/23/2020",
     url: "https://www.cameroncounty.us/wp-content/uploads/2020/04/COVID-19-Press-Release_334_344_PR29_4-23-2020.pdf",
     title: "Cameron County Confirms Additional COVID-19 Related Deaths",
+  },
+  {
+    date: "04/24/2020",
+    url: "https://www.cameroncounty.us/wp-content/uploads/2020/04/COVID-19-Press-Release_345_354_PR30_4-24-2020.pdf",
+    title: "Cameron County Confirms Additional COVID-19 Cases",
+  },
+  {
+    date: "04/25/2020",
+    url: "https://www.cameroncounty.us/wp-content/uploads/2020/04/COVID-19-Press-Release_355_366_PR31_4-25-2020.pdf",
+    title: "Cameron County Confirms Additional COVID-19 Cases",
+  },
+  {
+    date: "04/27/2020",
+    url: "https://www.cameroncounty.us/wp-content/uploads/2020/04/COVID-19-Press-Release_367_376_PR32_4-27-2020.pdf",
+    title: "Cameron County Confirms Additional COVID-19 Cases",
+  },
+  {
+    date: "04/28/2020",
+    url: "https://www.cameroncounty.us/wp-content/uploads/2020/04/COVID-19-Press-Release_377_387_PR33_4-28-2020.pdf",
+    title: "Cameron County Confirms Additional COVID-19 Related Deaths",
+  },
+  {
+    date: "04/29/2020",
+    url: "https://www.cameroncounty.us/wp-content/uploads/2020/04/COVID-19-Press-Release_388-401_PR34_4-29-2020.pdf",
+    title: "Cameron County Confirms COVID-19 Related Death",
+  },
+  {
+    date: "04/30/2020",
+    url: "https://www.cameroncounty.us/wp-content/uploads/2020/04/COVID-19-Press-Release_402_412_PR35_4-30-2020.pdf",
+    title: "Cameron County Confirms COVID-19 Related Death",
   }
 ];
 
 const RESOURCES = [
+  {
+    description: "Promote Care and Prevent Harm",
+    title: "Spread The Word",
+    url: "https://promotecarepreventharm.org/"
+  },
   {
     description: "RGV Meal Pick Up Locations during Coronavirus",
     title: "KRGV Article",

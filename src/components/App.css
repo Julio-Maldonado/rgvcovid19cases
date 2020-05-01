@@ -31,17 +31,24 @@
   height: 7vh;
   width: 100vw;
   position: fixed;
-  padding-left: 5vw;
-  padding-top: 0.5vh;
+  padding-top: 1vh;
 }
 
 .my-navbar-link {
   color: black;
   font-weight: bold;
+  display: inline-block;
+  position: fixed;
+  left: 10vw;
+}
+@media (min-width: 1200px) {
+  .my-navbar-link {
+    left: 5vw;
+  }
 }
 
 .my-navbar-link:hover {
-  color: black;
+  color: #2B8AC5;
   text-decoration: none;
 }
 
@@ -50,9 +57,9 @@
 }
 
 .center-navbar {
-  width: 20vw;
-  /* justify-content: center;
-  align-items: center; */
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
 }
 
 .body {

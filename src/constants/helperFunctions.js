@@ -30,6 +30,7 @@ const sendAnalytics = (category, action) => { ReactGA.event({ category, action }
 
 const scrollToTop = () => { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
+let prevLabel = "";
 const CustomTooltip = ({ payload, label, active, category, endpoint }) => {
   if (active & payload !== null && 0 in payload) {
     payload = payload[0];
@@ -38,6 +39,10 @@ const CustomTooltip = ({ payload, label, active, category, endpoint }) => {
     const sumOfCategory = Object.keys(payload["payload"][category]).reduce((acc, categoryKey) =>  {
       return acc + payload["payload"][category][categoryKey]
     }, 0)
+    if (label !== prevLabel) {
+      sendAnalytics(`Hovering Over Data Tooltop`, `User hovering over ${label} from ${prevLabel} for ${category} on ${endpoint}`);
+      prevLabel = label;
+    }
     return (
       <div className="custom-tooltip">
         <p className="label">{payload.value} {endpoint} on {label}</p>
