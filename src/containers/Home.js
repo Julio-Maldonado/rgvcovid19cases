@@ -38,6 +38,7 @@ class Home extends React.Component {
   componentDidMount() {
     this.updateEndpoint(this.props.location['pathname'].substr(1));
     setTimeout(this.justMounted, 1000);
+    this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
     if (this.checkScreenSize())
       this.screenIsSuperLong = true;

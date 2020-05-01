@@ -15,7 +15,7 @@ const Header = ({ endpoint, category, updateCategory }) => {
       </h2>
       <div>
         <i id="i">Select a category to view:{` `}</i>
-        <select id="select" value={category} onChange={e => this.updateCategory(e.target.value)}>
+        <select id="select" value={category} onChange={e => updateCategory(e.target.value)}>
           <option value="Cities">Cities</option>
           <option value="Ages">Ages</option>
           <option value="Gender">Gender</option>
