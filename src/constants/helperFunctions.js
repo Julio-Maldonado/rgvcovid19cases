@@ -40,7 +40,7 @@ const CustomTooltip = ({ payload, label, active, category, endpoint }) => {
       return acc + payload["payload"][category][categoryKey]
     }, 0)
     if (label !== prevLabel) {
-      sendAnalytics(`Hovering Over Data Tooltop`, `User hovering over ${label} from ${prevLabel} for ${category} on ${endpoint}`);
+      sendAnalytics(`Hovering Over Data Tooltip`, `User hovering over ${label} from ${prevLabel} for ${category} category on ${endpoint} endpoint`);
       prevLabel = label;
     }
     return (
