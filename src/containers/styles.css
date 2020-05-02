@@ -1,0 +1,22 @@
+.App {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  background-color: #282c34;
+  color: white;
+}
+
+.App-content {
+  background-color: #282c34;
+  min-height: 100vh;
+  padding-top: 15vh;
+  color: white;
+}
+
+.margin-content {
+  padding: 0 5vw 0 5vw;
+}
+
+.my-button {
+  margin: 5px;
+}

@@ -1,11 +1,13 @@
 import React from 'react';
 
 import { PRESS_RELEASES } from '../../constants/constants';
-import { sendAnalytics } from '../../constants/helperFunctions'
+import { sendAnalytics } from '../../constants/helperFunctions';
+
+import './styles.css';
 
 const PressReleases = () => {
   return (
-    <div className="press-releases-div">
+    <div>
         <ul className="nobull">
           {
             PRESS_RELEASES.map(({title, url, date}, i) => {

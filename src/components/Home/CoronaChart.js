@@ -6,15 +6,14 @@ import {
   YAxis,
   Tooltip,
   CartesianGrid,
-  Line
+  Line,
 } from 'recharts';
 
-import { CustomTooltip } from '../../constants/helperFunctions';
+import CustomTooltip from './CustomTooltip';
 
-import '../App.css';
 // import {ENDPOINT_MAP} from '../constants/constants';
 
-const CoronaChart = ({ width, height, endpoint, category, coronaData, screenState}) => {
+const CoronaChart = ({ width, height, endpoint, category, coronaData, screenState }) => {
   // const data = ENDPOINT_MAP[endpoint];
   return (
     <LineChart

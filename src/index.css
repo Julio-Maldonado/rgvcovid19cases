@@ -1,34 +1,3 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-/* table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 25%;
-} */
-
-td, th {
-  border: 1px solid #dddddd;
-  /* justify-content: center;
-  align-items: center;
-  align-content: center; */
-}
-/* 
-tr:nth-child(even) {
-  background-color: #dddddd;
-} */
-
 @media (max-width: 700px) {
   h1, .h1, #h1 {
     font-size: 24px;
@@ -185,16 +154,5 @@ tr:nth-child(even) {
   }
   .my-navbar-p {
     font-size: 30px;
-    /* width: 30%; */
-  }
-  .my-navbar {
-    /* z-index: 99; */
-    /* color: black;
-    background-color: white;
-    height: 7vh; */
-    /* width: 100vw; */
-    /* position: fixed; */
-    /* padding-left: 3vw; */
-    /* padding-top: 0.2vh; */
   }
 }

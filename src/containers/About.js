@@ -8,12 +8,10 @@ import SideMenu from '../components/utility/SideMenu';
 
 import { sendAnalytics, scrollToTop } from '../constants/helperFunctions';
 
-import '../components/App.css';
-
 class About extends React.Component {
   state = { width: 0 }
 
-  componentDidMount()  {
+  componentDidMount() {
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
   }

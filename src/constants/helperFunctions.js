@@ -1,7 +1,6 @@
-import React from 'react';
 import ReactGA from 'react-ga';
 
-import { DEFAULT_CASES, DEFAULT_DEATHS, DEFAULT_RECOVERIES, ENDPOINT_SINGULAR_MAP } from './constants';
+import { DEFAULT_CASES, DEFAULT_DEATHS, DEFAULT_RECOVERIES } from './constants';
 
 const getCount = (obj, field) => obj[field] ? obj[field] : 0;
 
@@ -29,42 +28,6 @@ const getAgeRangeIfValueIsNumber = (age) => {
 const sendAnalytics = (category, action) => { ReactGA.event({ category, action }) }
 
 const scrollToTop = () => { window.scrollTo({ top: 0, behavior: 'smooth' }); }
-
-let prevLabel = "";
-const CustomTooltip = ({ payload, label, active, category, endpoint }) => {
-  if (active & payload !== null && 0 in payload) {
-    payload = payload[0];
-    if (payload.value === 1) endpoint = ENDPOINT_SINGULAR_MAP[endpoint];
-    
-    const sumOfCategory = Object.keys(payload["payload"][category]).reduce((acc, categoryKey) =>  {
-      return acc + payload["payload"][category][categoryKey]
-    }, 0)
-    if (label !== prevLabel) {
-      sendAnalytics(`Hovering Over Data Tooltip`, `User hovering over ${label} from ${prevLabel} for ${category} category on ${endpoint} endpoint`);
-      prevLabel = label;
-    }
-    return (
-      <div className="custom-tooltip">
-        <p className="label">{payload.value} {endpoint} on {label}</p>
-        {/* <p className="intro">{category}</p> */}
-        { category in payload["payload"] ? Object.keys(payload["payload"][category]).sort().filter((categoryKey, i) => {
-          return payload["payload"][category][categoryKey] > 0;
-        }).map((categoryKey, i) => {
-            return (
-              <p  key={i} className="category-stats">{categoryKey}: {payload["payload"][category][categoryKey]}</p>
-            );
-        }) : null}
-        {
-          category in payload["payload"] && sumOfCategory !== payload["payload"]["Count"] ?
-          <p className="category-stats">Unknown: {payload.value - sumOfCategory}</p>
-          : null
-        }
-      </div>
-    );
-  }
-
-  return null;
-}
 
 const shallowEqual = (objA, objB) => {
   if (objA === objB) return true;
@@ -169,11 +132,6 @@ const determineScreenState = (width) => {
   return "mobile";
 }
 
-const determineXAxisPadding = (screenState) => {
-  if (screenState === "mobile") return { left: 30, right: 30};
-  return { left: 0, right: 0};
-}
-
 const getUsefulData = () => { return getCoronaCases("getUsefulStats", "cameron"); }
 
 const getCoronaCases = async(endpoint, county) => {
@@ -205,14 +163,9 @@ const getDefaultCases = (endpoint) => {
 }
 
 export {
-  getCount,
-  getAgeRangeIfValueIsNumber,
-  updateCount,
-  CustomTooltip,
   shallowCompare,
   getCameronCountyCoronaData,
   determineScreenState,
-  determineXAxisPadding,
   getUsefulData,
   compare,
   sendAnalytics,

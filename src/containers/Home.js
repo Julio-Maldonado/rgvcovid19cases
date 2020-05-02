@@ -21,8 +21,7 @@ import {
 
 import { ENDPOINT_MAP } from '../constants/constants';
 
-import '../index.css';
-import '../components/App.css';
+import './styles.css';
 
 class Home extends React.Component {
   state = {
@@ -40,10 +39,8 @@ class Home extends React.Component {
     setTimeout(this.justMounted, 1000);
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
-    if (this.checkScreenSize())
-      this.screenIsSuperLong = true;
-    else
-      this.screenIsSuperLong = false;
+    if (this.checkScreenSize()) this.screenIsSuperLong = true;
+    else this.screenIsSuperLong = false;
     setTimeout(this.updateWindowDimensions, 1000);
   }
 
@@ -63,7 +60,7 @@ class Home extends React.Component {
     let height = window.innerHeight;
     let width = window.innerWidth;
     if (Math.abs(this.state.height - window.innerHeight) < 100) height = this.state.height;
-    
+
     if (height / width > 1.7 || this.checkScreenSize()) this.screenIsSuperLong = true;
     else this.screenIsSuperLong = false;
 
@@ -211,16 +208,11 @@ class Home extends React.Component {
             coronaData={coronaData}
             screenState={screenState}
           />
-          { 
-            recoveriesCount && endpoint === "recoveries" ?
-              <p>Confirmed Recoveries: {recoveriesCount}</p> 
-              : null
-          }
           {
             deathsCount && recoveriesCount ?
               <div>
-                <p>Recovery rate: {(recoveriesCount / casesCount * 100).toFixed(3)}%</p>
-                <p>Death rate: {(deathsCount / casesCount * 100).toFixed(3)}%</p>
+                <p>Recovery rate: {(recoveriesCount / casesCount * 100).toFixed(1)}%</p>
+                <p>Death rate: {(deathsCount / casesCount * 100).toFixed(1)}%</p>
               </div>
             : null
           }
@@ -240,6 +232,11 @@ class Home extends React.Component {
             column1={category}
             confirmedCasesName="Deaths"
           />
+          {
+            recoveriesCount && endpoint === "recoveries" ?
+              <p>Confirmed Recoveries: {recoveriesCount}</p>
+              : null
+          }
           {/* <div>
             <i id="i">Select a category to view:{` `}</i>
             <select id="select" value={category} onChange={e => this.updateCategory(e.target.value)}>

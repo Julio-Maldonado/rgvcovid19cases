@@ -1,0 +1,143 @@
+.menu-item {
+  outline: none;
+}
+
+.my-navbar {
+  z-index: 99;
+  color: black;
+  background-color: white;
+  height: 7vh;
+  width: 100vw;
+  position: fixed;
+  padding-top: 1vh;
+}
+
+.my-navbar-link {
+  color: black;
+  font-weight: bold;
+  display: inline-block;
+  position: fixed;
+  left: 10vw;
+}
+
+@media (min-width: 1200px) {
+  .my-navbar-link {
+    left: 5vw;
+  }
+}
+
+.my-navbar-link:hover {
+  color: #2B8AC5;
+  text-decoration: none;
+}
+
+/* Individual item */
+.bm-item {
+  display: inline-block;
+
+  /* Our sidebar item styling */
+  text-decoration: none;
+  color: #d1d1d1;
+  transition: color 0.2s;
+}
+
+/* Change color on hover */
+.bm-item:hover {
+  color: white;
+}
+
+/* The rest copied directly from react-burger-menu docs */
+
+/* Position and sizing of burger button */
+
+.bm-burger-button {
+  z-index: 999;
+  position: fixed; 
+  width: 30px;
+  height: 24px;
+  right: 12px;
+  top: 12px;
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+  background: #373a47;
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+  height: 24px;
+  width: 24px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+  background: #bdc3c7;
+}
+
+/* General sidebar styles */
+.bm-menu {
+  background: #373a47;
+  padding: 2.5em 1.5em 0;
+  font-size: 1.15em;
+  font-weight: bold;
+  float: right;
+}
+
+@media (max-width: 700px) {
+  .bm-menu {
+    width: 35%;
+  }
+
+  .bm-burger-button {
+    width: 30px;
+    height: 24px;
+  }
+}
+
+@media (min-width: 700px) {
+  .bm-menu {
+    width: 30%;
+  }
+}
+
+@media (min-width: 992px) {
+  .bm-menu {
+    width: 25%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .bm-menu {
+    width: 20%;
+  }
+}
+
+.bm-menu-wrap {
+ position: 'fixed';
+ height: 100%;
+}
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+  fill: #373a47;
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+  color: #f2f2f2;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+  width: 100%;
+}
+
+button:focus {
+  outline:0;
+}
+
+.menu-item {
+  outline: none;
+}

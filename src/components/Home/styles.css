@@ -1,0 +1,36 @@
+/* table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 25%;
+} */
+
+td, th {
+  border: 1px solid #dddddd;
+  /* justify-content: center;
+  align-items: center;
+  align-content: center; */
+}
+/* 
+tr:nth-child(even) {
+  background-color: #dddddd;
+} */
+
+.custom-tooltip {
+  background-color: rgba(200, 200, 200, 0.3);;
+  border: 2px solid rgb(210, 210, 210);
+  padding: 0 15px 0 15px;
+}
+
+.label {
+  margin: 5px;
+  font-weight: bolder;
+  font-size: 22px;
+}
+
+.intro, .category-stats {
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  font-size: 18px;
+}

@@ -5,10 +5,10 @@ import { sendAnalytics } from '../../constants/helperFunctions';
 
 const RGVResources = () => {
   return (
-    <div className="press-releases-div">
+    <div>
         <ul className="nobull">
           {
-            RESOURCES.map(({title, url, description}, i) => {
+            RESOURCES.map(({ title, url, description }, i) => {
               return (
                 <li key={i + title}>
                   {description}: <div

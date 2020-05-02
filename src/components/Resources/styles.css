@@ -1,0 +1,8 @@
+.nobull {
+  margin-left: -40px;
+  list-style-type: none;
+}
+
+.App-link {
+  color: #61dafb;
+}
