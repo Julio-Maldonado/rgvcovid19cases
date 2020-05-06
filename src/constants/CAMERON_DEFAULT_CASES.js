@@ -1,4 +1,4 @@
-const DEFAULT_CASES = [
+const CAMERON_DEFAULT_CASES = [
   {
     "Date": "3/18",
     "Count": 0,
@@ -961,4 +961,4 @@ const DEFAULT_CASES = [
   }
 ];
 
-export default DEFAULT_CASES;
+export default CAMERON_DEFAULT_CASES;

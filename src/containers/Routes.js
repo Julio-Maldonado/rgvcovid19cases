@@ -9,11 +9,31 @@ import Resources from './Resources';
 export default () => {
   return (
     <Switch>
-      <Route path="/about" exact component={About} />
-      <Route path="/resources" exact component={Resources} />
-      <Route path="/" component={Home} />
-      <Route path="*" component={Home} />
-      <Route component={Home} />
+      <Route
+        exact
+        path="/about"
+        component={About} 
+      />
+      <Route
+        exact
+        path="/resources"
+        component={Resources} 
+      />
+      <Route
+        path="/cameron"
+        render={props => <Home {...props} county={"Cameron"} />}
+      />
+      <Route
+        path="/hidalgo"
+        render={props => <Home {...props} county={"Hidalgo"} />}
+      />
+      <Route
+        path="*"
+        render={props => <Home {...props} county={"Cameron"} />}
+      />
+      <Route
+        render={props => <Home {...props} county={"Cameron"} />}
+      />
     </Switch>
   );
 };

@@ -11,10 +11,9 @@ import {
 
 import CustomTooltip from './CustomTooltip';
 
-// import {ENDPOINT_MAP} from '../constants/constants';
+import { LINE_COLOR_MAP, GRAPH_COLOR_MAP } from '../../constants/constants';
 
-const CoronaChart = ({ width, height, endpoint, category, coronaData, screenState }) => {
-  // const data = ENDPOINT_MAP[endpoint];
+const CoronaChart = ({ width, height, endpoint, category, coronaData }) => {
   return (
     <LineChart
       className="my-line-chart"
@@ -22,15 +21,14 @@ const CoronaChart = ({ width, height, endpoint, category, coronaData, screenStat
       height={height / 2}
       data={coronaData}
     >
-      <Line isAnimationActive={true} type="monotone" dataKey="Count" stroke="#2B8AC5" strokeWidth={2} activeDot={{ r: 8 }} />
-      <CartesianGrid stroke="#CD0D00" />
+      <Line isAnimationActive={true} type="monotone" dataKey="Count" stroke={LINE_COLOR_MAP[endpoint]} strokeWidth={2} activeDot={{ r: 8 }} />
+      <CartesianGrid stroke={GRAPH_COLOR_MAP[endpoint]} />
       <XAxis
         dataKey="Date"
         scale="auto"
       />
       <YAxis />
       <Tooltip content={<CustomTooltip category={category} endpoint={endpoint}/>} />
-      <Line type="monotone" dataKey="pv" stroke="#387908" yAxisId={1} />
     </LineChart>
   );
 };

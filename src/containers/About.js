@@ -31,13 +31,20 @@ class About extends React.Component {
 
   render() {
     const {width} = this.state;
+    let county = "Cameron";
+    // let endpoint = "cases";
+    if (this.props.location.state) {
+      county = this.props.location.state.county;
+      // endpoint = this.props.location.state.endpoint;
+    }
     return (
       <div className="App">
-        <MyNavBar endpoint="about" linkClick={this.linkClick} aClick={this.aClick}/>
+        <MyNavBar endpoint="about" county={county} linkClick={this.linkClick} aClick={this.aClick}/>
         <div onClick={() => this.setState({isOpen: !this.state.isOpen})}>
           <SideMenu
             right
             width={width}
+            county={county}
             endpoint="about"
             aClick={this.aClick}
             linkClick={this.linkClick}
@@ -48,11 +55,11 @@ class About extends React.Component {
           <h1 id="h1">About This Site</h1>
           <div className="margin-content">
             <br />
-            <p>This website was set up for Cameron County to closely monitor coronavirus cases and see our curve during this pandemic.</p>
+            <p>This website was set up for Cameron County and Hidalgo County to closely monitor coronavirus cases and see our curve during this pandemic.</p>
             <br />
-            <p>All of this data was obtained from the Cameron County official Press Releases listed <Link  onClick={() => this.linkClick("resources", "about")} smooth to="/resources">here</Link>.</p>
+            <p>All of this data was obtained from the Cameron County official Press Releases listed <Link onClick={() => this.linkClick("resources", "about")} smooth to={{ pathname: "/resources", state: { county } }} >here</Link>.</p>
             <br />
-            <p>Future updates will include data for Hidalgo County, Starr County, and Willacy County.</p>
+            <p>Future updates will include data for Starr County and Willacy County.</p>
             <br />
             <p>If you want to contribute to this project, gather data, have ideas for updates, or have inquiries, please email <a href="mailto:julio.maldonado.guzman@gmail.com">julio.maldonado.guzman@gmail.com</a>.</p>
             <br />
@@ -62,17 +69,17 @@ class About extends React.Component {
             <br /> */}
             {/* <FacebookShareButton url="https://julio-maldonado.github.io/rgvcovid19cases/"> */}
             <button className="my-button">
-              <Link onClick={() => this.linkClick("cases", "about")} smooth to="/cases">
+              <Link onClick={() => this.linkClick("cases", "about")} smooth to={`/${county}/cases`}>
                 View Confirmed Cases
               </Link>
             </button>
             <button className="my-button">
-              <Link onClick={() => this.linkClick("recoveries", "about")} smooth to="/recoveries">
+              <Link onClick={() => this.linkClick("recoveries", "about")} smooth to={`/${county}/recoveries`}>
                 View Confirmed Recoveries
               </Link>
             </button>
             <button className="my-button">
-              <Link onClick={() => this.linkClick("deaths", "about")} smooth to="/deaths">
+              <Link onClick={() => this.linkClick("deaths", "about")} smooth to={`/${county}/deaths`}>
                 View Confirmed Deaths
               </Link>
             </button>

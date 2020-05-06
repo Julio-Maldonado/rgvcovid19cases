@@ -11,7 +11,7 @@ import { sendAnalytics, scrollToTop } from '../constants/helperFunctions';
 class Resources extends React.Component {
   state = { width: 0 }
 
-  componentDidMount()  {
+  componentDidMount() {
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
   }
@@ -31,13 +31,20 @@ class Resources extends React.Component {
 
   render() {
     const {width} = this.state;
+    let county = "Cameron";
+    // let endpoint = "cases";
+    if (this.props.location.state) {
+      county = this.props.location.state.county;
+      // endpoint = this.props.location.state.endpoint;
+    }
     return (
       <div className="App">
-        <MyNavBar endpoint="resources" linkClick={this.linkClick} aClick={this.aClick} />
+        <MyNavBar endpoint="resources" county={county} linkClick={this.linkClick} aClick={this.aClick} />
         <div onClick={() => this.setState({isOpen: !this.state.isOpen})}>
           <SideMenu
             right
             width={width}
+            county={county}
             endpoint="resources"
             linkClick={this.linkClick}
             aClick={this.aClick}
@@ -62,6 +69,7 @@ class Resources extends React.Component {
             </p>
           </div>
           <Footer
+            county={county}
             endpoint="resources"
             aClick={this.aClick}
             linkClick={this.linkClick}

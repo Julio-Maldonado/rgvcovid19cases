@@ -1,10 +1,15 @@
 import React from 'react';
 
+import PWAPrompt from 'react-ios-pwa-prompt';
+// import { isMobile, isIOS, } from 'react-device-detect';
+
 import Header from '../components/Home/Header';
 import CoronaChart from '../components/Home/CoronaChart';
-import RefreshButton from '../components/Home/RefreshButton';
-import SideMenu from '../components/utility/SideMenu';
 import TableDisplay from '../components/Home/TableDisplay';
+import RefreshButton from '../components/Home/RefreshButton';
+import CategorySwitch from '../components/Home/CategorySwitch';
+
+import SideMenu from '../components/utility/SideMenu';
 import Footer from '../components/utility/Footer';
 import MyNavBar from '../components/utility/MyNavBar';
 
@@ -25,7 +30,8 @@ import './styles.css';
 
 class Home extends React.Component {
   state = {
-    coronaData: getDefaultCases(this.endpoint),
+    county: this.props.county,
+    coronaData: getDefaultCases(this.endpoint, this.props.county),
     category: "Cities",
     height: 0,
     width: 0,
@@ -67,24 +73,8 @@ class Home extends React.Component {
     this.setState({ width, height })
   }
 
-  justMounted = async () => {
-    sendAnalytics(`Just Mounted`, `Home website was just mounted`);
-    console.log("hey");
-    console.log("if you're reading this");
-    console.log("you should definitely email me at julio.maldonado.guzman@gmail.com to help contribute to this project");
-    let {endpoint} = this.state;
-    let {location} = this.props;
-
-    if (location) {
-      let pathname = location['pathname'];
-      pathname = pathname.substr(1);
-
-      if (pathname in ENDPOINT_MAP) endpoint = pathname;
-      else if (!(endpoint in ENDPOINT_MAP)) endpoint = "cases";
-      else endpoint = "cases";
-    }
-    this.getLatestConfirmedCases(endpoint);
-    const usefulData = await getUsefulData();
+  getLatestUsefulData = async (county) => {
+    const usefulData = await getUsefulData(county);
 
     this.setState({
       casesCount: usefulData['cases']['count'] - 1,
@@ -102,12 +92,37 @@ class Home extends React.Component {
     });
   }
 
-  getLatestConfirmedCases = async(endpoint) => {
-    sendAnalytics(`Getting Latest ${endpoint} Data`, `User requesting latest data for ${endpoint} from ${this.state.endpoint} page`);
+  justMounted = async () => {
+    sendAnalytics(`Just Mounted`, `Home website was just mounted`);
+    console.log("hey");
+    console.log("if you're reading this");
+    console.log("you should definitely email me at julio.maldonado.guzman@gmail.com to help contribute to this project");
+    let {endpoint} = this.state;
+    let {location} = this.props;
+    
+
+    if (location) {
+      let pathname = location['pathname'];
+      pathname = pathname.substr(1).split("/")[1];
+
+      if (pathname in ENDPOINT_MAP) endpoint = pathname;
+      else if (!(endpoint in ENDPOINT_MAP)) endpoint = "cases";
+      else endpoint = "cases";
+    }
+    
+    this.getLatestConfirmedCases(endpoint, this.state.county);
+    this.getLatestUsefulData(this.state.county);
+  }
+
+  getLatestConfirmedCases = async(endpoint, county) => {
+    sendAnalytics(`Getting Latest ${endpoint} Data`, `User requesting latest ${county} data for ${endpoint} from ${this.state.endpoint} page`);
     if (!endpoint) endpoint = "cases"
     else this.updateEndpoint(endpoint);
 
-    const cameronCountyCoronaData = await getCameronCountyCoronaData(endpoint);
+    if (!county) county = this.state.county;
+
+    const cameronCountyCoronaData = await getCameronCountyCoronaData(endpoint, county);
+    this.routeSite(county, endpoint);
     this.setState({ coronaData: cameronCountyCoronaData });
     scrollToTop();
   }
@@ -125,27 +140,45 @@ class Home extends React.Component {
 
   navigateSideMenu = () => { this.setState({isOpen: !this.state.isOpen}); }
 
-  aClick = (endpoint, prevEndpoint) => {
-    sendAnalytics(`A Click Nagivation`, `User navigated to ${endpoint} from ${prevEndpoint}`);
+  aClick = (endpoint, prevEndpoint, county) => {
+    sendAnalytics(`A Click Nagivation`, `User navigated to ${endpoint} from ${prevEndpoint} for ${county}`);
     if (
       this.state.isOpen &&
       this.endpoint === this.props.location['pathname'].substr(1) &&
       endpoint !== this.state.endpoint &&
       endpoint in ENDPOINT_MAP
     ) {
-      this.getLatestConfirmedCases(endpoint);
+      this.getLatestConfirmedCases(endpoint, this.state.county);
       scrollToTop();
     }
   }
 
-  linkClick = (endpoint, prevEndpoint) => {
-    sendAnalytics(`Link Click Navigation`, `User navigated to ${endpoint} from ${prevEndpoint}`);
-    if (endpoint in ENDPOINT_MAP) this.getLatestConfirmedCases(endpoint);
+  linkClick = (endpoint, prevEndpoint, county) => {
+    sendAnalytics(`Link Click Navigation`, `User navigated to ${endpoint} from ${prevEndpoint} for ${county}`);
+    if (endpoint in ENDPOINT_MAP) this.getLatestConfirmedCases(endpoint, this.state.county);
     scrollToTop();
   }
 
+  handleAddToHomescreenClick = () => {
+    alert(`
+      1. Open Share menu
+      2. Tap on "Add to Home Screen" button`
+    );
+  };
+
+  updateCounty = (county) => {
+    this.setState({ county });
+    this.getLatestConfirmedCases(this.state.endpoint, county);
+    this.getLatestUsefulData(county);
+    this.props.history.push(`/${county}`);
+    sendAnalytics("Update County", `User pressed the ${county} from ${this.state.endpoint} page`);
+  }
+
+  routeSite = (county, endpoint) => this.props.history.push(`/${county}/${endpoint}`);
+
   render() {
-    const { coronaData, category, width, endpoint } = this.state;
+    let { county, endpoint } = this.state;
+    const { coronaData, category, width } = this.state;
     const {
       casesCount,
       cityCasesData,
@@ -181,13 +214,20 @@ class Home extends React.Component {
 
     const screenState = determineScreenState(width);
     this.endpoint = this.props.location['pathname'].substr(1);
+
+    if (this.props.location['pathname'].substr(1) === "home") {
+      county = "cameron";
+      endpoint = "cases";
+    }
+
     return (
       <div className="App">
-        <MyNavBar endpoint={endpoint} linkClick={this.linkClick} aClick={this.aClick}/>
+        <MyNavBar county={county} endpoint={endpoint} linkClick={this.linkClick} aClick={this.aClick}/>
         <div onClick={() => this.navigateSideMenu()}>
           <SideMenu
             right
             width={width}
+            county={county}
             endpoint={endpoint}
             aClick={this.aClick}
             linkClick={this.linkClick}
@@ -196,14 +236,15 @@ class Home extends React.Component {
         </div>
         <div className="App-content">
           <Header
+            county={county}
             endpoint={endpoint}
-            category={category}
-            updateCategory={this.updateCategory}
+            updateCounty={this.updateCounty}
           />
           <CoronaChart
             width={width}
             height={height}
             category={category}
+            county={county}
             endpoint={endpoint}
             coronaData={coronaData}
             screenState={screenState}
@@ -237,17 +278,15 @@ class Home extends React.Component {
               <p>Confirmed Recoveries: {recoveriesCount}</p>
               : null
           }
-          {/* <div>
-            <i id="i">Select a category to view:{` `}</i>
-            <select id="select" value={category} onChange={e => this.updateCategory(e.target.value)}>
-              <option value="Cities">Cities</option>
-              <option value="Ages">Ages</option>
-              <option value="Gender">Gender</option>
-              <option value="Transmission">Transmission</option>
-            </select>
-          </div>
-          < br/> */}
+          <CategorySwitch
+            category={category}
+            county={county}
+            endpoint={endpoint}
+            updateCategory={this.updateCategory}
+          />
+          < br/>
           <RefreshButton
+            county={county}
             endpoint={endpoint}
             aClick={this.aClick}
             linkClick={this.linkClick}
@@ -260,10 +299,12 @@ class Home extends React.Component {
             </p>
           </div>
           <Footer
+            county={county}
             endpoint={endpoint}
             aClick={this.aClick}
             linkClick={this.linkClick}
           />
+          <PWAPrompt delay={10000} />
         </div>
       </div>
     );
