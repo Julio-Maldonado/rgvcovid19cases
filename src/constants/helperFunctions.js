@@ -104,14 +104,17 @@ const getCameronCountyCoronaData = async(data, county) => {
     alert('There was an error getting the latest data. Please try refreshing the page later.')
     return getDefaultCases(data, county);
   }
-
+  console.log({cameronCountyData})
   cameronCountyData = cameronCountyData['cases'];
   cameronCountyData.forEach(data => {
     const date = data["date"].substr(1, 4);
     if (!(date in coronaMap)) coronaMap[date] = {}
 
     updateCount(coronaMap[date], "count")
-    for (let d in data) updateCount(coronaMap[date], getAgeRangeIfValueIsNumber(data[d]))
+    for (let d in data) {
+      if (d === "county") coronaMap[date]["county"] = data[d];
+      else updateCount(coronaMap[date], getAgeRangeIfValueIsNumber(data[d]));
+    }
   })
 
   if (Object.keys(coronaMap).length === 0) {
@@ -142,6 +145,7 @@ const getCameronCountyCoronaData = async(data, county) => {
       coronaMap["4/07"]["count"] = 0;
       delete coronaMap["4/07"]["0"];
     }
+    console.log({coronaMap})
   }
 
   let cameronCountyCoronaData = Object.keys(coronaMap).sort().map(key => {
@@ -199,8 +203,8 @@ const getCameronCountyCoronaData = async(data, county) => {
 
 const getCoronaCases = async(endpoint, county) => {
   try {
-    // const resp = await fetch(`https://rgvcovid19backend.herokuapp.com/${endpoint}/${county}`, {
-    const resp = await fetch(`http://localhost:7555/${endpoint}/${county}`, {
+    const resp = await fetch(`https://rgvcovid19backend.herokuapp.com/${endpoint}/${county}`, {
+    // const resp = await fetch(`http://localhost:7555/${endpoint}/${county}`, {
       mode: 'cors',
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
