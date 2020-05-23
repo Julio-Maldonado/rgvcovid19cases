@@ -8,6 +8,14 @@ import { scrollToTop } from '../../constants/helperFunctions';
 const SideMenu = props => {
   return (
     <Menu isOpen={props.isOpen} {...props}>
+      <Link onClick={() => props.linkClick("home", props.endpoint, props.county)} smooth to={`/home`} className="menu-item">
+        Home
+      </Link>
+      <br />
+      <Link onClick={() => props.linkClick("active", props.endpoint, props.county)} smooth to={`/${props.county}/active`} className="menu-item">
+        Active
+      </Link>
+      <br />
       <Link onClick={() => props.linkClick("cases", props.endpoint, props.county)} smooth to={`/${props.county}/cases`} className="menu-item">
         Cases
       </Link>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const CategorySwitch = ({ category, county, endpoint, updateCategory }) => {
-  if (county === "Hidalgo" && endpoint === "recoveries") return null;
+  if (county === "Hidalgo" && (endpoint === "recoveries" || endpoint === "active")) return null;
   
   return (
     <div>

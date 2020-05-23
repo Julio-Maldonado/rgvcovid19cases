@@ -4,9 +4,13 @@
   text-align: center;
   background-color: #282c34;
   color: white;
+  margin: 0;
+  padding: 0;
 }
 
 .App-content {
+  margin: 0;
+  padding: 0;
   background-color: #282c34;
   min-height: 100vh;
   padding-top: 15vh;

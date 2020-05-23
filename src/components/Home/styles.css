@@ -24,7 +24,6 @@ tr:nth-child(even) {
 .label {
   margin: 5px;
   font-weight: bolder;
-  font-size: 22px;
 }
 
 .intro, .category-stats {
@@ -32,5 +31,4 @@ tr:nth-child(even) {
   margin: 0;
   padding: 0;
   text-align: left;
-  font-size: 18px;
 }

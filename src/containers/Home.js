@@ -1,7 +1,6 @@
 import React from 'react';
 
 import PWAPrompt from 'react-ios-pwa-prompt';
-// import { isMobile, isIOS, } from 'react-device-detect';
 
 import Header from '../components/Home/Header';
 import CoronaChart from '../components/Home/CoronaChart';
@@ -14,8 +13,9 @@ import Footer from '../components/utility/Footer';
 import MyNavBar from '../components/utility/MyNavBar';
 
 import {
+  getDatesObj,
   getUsefulData,
-  getCameronCountyCoronaData,
+  getCoronaData,
   determineScreenState,
   shallowCompare,
   compare,
@@ -41,12 +41,16 @@ class Home extends React.Component {
   screenIsSuperLong = false; // not iphone X or 11
 
   componentDidMount() {
-    this.updateEndpoint(this.props.location['pathname'].substr(1));
-    setTimeout(this.justMounted, 1000);
-    this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
+
+    this.updateWindowDimensions();
+    this.updateStateEndpoint(this.props.location['pathname'].substr(1));
+
+    setTimeout(this.justMounted, 1000);
+
     if (this.checkScreenSize()) this.screenIsSuperLong = true;
     else this.screenIsSuperLong = false;
+
     setTimeout(this.updateWindowDimensions, 1000);
   }
 
@@ -58,7 +62,7 @@ class Home extends React.Component {
     return false;
   }
 
-  updateEndpoint = (endpoint) => { endpoint in ENDPOINT_MAP ? this.setState({ endpoint }): this.setState({ endpoint: 'cases'}); };
+  updateStateEndpoint = (endpoint) => { endpoint in ENDPOINT_MAP ? this.setState({ endpoint }): this.setState({ endpoint: 'active'}); };
 
   componentWillUnmount() { window.removeEventListener('resize', this.updateWindowDimensions); }
 
@@ -94,37 +98,121 @@ class Home extends React.Component {
 
   justMounted = async () => {
     sendAnalytics(`Just Mounted`, `Home website was just mounted`);
+
     console.log("hey");
     console.log("if you're reading this");
     console.log("you should definitely email me at julio.maldonado.guzman@gmail.com to help contribute to this project");
-    let {endpoint} = this.state;
-    let {location} = this.props;
-    
+
+    let { endpoint } = this.state;
+    let { location } = this.props;
 
     if (location) {
-      let pathname = location['pathname'];
-      pathname = pathname.substr(1).split("/")[1];
+      const urlPaths = this.props.location['pathname'].substr(1).split("/");
+      let pathname = "";
+      if (urlPaths.length === 1) pathname = "active";
+      else pathname = urlPaths[1];
 
       if (pathname in ENDPOINT_MAP) endpoint = pathname;
-      else if (!(endpoint in ENDPOINT_MAP)) endpoint = "cases";
-      else endpoint = "cases";
+      else if (!(endpoint in ENDPOINT_MAP)) endpoint = "active";
+      else endpoint = "active";
     }
-    
-    this.getLatestConfirmedCases(endpoint, this.state.county);
-    this.getLatestUsefulData(this.state.county);
+
+    if (endpoint === "active") {
+      this.routeSite(this.state.county, endpoint);
+      this.setActiveCases(this.state.county);
+      this.getLatestUsefulData(this.state.county);
+      scrollToTop();
+    } else {
+      this.routeSite(this.state.county, endpoint);
+      const coronaData = await this.getLatestCoronaData(endpoint, this.state.county);
+      this.setState({ coronaData });
+      scrollToTop();
+      this.getLatestUsefulData(this.state.county);
+    }
   }
 
-  getLatestConfirmedCases = async(endpoint, county) => {
+  setActiveCases = async (county) => {
+    const [cases, deaths, recoveries] = await Promise.all([
+      this.getLatestCoronaData("cases", county),
+      this.getLatestCoronaData("deaths", county),
+      this.getLatestCoronaData("recoveries", county)
+    ]);
+
+    let totalCases = 0;
+    let firstDay = 18;
+    if (county === "Hidalgo" || county === "hidalgo")
+      firstDay = 20;
+
+    let activeCases = getDatesObj(new Date(2020,2,firstDay,0,0,0,0), new Date());
+
+    cases.forEach((c, i) => {
+      if (i !== 0) totalCases += cases[i - 1]["Count"];
+      activeCases[c["Date"]] = {"cases": c["Count"], "activeCases": c["Count"] + totalCases};
+    });
+
+    recoveries.forEach((recovery, i) => {
+      if (recovery["Date"] in activeCases) {
+        activeCases[recovery["Date"]]["recoveries"] = recovery["Count"];
+        let flag = false;
+        Object.keys(activeCases).forEach(activeCaseDate => {
+          if (!flag && recovery["Date"] === activeCaseDate) flag = true;
+          if (flag) activeCases[activeCaseDate]["activeCases"] -= recoveries[i]["Count"];
+        })
+      }
+    });
+
+    deaths.forEach((death, i) => {
+      if (death["Date"] in activeCases) {
+        activeCases[death["Date"]]["deaths"] = death["Count"];
+        let flag = false;
+        Object.keys(activeCases).forEach(activeCaseDate => {
+          if (!flag && death["Date"] === activeCaseDate) flag = true;
+          if (flag) activeCases[activeCaseDate]["activeCases"] -= deaths[i]["Count"];
+        })
+      }
+    });
+
+    let coronaData = Object.keys(activeCases).sort().map((key, i) => {
+      let currentDay = activeCases[key];
+      let dateArr = key.split("/");
+      let prevDay =  parseInt(dateArr[1]) - 1;
+      if (prevDay < 10)
+        prevDay = "0" + prevDay;
+      let prevDate = `${dateArr[0]}/${prevDay}`
+      if (Object.keys(currentDay).length === 0) {
+        currentDay["activeCases"] = activeCases[prevDate]["activeCases"];
+        currentDay["cases"] = currentDay["deaths"] = currentDay["recoveries"] = 0;
+      }
+
+      let count = currentDay["activeCases"];
+      let cases = currentDay["cases"];
+      let deaths = currentDay["deaths"];
+      let recoveries = currentDay["recoveries"];
+      if (i !== 0) {
+        if (isNaN(count)) {
+          currentDay["activeCases"] = activeCases[prevDate]["activeCases"];
+          count = currentDay["activeCases"];
+        }
+      }
+      return {
+        "Date": key,
+        "Count": count,
+        "Cases": "cases" in currentDay ? cases : 0,
+        "Deaths": "deaths" in currentDay ? deaths : 0,
+        "Recoveries": "recoveries" in currentDay ? recoveries : 0,
+      }
+    })
+    this.setState({ coronaData });
+  }
+
+  getLatestCoronaData = async(endpoint, county) => {
     sendAnalytics(`Getting Latest ${endpoint} Data`, `User requesting latest ${county} data for ${endpoint} from ${this.state.endpoint} page`);
-    if (!endpoint) endpoint = "cases"
-    else this.updateEndpoint(endpoint);
+
+    if (!endpoint) endpoint = "active"
 
     if (!county) county = this.state.county;
-
-    const cameronCountyCoronaData = await getCameronCountyCoronaData(endpoint, county);
-    this.routeSite(county, endpoint);
-    this.setState({ coronaData: cameronCountyCoronaData });
-    scrollToTop();
+    const coronaData = await getCoronaData(endpoint, county);
+    return coronaData;
   }
 
   updateCategory = (category) => {
@@ -140,7 +228,7 @@ class Home extends React.Component {
 
   navigateSideMenu = () => { this.setState({isOpen: !this.state.isOpen}); }
 
-  aClick = (endpoint, prevEndpoint, county) => {
+  aClick = async (endpoint, prevEndpoint, county) => {
     sendAnalytics(`A Click Nagivation`, `User navigated to ${endpoint} from ${prevEndpoint} for ${county}`);
     if (
       this.state.isOpen &&
@@ -148,30 +236,60 @@ class Home extends React.Component {
       endpoint !== this.state.endpoint &&
       endpoint in ENDPOINT_MAP
     ) {
-      this.getLatestConfirmedCases(endpoint, this.state.county);
+      if (endpoint) this.updateStateEndpoint(endpoint);
+      this.routeSite(county, endpoint);
+      const coronaData = await this.getLatestCoronaData(endpoint, this.state.county);
+      this.setState({ coronaData });
       scrollToTop();
     }
   }
 
-  linkClick = (endpoint, prevEndpoint, county) => {
+  linkClick = async (endpoint, prevEndpoint, county) => {
     sendAnalytics(`Link Click Navigation`, `User navigated to ${endpoint} from ${prevEndpoint} for ${county}`);
-    if (endpoint in ENDPOINT_MAP) this.getLatestConfirmedCases(endpoint, this.state.county);
+    if (endpoint in ENDPOINT_MAP) {
+      if (endpoint) this.updateStateEndpoint(endpoint);
+      this.routeSite(county, endpoint);
+      if (endpoint === "active") this.setActiveCases(county);
+      else {
+        const coronaData = await this.getLatestCoronaData(endpoint, this.state.county);
+        this.setState({ coronaData });
+      }
+    }
     scrollToTop();
   }
 
-  handleAddToHomescreenClick = () => {
-    alert(`
-      1. Open Share menu
-      2. Tap on "Add to Home Screen" button`
-    );
-  };
-
-  updateCounty = (county) => {
+  updateCounty = async (county) => {
+    sendAnalytics(`Update County`, `User updating to ${county}`);
     this.setState({ county });
-    this.getLatestConfirmedCases(this.state.endpoint, county);
-    this.getLatestUsefulData(county);
-    this.props.history.push(`/${county}`);
-    sendAnalytics("Update County", `User pressed the ${county} from ${this.state.endpoint} page`);
+    if (this.state.endpoint) this.updateStateEndpoint(this.state.endpoint);
+    this.routeSite(county, this.state.endpoint);
+    if (this.state.endpoint === "active"){
+      this.setActiveCases(county);
+      this.getLatestUsefulData(county);
+      scrollToTop();
+    } else {
+      const coronaData = await this.getLatestCoronaData(this.state.endpoint, county);
+      this.setState({ coronaData });
+      scrollToTop();
+      this.getLatestUsefulData(county);
+      this.props.history.push(`/${county}`);
+      sendAnalytics("Update County", `User pressed the ${county} from ${this.state.endpoint} page`);
+    }
+  }
+
+  refreshData = async(endpoint, county) => {
+    sendAnalytics(`User Clicked Refresh Button`, `User requested ${endpoint} data for ${county}`);
+    this.routeSite(county, endpoint);
+    this.updateStateEndpoint(endpoint);
+    if (endpoint === "active") {
+      this.setActiveCases(county);
+      this.getLatestUsefulData(county);
+      scrollToTop();
+    } else {
+      const coronaData = await this.getLatestCoronaData(endpoint, county);
+      this.setState({ coronaData });
+      scrollToTop();
+    }
   }
 
   routeSite = (county, endpoint) => this.props.history.push(`/${county}/${endpoint}`);
@@ -213,12 +331,9 @@ class Home extends React.Component {
     if (this.screenIsSuperLong) height = height * 0.8
 
     const screenState = determineScreenState(width);
-    this.endpoint = this.props.location['pathname'].substr(1);
-
-    if (this.props.location['pathname'].substr(1) === "home") {
-      county = "cameron";
-      endpoint = "cases";
-    }
+    const urlPaths = this.props.location['pathname'].substr(1).split("/");
+    if (urlPaths.length === 1) { this.endpoint = "active"; county = this.state.county; }
+    else this.endpoint = urlPaths[1];
 
     return (
       <div className="App">
@@ -254,6 +369,15 @@ class Home extends React.Component {
               <div>
                 <p>Recovery rate: {(recoveriesCount / casesCount * 100).toFixed(1)}%</p>
                 <p>Death rate: {(deathsCount / casesCount * 100).toFixed(1)}%</p>
+                <p>Active cases: {casesCount - recoveriesCount}</p>
+              </div>
+            : null
+          }
+          {
+            endpoint === "active" ?
+              <div>
+                <p>Total Recoveries: {recoveriesCount}</p>
+                <p>Total Deaths: {deathsCount}</p>
               </div>
             : null
           }
@@ -290,7 +414,7 @@ class Home extends React.Component {
             endpoint={endpoint}
             aClick={this.aClick}
             linkClick={this.linkClick}
-            refreshData={this.getLatestConfirmedCases}
+            refreshData={this.refreshData}
           />
           <p>How has the RGV responded to COVID-19? How can we recover? How can we open up again?</p>
           <div onClick={() => sendAnalytics(`Clicking Survey Link`, `User pressed survey link from ${endpoint} page`)}>

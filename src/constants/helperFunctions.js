@@ -19,6 +19,37 @@ const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
 const getUsefulData = (county) => { return getCoronaCases("getUsefulStats", county); }
 
+// eslint-disable-next-line no-extend-native
+Date.prototype.addDays = function(days) {
+  var date = new Date(this.valueOf());
+  date.setDate(date.getDate() + days);
+  return date;
+};
+
+const getDatesArr = (startDate, stopDate) => {
+  let dateArray = [];
+  let currentDate = startDate;
+  const dateTimeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'numeric', day: '2-digit' });
+  while (currentDate <= stopDate) {
+    let date = dateTimeFormat.formatToParts(new Date(currentDate))
+    dateArray.push(`${date[0]['value']}/${date[2]['value']}`);
+    currentDate = currentDate.addDays(1);
+  }
+  return dateArray;
+}
+
+const getDatesObj = (startDate, stopDate) => {
+  let dateObject = {};
+  let currentDate = startDate;
+  const dateTimeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'numeric', day: '2-digit' });
+  while (currentDate <= stopDate) {
+    let date = dateTimeFormat.formatToParts(new Date(currentDate))
+    dateObject[`${date[0]['value']}/${date[2]['value']}`] = {};
+    currentDate = currentDate.addDays(1);
+  }
+  return dateObject;
+}
+
 const getEndpoint = (endpoint) => {
   if (endpoint === "cases") return "getRGVCoronaCases";
   else if (endpoint === "deaths") return "getRGVCoronaDeaths";
@@ -92,63 +123,79 @@ const shallowCompare = (instance, nextProps, nextState) =>{
   );
 }
 
-const getCameronCountyCoronaData = async(data, county) => {
+const getCoronaData = async(endpoint, county) => {
   let coronaMap = {};
-  let endpoint = getEndpoint(data);
-  let cameronCountyData = await getCoronaCases(endpoint, county);
+  let backendEndpoint = getEndpoint(endpoint);
+  let cameronCountyData = await getCoronaCases(backendEndpoint, county);
 
   if (cameronCountyData['status'] !== 200) {
-    sendAnalytics(`Error Retrieving${endpoint} Data`, `${cameronCountyData['status']} error from ${JSON.stringify(cameronCountyData)}`);
+    sendAnalytics(`Error Retrieving${backendEndpoint} Data`, `${cameronCountyData['status']} error from ${JSON.stringify(cameronCountyData)}`);
     console.error('api call failed');
     console.error({ cameronCountyData });
     alert('There was an error getting the latest data. Please try refreshing the page later.')
-    return getDefaultCases(data, county);
+    return getDefaultCases(endpoint, county);
   }
-  console.log({cameronCountyData})
+  // {
+  //   age: null,
+  //   city: "",
+  //   county: "Hidalgo",
+  //   date: "04/23/2020",
+  //   gender: "",
+  //   transmission: ""
+  // }
+
   cameronCountyData = cameronCountyData['cases'];
+
+  let coronaMap2 = {};
   cameronCountyData.forEach(data => {
     const date = data["date"].substr(1, 4);
-    if (!(date in coronaMap)) coronaMap[date] = {}
+    if (!(date in coronaMap)) coronaMap[date] = {};
+    if (!(date in coronaMap2)) coronaMap2[date] = {};
 
-    updateCount(coronaMap[date], "count")
+    updateCount(coronaMap[date], "count");
     for (let d in data) {
       if (d === "county") coronaMap[date]["county"] = data[d];
       else updateCount(coronaMap[date], getAgeRangeIfValueIsNumber(data[d]));
     }
+    updateCount(coronaMap2[date], "count");
+    for (let d in data) {
+      if (d === "county") coronaMap2[date]["county"] = data[d];
+      else updateCount(coronaMap2[date], getAgeRangeIfValueIsNumber(data[d]));
+    }
   })
 
   if (Object.keys(coronaMap).length === 0) {
-    return getDefaultCases(data, county);
+    return getDefaultCases(endpoint, county);
   }
 
   if (county.toLowerCase() === "cameron") {
-    if (endpoint === "getRGVCoronaCases") {
+    if (backendEndpoint === "getRGVCoronaCases") {
       coronaMap["3/18"]["count"] = 0;
       delete coronaMap["3/18"]["0"];
-    } else if (endpoint === "getRGVCoronaDeaths") {
+    } else if (backendEndpoint === "getRGVCoronaDeaths") {
       coronaMap["4/05"]["count"] = 0;
       delete coronaMap["4/05"]["0"];
-    } else if (endpoint === "getRGVRecoveredCases") {
+    } else if (backendEndpoint === "getRGVRecoveredCases") {
       coronaMap["4/02"]["count"] = 0;
       delete coronaMap["4/02"]["0"];
     }
   }
 
   if (county.toLowerCase() === "hidalgo") {
-    if (endpoint === "getRGVCoronaCases") {
+    if (backendEndpoint === "getRGVCoronaCases") {
       coronaMap["3/20"]["count"] = 0;
       delete coronaMap["3/20"]["0"];
-    } else if (endpoint === "getRGVCoronaDeaths") {
+    } else if (backendEndpoint === "getRGVCoronaDeaths") {
       coronaMap["4/06"]["count"] = 0;
       delete coronaMap["4/06"]["0"];
-    } else if (endpoint === "getRGVRecoveredCases") {
+    } else if (backendEndpoint === "getRGVRecoveredCases") {
       coronaMap["4/07"]["count"] = 0;
       delete coronaMap["4/07"]["0"];
     }
-    console.log({coronaMap})
   }
 
   let cameronCountyCoronaData = Object.keys(coronaMap).sort().map(key => {
+    // console.log(coronaMap[key]);
     return {
       "Date": key,
       "Count": getCount(coronaMap[key], "count"),
@@ -180,6 +227,7 @@ const getCameronCountyCoronaData = async(data, county) => {
         "Laguna Vista": getCount(coronaMap[key], "Laguna Vista"),
         "Santa Rosa": getCount(coronaMap[key], "Santa Rosa"),
         "Port Isabel": getCount(coronaMap[key], "Port Isabel"),
+        "Palm Valley": getCount(coronaMap[key], "Palm Valley"),
         // Hidalgo
         "Hidalgo": getCount(coronaMap[key], "Hidalgo"),
         "Edcouch": getCount(coronaMap[key], "Edcouch"),
@@ -218,8 +266,10 @@ const getCoronaCases = async(endpoint, county) => {
 }
 
 export {
+  getDatesArr,
+  getDatesObj,
   shallowCompare,
-  getCameronCountyCoronaData,
+  getCoronaData,
   determineScreenState,
   getUsefulData,
   compare,

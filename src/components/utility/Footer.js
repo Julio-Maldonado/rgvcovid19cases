@@ -11,6 +11,7 @@ const Footer = ({ county, linkClick, endpoint }) => {
         This site will be updated immediately after every Press Release with the latest data.
       </p>
       <br />
+      <p>This website is maintained and updated daily by <a rel="noopener noreferrer" target="_blank" href="https://juliomaldonado.com">Julio Maldonado</a>.</p>
       <Link
         smooth
         className="menu-item"

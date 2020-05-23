@@ -249,7 +249,9 @@ const RESOURCES = [
 const ENDPOINT_MAP = {
   "cases": "Cases",
   "deaths": "Deaths",
-  "recoveries": "Recoveries"
+  "recoveries": "Recoveries",
+  "active": "Active Cases",
+  "home": "home",
 }
 
 const ENDPOINT_SINGULAR_MAP = {
@@ -266,15 +268,20 @@ const CATEGORY_MAP = {
 }
 
 const LINE_COLOR_MAP = {
+  "active": "#2B8AC5",
   "recoveries": "#2E8B57",
   "deaths": "#000",
   "cases": "#2B8AC5",
+  "hidalgo": "#2B8AC5",
+  "cameron": "#2E8B57",
 }
 
 const GRAPH_COLOR_MAP = {
+  "active": "#CD0D00",
   "recoveries": "#fff",
   "deaths": "#9B3133",
   "cases": "#CD0D00",
+  "home": "grey"
 }
 
 export {
