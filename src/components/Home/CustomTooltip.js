@@ -113,7 +113,7 @@ const CustomTooltip = ({ payload, label, active, category, endpoint, width }) =>
       } else {
         return (
           <div className="custom-tooltip">
-            <p className="label">Active Cases in the RGV: {payload.value + payload['payload']['CountHidalgo'] + payload['payload']['CountStarr'] + payload['payload']['CountWillacy']}</p>
+            <p className="label">{label}: Active Cases in the RGV: {payload.value + payload['payload']['CountHidalgo'] + payload['payload']['CountStarr'] + payload['payload']['CountWillacy']}</p>
             <p className="category-stats">Cameron: {payload.value}</p>
             <p className="category-stats">Hidalgo: {payload['payload']['CountHidalgo']}</p>
             <p className="category-stats">Starr: {payload['payload']['CountStarr']}</p>

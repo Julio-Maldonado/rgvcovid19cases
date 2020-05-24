@@ -317,10 +317,153 @@ const getCoronaData = async(endpoint, county) => {
   return countyCoronaData;
 }
 
+const getAllLatestCases = async() => {
+  const defaultData = true;
+  let [cameronData, hidalgoData, starrData, willacyData] = await Promise.all([
+    getActiveCases("cameron", defaultData),
+    getActiveCases("hidalgo", defaultData),
+    getActiveCases("starr", defaultData),
+    getActiveCases("willacy", defaultData)
+  ]);
+
+  // console.log({cameronData})
+  // console.log({hidalgoData})
+  // console.log({starrData})
+  // console.log({willacyData})
+
+  hidalgoData.unshift({Date: "3/19", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+  hidalgoData.unshift({Date: "3/18", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+
+  starrData.unshift({Date: "3/24", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+  starrData.unshift({Date: "3/23", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+  starrData.unshift({Date: "3/22", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+  starrData.unshift({Date: "3/21", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+  starrData.unshift({Date: "3/20", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+  starrData.unshift({Date: "3/19", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+  starrData.unshift({Date: "3/18", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+
+  willacyData.unshift({Date: "3/24", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+  willacyData.unshift({Date: "3/23", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+  willacyData.unshift({Date: "3/22", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+  willacyData.unshift({Date: "3/21", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+  willacyData.unshift({Date: "3/20", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+  willacyData.unshift({Date: "3/19", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+  willacyData.unshift({Date: "3/18", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+
+  hidalgoData.forEach((data, i) => {
+    cameronData[i]["CountHidalgo"] = data['Count'];
+    cameronData[i]["CasesHidalgo"] = data['Cases'];
+    cameronData[i]["DeathsHidalgo"] = data['Deaths'];
+    cameronData[i]["RecoveriesHidalgo"] = data['Recoveries'];
+  })
+
+  starrData.forEach((data, i) => {
+    cameronData[i]["CountStarr"] = data['Count'];
+    cameronData[i]["CasesStarr"] = data['Cases'];
+    cameronData[i]["DeathsStarr"] = data['Deaths'];
+    cameronData[i]["RecoveriesStarr"] = data['Recoveries'];
+  })
+
+  willacyData.forEach((data, i) => {
+    cameronData[i]["CountWillacy"] = data['Count'];
+    cameronData[i]["CasesWillacy"] = data['Cases'];
+    cameronData[i]["DeathsWillacy"] = data['Deaths'];
+    cameronData[i]["RecoveriesWillacy"] = data['Recoveries'];
+  })
+
+  return cameronData;
+}
+
+const getActiveCases = async (county, defaultData = true) => {
+  if (defaultData) return getDefaultActiveCases(county);
+  const [cases, deaths, recoveries] = await Promise.all([
+    this.getLatestCoronaData("cases", county),
+    this.getLatestCoronaData("deaths", county),
+    this.getLatestCoronaData("recoveries", county)
+  ]);
+
+  let totalCases = 0;
+  let firstDay = 18;
+  if (county === "Hidalgo" || county === "hidalgo") firstDay = 20;
+  if (county === "Starr" || county === "starr") firstDay = 25;
+  if (county === "Willacy" || county === "willacy") firstDay = 25;
+
+  let activeCases = getDatesObj(new Date(2020,2,firstDay,0,0,0,0), new Date());
+
+  cases.forEach((c, i) => {
+    if (i !== 0) totalCases += cases[i - 1]["Count"];
+    activeCases[c["Date"]] = {"cases": c["Count"], "activeCases": c["Count"] + totalCases};
+  });
+
+  recoveries.forEach((recovery, i) => {
+    if (recovery["Date"] in activeCases) {
+      activeCases[recovery["Date"]]["recoveries"] = recovery["Count"];
+      let flag = false;
+      Object.keys(activeCases).forEach(activeCaseDate => {
+        if (!flag && recovery["Date"] === activeCaseDate) flag = true;
+        if (flag) activeCases[activeCaseDate]["activeCases"] -= recoveries[i]["Count"];
+      })
+    }
+  });
+
+  deaths.forEach((death, i) => {
+    if (death["Date"] in activeCases) {
+      activeCases[death["Date"]]["deaths"] = death["Count"];
+      let flag = false;
+      Object.keys(activeCases).forEach(activeCaseDate => {
+        if (!flag && death["Date"] === activeCaseDate) flag = true;
+        if (flag) activeCases[activeCaseDate]["activeCases"] -= deaths[i]["Count"];
+      })
+    }
+  });
+
+  let coronaData = Object.keys(activeCases).sort().map((key, i) => {
+    let currentDay = activeCases[key];
+    let dateArr = key.split("/");
+    let currMonth = parseInt(dateArr[0]);
+    let currDay = parseInt(dateArr[1]);
+    let prevDay = currDay - 1;
+    if ((currMonth === 4 || currMonth === 6) && currDay === 1) {
+      currMonth -= 1;
+      prevDay = 31;
+    } else if (currMonth === 5 && currDay === 1) {
+      currMonth -= 1;
+      prevDay = 30;
+    }
+
+    if (prevDay < 10)
+      prevDay = "0" + prevDay;
+    let prevDate = `${currMonth}/${prevDay}`
+    if (Object.keys(currentDay).length === 0) {
+      currentDay["activeCases"] = activeCases[prevDate]["activeCases"];
+      currentDay["cases"] = currentDay["deaths"] = currentDay["recoveries"] = 0;
+    }
+
+    let count = currentDay["activeCases"];
+    let cases = currentDay["cases"];
+    let deaths = currentDay["deaths"];
+    let recoveries = currentDay["recoveries"];
+    if (i !== 0) {
+      if (isNaN(count)) {
+        currentDay["activeCases"] = activeCases[prevDate]["activeCases"];
+        count = currentDay["activeCases"];
+      }
+    }
+    return {
+      "Date": key,
+      "Count": count,
+      "Cases": "cases" in currentDay ? cases : 0,
+      "Deaths": "deaths" in currentDay ? deaths : 0,
+      "Recoveries": "recoveries" in currentDay ? recoveries : 0,
+    }
+  })
+  return coronaData;
+}
+
 const getCoronaCases = async(endpoint, county) => {
   try {
-    // const resp = await fetch(`https://rgvcovid19backend.herokuapp.com/${endpoint}/${county}`, {
-    const resp = await fetch(`http://localhost:7555/${endpoint}/${county}`, {
+    const resp = await fetch(`https://rgvcovid19backend.herokuapp.com/${endpoint}/${county}`, {
+    // const resp = await fetch(`http://localhost:7555/${endpoint}/${county}`, {
       mode: 'cors',
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -338,6 +481,7 @@ export {
   getDatesArr,
   getDatesObj,
   getDefaultActiveCases,
+  getAllLatestCases,
   shallowCompare,
   getCoronaData,
   determineScreenState,

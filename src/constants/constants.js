@@ -61,7 +61,7 @@ const LINE_COLOR_MAP = {
 }
 
 const GRAPH_COLOR_MAP = {
-  "active": "#CD0D00",
+  "active": "grey",
   "recoveries": "#fff",
   "deaths": "#9B3133",
   "cases": "#CD0D00",

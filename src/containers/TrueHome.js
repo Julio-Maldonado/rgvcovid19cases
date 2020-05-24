@@ -22,7 +22,10 @@ import {
 
 import { ENDPOINT_MAP } from '../constants/constants';
 
+import DEFAULT_CORONA_DATA from '../constants/DEFAULT_CORONA_DATA';
+
 import './styles.css';
+import { isMobile } from 'react-device-detect';
 
 let getDefaultCase = () => {
   let cameronData = getDefaultCases("active", "cameron");
@@ -43,7 +46,7 @@ let getDefaultCase = () => {
 class Home extends React.Component {
   state = {
     county: this.props.county,
-    coronaData: getDefaultCase(),
+    coronaData: DEFAULT_CORONA_DATA,
     height: 0,
     width: 0,
   }
@@ -96,7 +99,8 @@ class Home extends React.Component {
 
     if (height / width > 1.7 || this.checkScreenSize()) this.screenIsSuperLong = true;
     else this.screenIsSuperLong = false;
-
+    const temp = {width, height}
+    console.log({temp})
     this.setState({ width, height })
   }
 
@@ -231,6 +235,7 @@ class Home extends React.Component {
     this.getLatestUsefulData("starr");
     this.getLatestUsefulData("willacy");
     this.setState({coronaData});
+    console.log({coronaData})
   }
 
   getActiveCases = async (county, defaultData = true) => {
@@ -412,14 +417,11 @@ class Home extends React.Component {
             coronaData={coronaData}
             screenState={screenState}
           />
-          {deathsCountCameron && recoveriesCountCameron && deathsCountHidalgo && recoveriesCountHidalgo ?
-            <p>Stats at a Glance</p>
-            : null
-          }
+          <br/>
+          <p>Active Cases as of {getToday()}</p>
           {
             deathsCountCameron && recoveriesCountCameron && deathsCountHidalgo && recoveriesCountHidalgo ?
             <div>
-            <p>Active Cases as of {getToday()}</p>
             <p>
               Cameron: {casesCountCameron - recoveriesCountCameron - deathsCountCameron},
               Hidalgo: {casesCountHidalgo - recoveriesCountHidalgo - deathsCountHidalgo},
@@ -428,6 +430,11 @@ class Home extends React.Component {
             </p>
             </div>
               : null
+          }
+          <br/>
+          {deathsCountCameron && recoveriesCountCameron && deathsCountHidalgo && recoveriesCountHidalgo ?
+            <p>Stats at a Glance</p>
+            : null
           }
           {
             deathsCountCameron && recoveriesCountCameron && deathsCountHidalgo && recoveriesCountHidalgo ?
@@ -482,19 +489,25 @@ class Home extends React.Component {
               : null
           }
           <br/>
+          <br/>
           See more data on:
+          {isMobile ? <br /> : null}
           <button className="my-button" onClick={e => {this.aClick("active", "home", "cameron");}}>
             Cameron County
           </button>
+          {isMobile ? <br /> : null}
           <button className="my-button" onClick={e => {this.aClick("active", "home", "hidalgo");}}>
             Hidalgo County
           </button>
+          {isMobile ? <br /> : null}
           <button className="my-button" onClick={e => {this.aClick("active", "home", "starr");}}>
             Starr County
           </button>
+          {isMobile ? <br /> : null}
           <button className="my-button" onClick={e => {this.aClick("active", "home", "willacy");}}>
             Willacy County
           </button>
+          <br/>
           <br/>
           <br/>
           <p>How has the RGV responded to COVID-19? How can we recover? How can we open up again?</p>
