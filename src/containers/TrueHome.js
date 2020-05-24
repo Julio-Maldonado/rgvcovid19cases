@@ -7,9 +7,11 @@ import Footer from '../components/utility/Footer';
 import MyNavBar from '../components/utility/MyNavBar';
 
 import {
+  getToday,
   getDatesObj,
   getUsefulData,
   getCoronaData,
+  getDefaultActiveCases,
   determineScreenState,
   shallowCompare,
   compare,
@@ -52,7 +54,22 @@ class Home extends React.Component {
     window.addEventListener('resize', this.updateWindowDimensions);
 
     this.updateWindowDimensions();
-    this.updateStateEndpoint(this.props.location['pathname'].substr(1));
+
+    let { endpoint } = this.state;
+    let { location } = this.props;
+
+    if (location) {
+      const urlPaths = this.props.location['pathname'].substr(1).split("/");
+      let pathname = "";
+      if (urlPaths.length === 1) pathname = "active";
+      else pathname = urlPaths[1];
+
+      if (pathname in ENDPOINT_MAP) endpoint = pathname;
+      else if (!(endpoint in ENDPOINT_MAP)) endpoint = "active";
+      else endpoint = "active";
+    }
+
+    this.updateStateEndpoint(endpoint);
 
     setTimeout(this.justMounted, 1000);
 
@@ -98,7 +115,6 @@ class Home extends React.Component {
         transmissionDeathsDataCameron: usefulData['deaths']['transmission'].sort(compare),
         genderDeathsDataCameron: usefulData['deaths']['gender'].sort(compare),
         recoveriesCountCameron: usefulData['recoveries']['count'] - 1,
-        // usefulRecoveriesData: usefulData['recoveries']['cities'],
       });
     else if (county === "hidalgo")
       this.setState({
@@ -113,25 +129,92 @@ class Home extends React.Component {
         transmissionDeathsDataHidalgo: usefulData['deaths']['transmission'].sort(compare),
         genderDeathsDataHidalgo: usefulData['deaths']['gender'].sort(compare),
         recoveriesCountHidalgo: usefulData['recoveries']['count'] - 1,
-        // usefulRecoveriesData: usefulData['recoveries']['cities'],
+      });
+    else if (county === "starr")
+      this.setState({
+        casesCountStarr: usefulData['cases']['count'] - 1,
+        cityCasesDataStarr: usefulData['cases']['cities'].sort(compare),
+        ageCasesDataStarr: usefulData['cases']['ages'].sort(compare),
+        transmissionCasesDataStarr: usefulData['cases']['transmission'].sort(compare),
+        genderCasesDataStarr: usefulData['cases']['gender'].sort(compare),
+        deathsCountStarr: usefulData['deaths']['count'] - 1,
+        cityDeathsDataStarr: usefulData['deaths']['cities'].sort(compare),
+        ageDeathsDataStarr: usefulData['deaths']['ages'].sort(compare),
+        transmissionDeathsDataStarr: usefulData['deaths']['transmission'].sort(compare),
+        genderDeathsDataStarr: usefulData['deaths']['gender'].sort(compare),
+        recoveriesCountStarr: usefulData['recoveries']['count'] - 1,
+      });
+    else if (county === "willacy")
+      this.setState({
+        casesCountWillacy: usefulData['cases']['count'] - 1,
+        cityCasesDataWillacy: usefulData['cases']['cities'].sort(compare),
+        ageCasesDataWillacy: usefulData['cases']['ages'].sort(compare),
+        transmissionCasesDataWillacy: usefulData['cases']['transmission'].sort(compare),
+        genderCasesDataWillacy: usefulData['cases']['gender'].sort(compare),
+        deathsCountWillacy: usefulData['deaths']['count'] - 1,
+        cityDeathsDataWillacy: usefulData['deaths']['cities'].sort(compare),
+        ageDeathsDataWillacy: usefulData['deaths']['ages'].sort(compare),
+        transmissionDeathsDataWillacy: usefulData['deaths']['transmission'].sort(compare),
+        genderDeathsDataWillacy: usefulData['deaths']['gender'].sort(compare),
+        recoveriesCountWillacy: usefulData['recoveries']['count'] - 1,
       });
   }
 
   getAllLatestCases = async() => {
-    let cameronData = await this.getActiveCases("cameron");
-    let hidalgoData = await this.getActiveCases("hidalgo");
+    const defaultData = true;
+    let [cameronData, hidalgoData, starrData, willacyData] = await Promise.all([
+      this.getActiveCases("cameron", defaultData),
+      this.getActiveCases("hidalgo", defaultData),
+      this.getActiveCases("starr", defaultData),
+      this.getActiveCases("willacy", defaultData)
+    ]);
+
+    // console.log({cameronData})
+    // console.log({hidalgoData})
+    // console.log({starrData})
+    // console.log({willacyData})
 
     hidalgoData.unshift({Date: "3/19", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
     hidalgoData.unshift({Date: "3/18", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
-    
+
+    starrData.unshift({Date: "3/24", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+    starrData.unshift({Date: "3/23", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+    starrData.unshift({Date: "3/22", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+    starrData.unshift({Date: "3/21", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+    starrData.unshift({Date: "3/20", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+    starrData.unshift({Date: "3/19", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+    starrData.unshift({Date: "3/18", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+
+    willacyData.unshift({Date: "3/24", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+    willacyData.unshift({Date: "3/23", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+    willacyData.unshift({Date: "3/22", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+    willacyData.unshift({Date: "3/21", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+    willacyData.unshift({Date: "3/20", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+    willacyData.unshift({Date: "3/19", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+    willacyData.unshift({Date: "3/18", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+
     hidalgoData.forEach((data, i) => {
       cameronData[i]["CountHidalgo"] = data['Count'];
       cameronData[i]["CasesHidalgo"] = data['Cases'];
       cameronData[i]["DeathsHidalgo"] = data['Deaths'];
       cameronData[i]["RecoveriesHidalgo"] = data['Recoveries'];
     })
-    let coronaData = cameronData;
-    return coronaData;
+
+    starrData.forEach((data, i) => {
+      cameronData[i]["CountStarr"] = data['Count'];
+      cameronData[i]["CasesStarr"] = data['Cases'];
+      cameronData[i]["DeathsStarr"] = data['Deaths'];
+      cameronData[i]["RecoveriesStarr"] = data['Recoveries'];
+    })
+
+    willacyData.forEach((data, i) => {
+      cameronData[i]["CountWillacy"] = data['Count'];
+      cameronData[i]["CasesWillacy"] = data['Cases'];
+      cameronData[i]["DeathsWillacy"] = data['Deaths'];
+      cameronData[i]["RecoveriesWillacy"] = data['Recoveries'];
+    })
+
+    return cameronData;
   }
 
   justMounted = async () => {
@@ -145,10 +228,13 @@ class Home extends React.Component {
     const coronaData = await this.getAllLatestCases();
     this.getLatestUsefulData("cameron");
     this.getLatestUsefulData("hidalgo");
+    this.getLatestUsefulData("starr");
+    this.getLatestUsefulData("willacy");
     this.setState({coronaData});
   }
 
-  getActiveCases = async (county) => {
+  getActiveCases = async (county, defaultData = true) => {
+    if (defaultData) return getDefaultActiveCases(county);
     const [cases, deaths, recoveries] = await Promise.all([
       this.getLatestCoronaData("cases", county),
       this.getLatestCoronaData("deaths", county),
@@ -158,6 +244,8 @@ class Home extends React.Component {
     let totalCases = 0;
     let firstDay = 18;
     if (county === "Hidalgo" || county === "hidalgo") firstDay = 20;
+    if (county === "Starr" || county === "starr") firstDay = 25;
+    if (county === "Willacy" || county === "willacy") firstDay = 25;
 
     let activeCases = getDatesObj(new Date(2020,2,firstDay,0,0,0,0), new Date());
 
@@ -191,10 +279,20 @@ class Home extends React.Component {
     let coronaData = Object.keys(activeCases).sort().map((key, i) => {
       let currentDay = activeCases[key];
       let dateArr = key.split("/");
-      let prevDay =  parseInt(dateArr[1]) - 1;
+      let currMonth = parseInt(dateArr[0]);
+      let currDay = parseInt(dateArr[1]);
+      let prevDay = currDay - 1;
+      if ((currMonth === 4 || currMonth === 6) && currDay === 1) {
+        currMonth -= 1;
+        prevDay = 31;
+      } else if (currMonth === 5 && currDay === 1) {
+        currMonth -= 1;
+        prevDay = 30;
+      }
+
       if (prevDay < 10)
         prevDay = "0" + prevDay;
-      let prevDate = `${dateArr[0]}/${prevDay}`
+      let prevDate = `${currMonth}/${prevDay}`
       if (Object.keys(currentDay).length === 0) {
         currentDay["activeCases"] = activeCases[prevDate]["activeCases"];
         currentDay["cases"] = currentDay["deaths"] = currentDay["recoveries"] = 0;
@@ -249,15 +347,16 @@ class Home extends React.Component {
 
   linkClick = async (endpoint, prevEndpoint, county) => {
     sendAnalytics(`Link Click Navigation`, `User navigated to ${endpoint} from ${prevEndpoint} for ${county}`);
-
     this.routeSite(county, endpoint);
-
     scrollToTop();
   }
 
   routeSite = (county, endpoint) => {
-    if (endpoint === "home") this.props.history.push(`/${endpoint}`);
-    else this.props.history.push(`/${county}/${endpoint}`);
+    if (!county || county === "") county = "cameron";
+    this.updateStateEndpoint(county)
+    // if (endpoint === "home") this.props.history.push(`/${endpoint}`);
+    // else this.props.history.push(`/${county}/${endpoint}`);
+    this.props.history.push(`/${county}/${endpoint}`);
   }
 
   render() {
@@ -270,8 +369,15 @@ class Home extends React.Component {
       casesCountHidalgo,
       deathsCountHidalgo,
       recoveriesCountHidalgo,
-      // usefulRecoveriesData
+      casesCountStarr,
+      deathsCountStarr,
+      recoveriesCountStarr,
+      casesCountWillacy,
+      deathsCountWillacy,
+      recoveriesCountWillacy,
     } = this.state;
+
+    if (!county) county = "cameron";
 
     let { height } = this.state
     if (this.screenIsSuperLong) height = height * 0.8
@@ -293,9 +399,9 @@ class Home extends React.Component {
           />
         </div>
         <div className="App-content">
-        <h1>RGV COVID-19 Curve</h1>
+        <h1>RGV COVID-19 Curves</h1>
         <h2>
-          This graph shows the Cameron County and Hidalgo County COVID-19 curve.
+          This graph shows the Cameron, Hidalgo, Starr, and Willacy County COVID-19 curves.
         </h2>
           <CoronaChart
             width={width}
@@ -312,56 +418,82 @@ class Home extends React.Component {
           }
           {
             deathsCountCameron && recoveriesCountCameron && deathsCountHidalgo && recoveriesCountHidalgo ?
+            <div>
+            <p>Active Cases as of {getToday()}</p>
+            <p>
+              Cameron: {casesCountCameron - recoveriesCountCameron - deathsCountCameron},
+              Hidalgo: {casesCountHidalgo - recoveriesCountHidalgo - deathsCountHidalgo},
+              Starr: {casesCountStarr - recoveriesCountStarr - deathsCountStarr},
+              Willacy: {casesCountWillacy - recoveriesCountWillacy - deathsCountWillacy}
+            </p>
+            </div>
+              : null
+          }
+          {
+            deathsCountCameron && recoveriesCountCameron && deathsCountHidalgo && recoveriesCountHidalgo ?
               <table className="home-table" align={"center"}>
                 <thead>
                 <tr>
                   <th></th>
                   <th>Cameron</th>
                   <th>Hidalgo</th>
+                  <th>Starr</th>
+                  <th>Willacy</th>
                 </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Active Cases</td>
-                    <td>{casesCountCameron - recoveriesCountCameron - deathsCountCameron}</td>
-                    <td>{casesCountHidalgo - recoveriesCountHidalgo - deathsCountHidalgo}</td>
-                  </tr>
-                  <tr>
                     <td>Total Cases</td>
                     <td>{casesCountCameron}</td>
                     <td>{casesCountHidalgo}</td>
+                    <td>{casesCountStarr}</td>
+                    <td>{casesCountWillacy}</td>
                   </tr>
                   <tr>
                     <td>Total Recovered</td>
                     <td>{recoveriesCountCameron}</td>
                     <td>{recoveriesCountHidalgo}</td>
+                    <td>{recoveriesCountStarr}</td>
+                    <td>{recoveriesCountWillacy}</td>
                   </tr>
                   <tr>
                     <td>Total Deaths</td>
                     <td>{deathsCountCameron}</td>
                     <td>{deathsCountHidalgo}</td>
+                    <td>{deathsCountStarr}</td>
+                    <td>{deathsCountWillacy}</td>
                   </tr>
                   <tr>
                     <td>Death Rate</td>
                     <td>{(deathsCountCameron / casesCountCameron * 100).toFixed(1)}%</td>
                     <td>{(deathsCountHidalgo / casesCountHidalgo * 100).toFixed(1)}%</td>
+                    <td>{(deathsCountStarr / casesCountStarr * 100).toFixed(1)}%</td>
+                    <td>{(deathsCountWillacy / casesCountWillacy * 100).toFixed(1)}%</td>
                   </tr>
                   <tr>
                     <td>Recovery Rate</td>
                     <td>{(recoveriesCountCameron / casesCountCameron * 100).toFixed(1)}%</td>
                     <td>{(recoveriesCountHidalgo / casesCountHidalgo * 100).toFixed(1)}%</td>
+                    <td>{(recoveriesCountStarr / casesCountStarr * 100).toFixed(1)}%</td>
+                    <td>{(recoveriesCountWillacy / casesCountWillacy * 100).toFixed(1)}%</td>
                   </tr>
                 </tbody>
               </table>
               : null
           }
           <br/>
-          See more data on: 
+          See more data on:
           <button className="my-button" onClick={e => {this.aClick("active", "home", "cameron");}}>
             Cameron County
           </button>
           <button className="my-button" onClick={e => {this.aClick("active", "home", "hidalgo");}}>
             Hidalgo County
+          </button>
+          <button className="my-button" onClick={e => {this.aClick("active", "home", "starr");}}>
+            Starr County
+          </button>
+          <button className="my-button" onClick={e => {this.aClick("active", "home", "willacy");}}>
+            Willacy County
           </button>
           <br/>
           <br/>

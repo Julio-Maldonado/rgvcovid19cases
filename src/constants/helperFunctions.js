@@ -1,12 +1,22 @@
 import ReactGA from 'react-ga';
 
 import {
+  CAMERON_ACTIVE_CASES,
   CAMERON_DEFAULT_CASES,
   CAMERON_DEFAULT_DEATHS,
   CAMERON_DEFAULT_RECOVERIES,
+  HIDALGO_ACTIVE_CASES,
   HIDALGO_DEFAULT_CASES,
   HIDALGO_DEFAULT_DEATHS,
   HIDALGO_DEFAULT_RECOVERIES,
+  STARR_ACTIVE_CASES,
+  STARR_DEFAULT_CASES,
+  STARR_DEFAULT_DEATHS,
+  STARR_DEFAULT_RECOVERIES,
+  WILLACY_ACTIVE_CASES,
+  WILLACY_DEFAULT_CASES,
+  WILLACY_DEFAULT_DEATHS,
+  WILLACY_DEFAULT_RECOVERIES,
 } from './constants';
 
 const getCount = (obj, field) => obj[field] ? obj[field] : 0;
@@ -16,6 +26,12 @@ const updateCount = (obj, field) => field in obj ? obj[field] += 1 : obj[field] 
 const sendAnalytics = (category, action) => ReactGA.event({ category, action });
 
 const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+const getToday = () => {
+  const today = new Date();
+  const dateTimeFormat = new Intl.DateTimeFormat('en', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  return dateTimeFormat.format(today);
+}
 
 const getUsefulData = (county) => { return getCoronaCases("getUsefulStats", county); }
 
@@ -66,8 +82,11 @@ const determineScreenState = (width) => {
 }
 
 const compare = (obj1, obj2) => {
-  if (obj1[Object.keys(obj1)[0]] < obj2[Object.keys(obj2)[0]]) return 1;
-  else if (obj1[Object.keys(obj1)[0]] > obj2[Object.keys(obj2)[0]]) return -1;
+  let firstKey = Object.keys(obj1)[0];
+  let secondKey = Object.keys(obj2)[0];
+
+  if (obj1[firstKey] < obj2[secondKey]) return 1;
+  else if (obj1[firstKey] > obj2[secondKey]) return -1;
   return 0;
 }
 
@@ -81,8 +100,24 @@ const getDefaultCases = (endpoint, county) => {
     if (endpoint === "cases") return HIDALGO_DEFAULT_CASES;
     else if (endpoint === "deaths") return HIDALGO_DEFAULT_DEATHS;
     else if (endpoint === "recoveries") return HIDALGO_DEFAULT_RECOVERIES;
+  } else if (county === "starr") { // TODO: UPDATE THIS
+    if (endpoint === "cases") return STARR_DEFAULT_CASES;
+    else if (endpoint === "deaths") return STARR_DEFAULT_DEATHS;
+    else if (endpoint === "recoveries") return STARR_DEFAULT_RECOVERIES;
+  } else if (county === "willacy") {
+    if (endpoint === "cases") return WILLACY_DEFAULT_CASES;
+    else if (endpoint === "deaths") return WILLACY_DEFAULT_DEATHS;
+    else if (endpoint === "recoveries") return WILLACY_DEFAULT_RECOVERIES;
   }
   return CAMERON_DEFAULT_CASES;
+}
+
+const getDefaultActiveCases = (county) => {
+  if (county === "cameron") return CAMERON_ACTIVE_CASES;
+  else if (county === "hidalgo") return HIDALGO_ACTIVE_CASES;
+  else if (county === "starr") return STARR_ACTIVE_CASES;
+  else if (county === "willacy") return WILLACY_ACTIVE_CASES;
+  return CAMERON_ACTIVE_CASES;
 }
 
 const getAgeRangeIfValueIsNumber = (age) => {
@@ -126,12 +161,12 @@ const shallowCompare = (instance, nextProps, nextState) =>{
 const getCoronaData = async(endpoint, county) => {
   let coronaMap = {};
   let backendEndpoint = getEndpoint(endpoint);
-  let cameronCountyData = await getCoronaCases(backendEndpoint, county);
+  let countyData = await getCoronaCases(backendEndpoint, county);
 
-  if (cameronCountyData['status'] !== 200) {
-    sendAnalytics(`Error Retrieving${backendEndpoint} Data`, `${cameronCountyData['status']} error from ${JSON.stringify(cameronCountyData)}`);
+  if (countyData['status'] !== 200) {
+    sendAnalytics(`Error Retrieving${backendEndpoint} Data`, `${countyData['status']} error from ${JSON.stringify(countyData)}`);
     console.error('api call failed');
-    console.error({ cameronCountyData });
+    console.error({ countyData });
     alert('There was an error getting the latest data. Please try refreshing the page later.')
     return getDefaultCases(endpoint, county);
   }
@@ -144,25 +179,33 @@ const getCoronaData = async(endpoint, county) => {
   //   transmission: ""
   // }
 
-  cameronCountyData = cameronCountyData['cases'];
+  countyData = countyData['cases'];
 
-  let coronaMap2 = {};
-  cameronCountyData.forEach(data => {
+  // let coronaMap2 = {};
+  countyData.forEach(data => {
     const date = data["date"].substr(1, 4);
     if (!(date in coronaMap)) coronaMap[date] = {};
-    if (!(date in coronaMap2)) coronaMap2[date] = {};
+    // if (!(date in coronaMap2)) coronaMap2[date] = {};
 
     updateCount(coronaMap[date], "count");
     for (let d in data) {
       if (d === "county") coronaMap[date]["county"] = data[d];
       else updateCount(coronaMap[date], getAgeRangeIfValueIsNumber(data[d]));
     }
-    updateCount(coronaMap2[date], "count");
-    for (let d in data) {
-      if (d === "county") coronaMap2[date]["county"] = data[d];
-      else updateCount(coronaMap2[date], getAgeRangeIfValueIsNumber(data[d]));
-    }
+    // updateCount(coronaMap2[date], "count");
+    // for (let d in data) {
+    //   if (d === "county") coronaMap2[date]["county"] = data[d];
+    //   else {
+    //     // console.log({coronaMap2});
+    //     // console.log({data})
+    //     // console.log(data[d])
+    //     // coronaMap2[date][data[d]] = null;
+    //     updateCount(coronaMap2[date], getAgeRangeIfValueIsNumber(data[d]));
+    //   }
+    // }
   })
+  // console.log({coronaMap2})
+  // console.log({countyData})
 
   if (Object.keys(coronaMap).length === 0) {
     return getDefaultCases(endpoint, county);
@@ -179,9 +222,7 @@ const getCoronaData = async(endpoint, county) => {
       coronaMap["4/02"]["count"] = 0;
       delete coronaMap["4/02"]["0"];
     }
-  }
-
-  if (county.toLowerCase() === "hidalgo") {
+  } else if (county.toLowerCase() === "hidalgo") {
     if (backendEndpoint === "getRGVCoronaCases") {
       coronaMap["3/20"]["count"] = 0;
       delete coronaMap["3/20"]["0"];
@@ -192,9 +233,33 @@ const getCoronaData = async(endpoint, county) => {
       coronaMap["4/07"]["count"] = 0;
       delete coronaMap["4/07"]["0"];
     }
+  } else if (county.toLowerCase() === "starr") {
+    if (backendEndpoint === "getRGVCoronaCases") {
+      coronaMap["3/25"]["count"] = 0;
+      delete coronaMap["3/25"]["0"];
+    } else if (backendEndpoint === "getRGVCoronaDeaths") {
+      coronaMap["4/07"]["count"] = 0;
+      delete coronaMap["4/07"]["0"];
+    } else if (backendEndpoint === "getRGVRecoveredCases") {
+      coronaMap["4/07"]["count"] = 0;
+      delete coronaMap["4/07"]["0"];
+    }
+  } else if (county.toLowerCase() === "willacy") {
+    if (backendEndpoint === "getRGVCoronaCases") {
+      coronaMap["3/25"]["count"] = 0;
+      delete coronaMap["3/25"]["0"];
+    } else if (backendEndpoint === "getRGVCoronaDeaths") {
+      coronaMap["4/03"]["count"] = 0;
+      delete coronaMap["4/03"]["0"];
+    } else if (backendEndpoint === "getRGVRecoveredCases") {
+      coronaMap["4/16"]["count"] = 0;
+      delete coronaMap["4/16"]["0"];
+    }
   }
 
-  let cameronCountyCoronaData = Object.keys(coronaMap).sort().map(key => {
+  // console.log({coronaMap})
+
+  let countyCoronaData = Object.keys(coronaMap).sort().map(key => {
     // console.log(coronaMap[key]);
     return {
       "Date": key,
@@ -243,16 +308,19 @@ const getCoronaData = async(endpoint, county) => {
         "Pharr": getCount(coronaMap[key], "Pharr"),
         "Donna": getCount(coronaMap[key], "Donna"),
         "Weslaco": getCount(coronaMap[key], "Weslaco"),
+        // Starr
+        "Rio Grande City": getCount(coronaMap[key], "Rio Grande City"),
+        "Escobares": getCount(coronaMap[key], "Escobares"),
       },
     }
   })
-  return cameronCountyCoronaData;
+  return countyCoronaData;
 }
 
 const getCoronaCases = async(endpoint, county) => {
   try {
-    const resp = await fetch(`https://rgvcovid19backend.herokuapp.com/${endpoint}/${county}`, {
-    // const resp = await fetch(`http://localhost:7555/${endpoint}/${county}`, {
+    // const resp = await fetch(`https://rgvcovid19backend.herokuapp.com/${endpoint}/${county}`, {
+    const resp = await fetch(`http://localhost:7555/${endpoint}/${county}`, {
       mode: 'cors',
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -266,8 +334,10 @@ const getCoronaCases = async(endpoint, county) => {
 }
 
 export {
+  getToday,
   getDatesArr,
   getDatesObj,
+  getDefaultActiveCases,
   shallowCompare,
   getCoronaData,
   determineScreenState,

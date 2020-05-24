@@ -16,6 +16,8 @@ const Header = ({ endpoint, county, updateCounty }) => {
         <select value={county} onChange={e => updateCounty(e.target.value)}>
           <option value="Cameron">Cameron</option>
           <option value="Hidalgo">Hidalgo</option>
+          <option value="Starr">Starr</option>
+          <option value="Willacy">Willacy</option>
         </select>
       </div>
       <br />

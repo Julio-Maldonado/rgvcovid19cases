@@ -59,7 +59,12 @@ class Resources extends React.Component {
           </div>
           <RGVResources />
           <div>
-            <p>Data for this site was obtained from these Press Releases from the Cameron County <a rel="noopener noreferrer" target="_blank" href="https://www.cameroncounty.us/announcements-press-releases/">site</a>:</p>
+            <p>Data for this site was obtained from the&nbsp;
+              <a rel="noopener noreferrer" target="_blank" href="https://www.cameroncounty.us/announcements-press-releases/">Cameron County Press Releases</a>,&nbsp;
+              <a rel="noopener noreferrer" target="_blank" href="https://www.hidalgocounty.us/2630/Coronavirus-Updates">Hidalgo County Press Releases</a>,&nbsp;
+              <a rel="noopener noreferrer" target="_blank" href="https://www.facebook.com/JudgeVera4StarrCounty/photos/a.596912220380732/3656888797716377/?type=3&theater">Starr County Judge Updates</a>, and&nbsp;
+              <a rel="noopener noreferrer" target="_blank" href="https://www.themonitor.com/">The Monitor's coverage on Willacy County</a>.
+            </p>
           </div>
           <PressReleases />
           <div onClick={() => sendAnalytics(`Clicking Survey Link`, `User pressed survey link from resources page`)}>

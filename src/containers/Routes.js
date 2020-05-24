@@ -13,12 +13,12 @@ export default () => {
       <Route
         exact
         path="/about"
-        component={About} 
+        component={About}
       />
       <Route
         exact
         path="/resources"
-        component={Resources} 
+        component={Resources}
       />
       <Route
         path="/cameron"
@@ -27,6 +27,14 @@ export default () => {
       <Route
         path="/hidalgo"
         render={props => <Home {...props} county={"Hidalgo"} />}
+      />
+      <Route
+        path="/starr"
+        render={props => <Home {...props} county={"Starr"} />}
+      />
+      <Route
+        path="/willacy"
+        render={props => <Home {...props} county={"Willacy"} />}
       />
       <Route
         path="/home"

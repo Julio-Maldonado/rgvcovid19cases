@@ -12,8 +12,8 @@
   padding-top: 1vh;
 }
 
-@media only screen 
-  and (min-device-width: 320px) 
+@media only screen
+  and (min-device-width: 320px)
   and (max-device-width: 480px)
   and (-webkit-min-device-pixel-ratio: 2)
   and (orientation: landscape) {
@@ -62,7 +62,7 @@
 
 .bm-burger-button {
   z-index: 999;
-  position: fixed; 
+  position: fixed;
   width: 30px;
   height: 24px;
   right: 12px;

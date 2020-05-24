@@ -5,7 +5,18 @@ import { CATEGORY_MAP } from '../../constants/constants';
 import './styles.css';
 
 const TableDisplay = ({ confirmedCasesName, endpoint, count, arrayData, align, column1 }) => {
-  if (endpoint !== confirmedCasesName.toLowerCase()) return null;
+  if (!arrayData || arrayData.length === 0 || endpoint !== confirmedCasesName.toLowerCase()) return null;
+
+  let data = [];
+
+  let unknownKeyIndex = -1;
+  Object.keys(arrayData).forEach((aData, i) => {
+    const key = Object.keys(arrayData[i])[0];
+    if ("Unknown" === key || "" === key) unknownKeyIndex = i;
+    else data.push(arrayData[i]);
+  });
+
+  if (unknownKeyIndex !== -1) data.push(arrayData[unknownKeyIndex]);
 
   return (
     <div>
@@ -24,7 +35,7 @@ const TableDisplay = ({ confirmedCasesName, endpoint, count, arrayData, align, c
             </tr>
             </thead>
               {
-                arrayData.filter(obj => {
+                data.filter(obj => {
                   var key = Object.keys(obj)[0];
                   if (column1 === "Cities") return key !== "null";
                   else if (column1 === "Ages") return key !== "0";

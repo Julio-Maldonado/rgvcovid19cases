@@ -99,10 +99,6 @@ class Home extends React.Component {
   justMounted = async () => {
     sendAnalytics(`Just Mounted`, `Home website was just mounted`);
 
-    console.log("hey");
-    console.log("if you're reading this");
-    console.log("you should definitely email me at julio.maldonado.guzman@gmail.com to help contribute to this project");
-
     let { endpoint } = this.state;
     let { location } = this.props;
 
@@ -140,14 +136,29 @@ class Home extends React.Component {
 
     let totalCases = 0;
     let firstDay = 18;
-    if (county === "Hidalgo" || county === "hidalgo")
-      firstDay = 20;
+    if (county === "Hidalgo" || county === "hidalgo") firstDay = 20;
+    if (county === "Starr" || county === "starr") firstDay = 25;
+    if (county === "Willacy" || county === "willacy") firstDay = 25;
 
     let activeCases = getDatesObj(new Date(2020,2,firstDay,0,0,0,0), new Date());
 
+    // cases.forEach((c, i) => {
+    //   if (i !== 0) totalCases += cases[i - 1]["Count"];
+    //   activeCases[c["Date"]] = {"cases": c["Count"], "activeCases": c["Count"] + totalCases};
+    // });
     cases.forEach((c, i) => {
       if (i !== 0) totalCases += cases[i - 1]["Count"];
       activeCases[c["Date"]] = {"cases": c["Count"], "activeCases": c["Count"] + totalCases};
+      let flag = false;
+      Object.keys(activeCases).forEach(activeCaseDate => {
+        if (!flag && c["Date"] === activeCaseDate) {
+          flag = true;
+        }
+        if (flag) {
+          // activeCases[activeCaseDate]["activeCases"] = cases[i]["Count"];
+          activeCases[activeCaseDate]["activeCases"] = totalCases + c["Count"];
+        }
+      })
     });
 
     recoveries.forEach((recovery, i) => {
@@ -175,11 +186,21 @@ class Home extends React.Component {
     let coronaData = Object.keys(activeCases).sort().map((key, i) => {
       let currentDay = activeCases[key];
       let dateArr = key.split("/");
-      let prevDay =  parseInt(dateArr[1]) - 1;
+      let currMonth = parseInt(dateArr[0]);
+      let currDay = parseInt(dateArr[1]);
+      let prevDay = currDay - 1;
+      if ((currMonth === 4 || currMonth === 6) && currDay === 1) {
+        currMonth -= 1;
+        prevDay = 31;
+      } else if (currMonth === 5 && currDay === 1) {
+        currMonth -= 1;
+        prevDay = 30;
+      }
+
       if (prevDay < 10)
         prevDay = "0" + prevDay;
-      let prevDate = `${dateArr[0]}/${prevDay}`
-      if (Object.keys(currentDay).length === 0) {
+      let prevDate = `${currMonth}/${prevDay}`
+      if (Object.keys(currentDay).length === 0 && i !== 0) {
         currentDay["activeCases"] = activeCases[prevDate]["activeCases"];
         currentDay["cases"] = currentDay["deaths"] = currentDay["recoveries"] = 0;
       }
@@ -226,7 +247,7 @@ class Home extends React.Component {
     return false;
   }
 
-  navigateSideMenu = () => { this.setState({isOpen: !this.state.isOpen}); }
+  navigateSideMenu = () => this.setState({isOpen: !this.state.isOpen});
 
   aClick = async (endpoint, prevEndpoint, county) => {
     sendAnalytics(`A Click Nagivation`, `User navigated to ${endpoint} from ${prevEndpoint} for ${county}`);
@@ -292,7 +313,10 @@ class Home extends React.Component {
     }
   }
 
-  routeSite = (county, endpoint) => this.props.history.push(`/${county}/${endpoint}`);
+  routeSite = (county, endpoint) => {
+    this.updateStateEndpoint(endpoint);
+    this.props.history.push(`/${county}/${endpoint}`);
+  }
 
   render() {
     let { county, endpoint } = this.state;
