@@ -82,7 +82,7 @@ class Home extends React.Component {
 
     if (height / width > 1.7 || this.checkScreenSize()) this.screenIsSuperLong = true;
     else this.screenIsSuperLong = false;
-    const temp = {width, height}
+
     this.setState({ width, height })
   }
 
@@ -223,6 +223,7 @@ class Home extends React.Component {
     this.getLatestUsefulData("willacy");
     const coronaData = await this.getAllLatestCases();
     this.setState({coronaData});
+    // console.log({coronaData})
   }
 
   getActiveCases = async (county, defaultData = true) => {

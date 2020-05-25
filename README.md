@@ -1,5 +1,13 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Steps on how to update latest coronaData for fast loads:
+1.) set defaultData flag in TrueHome to false
+2.) uncomment the logging of coronaData
+3.) store as global variable in the console
+4.) copy() the global variable
+5.) copy pasta the global variable into DEFAULT_CORONA_DATA and compare
+6.) ya se cabo
+
 ## Available Scripts
 
 In the project directory, you can run:
