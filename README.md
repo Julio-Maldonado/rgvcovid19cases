@@ -2,10 +2,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Steps on how to update latest coronaData for fast loads:
 1.) set defaultData flag in TrueHome to false
-2.) uncomment the logging of coronaData
-3.) store as global variable in the console
+2.) uncomment the logging of coronaData and county datas
+3.) store all as global variable in the console
 4.) copy() the global variable
 5.) copy pasta the global variable into DEFAULT_CORONA_DATA and compare
+6.) copy the latest entry into the county_ACTIVE_CASES or just copy pasta the latest entry if no changes
 6.) ya se cabo
 
 ## Available Scripts
