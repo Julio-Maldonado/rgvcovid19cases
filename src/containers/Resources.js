@@ -2,7 +2,7 @@ import React from 'react';
 
 import SideMenu from '../components/utility/SideMenu';
 import RGVResources from '../components/Resources/RGVResources';
-import PressReleases from '../components/Resources/PressReleases';
+// import PressReleases from '../components/Resources/PressReleases';
 import MyNavBar from '../components/utility/MyNavBar';
 import Footer from '../components/utility/Footer';
 
@@ -32,11 +32,9 @@ class Resources extends React.Component {
   render() {
     const {width} = this.state;
     let county = "Cameron";
-    // let endpoint = "cases";
-    if (this.props.location.state) {
-      county = this.props.location.state.county;
-      // endpoint = this.props.location.state.endpoint;
-    }
+
+    if (this.props.location.state) county = this.props.location.state.county;
+
     return (
       <div className="App">
         <MyNavBar endpoint="resources" county={county} linkClick={this.linkClick} aClick={this.aClick} />
@@ -58,15 +56,14 @@ class Resources extends React.Component {
             <p>Here are some resources for the RGV during this pandemic:</p>
           </div>
           <RGVResources />
-          <div>
-            <p>Data for this site was obtained from the&nbsp;
-              <a rel="noopener noreferrer" target="_blank" href="https://www.cameroncounty.us/announcements-press-releases/">Cameron County Press Releases</a>,&nbsp;
-              <a rel="noopener noreferrer" target="_blank" href="https://www.hidalgocounty.us/2630/Coronavirus-Updates">Hidalgo County Press Releases</a>,&nbsp;
-              <a rel="noopener noreferrer" target="_blank" href="https://www.facebook.com/JudgeVera4StarrCounty/photos/a.596912220380732/3656888797716377/?type=3&theater">Starr County Judge Updates</a>, and&nbsp;
-              <a rel="noopener noreferrer" target="_blank" href="https://www.themonitor.com/">The Monitor's coverage on Willacy County</a>.
-            </p>
-          </div>
-          <PressReleases />
+          <p>Data for this site was obtained from the&nbsp;
+            <a rel="noopener noreferrer" target="_blank" href="https://www.cameroncounty.us/announcements-press-releases/">Cameron County Press Releases</a>,&nbsp;
+            <a rel="noopener noreferrer" target="_blank" href="https://www.hidalgocounty.us/2630/Coronavirus-Updates">Hidalgo County Press Releases</a>,&nbsp;
+            <a rel="noopener noreferrer" target="_blank" href="https://www.facebook.com/JudgeVera4StarrCounty/photos/a.596912220380732/3656888797716377/?type=3&theater">Starr County Judge Updates</a>, and&nbsp;
+            <a rel="noopener noreferrer" target="_blank" href="https://www.themonitor.com/">The Monitor's coverage on Willacy County</a>.
+          </p>
+          <br />
+          {/* <PressReleases /> */}
           <div onClick={() => sendAnalytics(`Clicking Survey Link`, `User pressed survey link from resources page`)}>
             <p>How has the RGV responded to COVID-19? How can we recover? How can we open up again?</p>
             <p>

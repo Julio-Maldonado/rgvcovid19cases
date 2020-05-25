@@ -36,7 +36,7 @@ const CoronaChart = ({ width, height, endpoint, category, coronaData, county }) 
           type="monotone"
           legentType="line"
           dataKey="Count"
-          stroke={LINE_COLOR_MAP[county && endpoint === "active" ? county.toLowerCase() : endpoint]}
+          stroke={LINE_COLOR_MAP[county ? county.toLowerCase() : endpoint]}
           strokeWidth={2}
           activeDot={{ r: 8 }}
         />

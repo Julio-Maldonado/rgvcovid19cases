@@ -13,6 +13,7 @@ import Footer from '../components/utility/Footer';
 import MyNavBar from '../components/utility/MyNavBar';
 
 import {
+  getToday,
   getDatesObj,
   getUsefulData,
   getCoronaData,
@@ -388,23 +389,64 @@ class Home extends React.Component {
             coronaData={coronaData}
             screenState={screenState}
           />
+          <br/>
+          <p>Latest data as of {getToday()} for {county[0].toUpperCase() + county.substr(1)} County</p>
           {
-            deathsCount && recoveriesCount ?
+            casesCount && deathsCount && recoveriesCount ?
+              <p>Active Cases: {casesCount - deathsCount - recoveriesCount}</p>
+              : null
+          }
+          {
+            endpoint === "active" && casesCount && deathsCount && recoveriesCount ?
+              <table className="home-table" align={"center"}>
+                <thead>
+                <tr>
+                  <th></th>
+                  <th>{county[0].toUpperCase() + county.substr(1)}</th>
+                </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Total Cases</td>
+                    <td>{casesCount}</td>
+                  </tr>
+                  <tr>
+                    <td>Total Recovered</td>
+                    <td>{recoveriesCount}</td>
+                  </tr>
+                  <tr>
+                    <td>Total Deaths</td>
+                    <td>{deathsCount}</td>
+                  </tr>
+                  <tr>
+                    <td>Death Rate</td>
+                    <td>{(deathsCount / casesCount * 100).toFixed(1)}%</td>
+                  </tr>
+                  <tr>
+                    <td>Recovery Rate</td>
+                    <td>{(recoveriesCount / casesCount * 100).toFixed(1)}%</td>
+                  </tr>
+                </tbody>
+              </table>
+              : null
+          }
+          {
+            endpoint === "home" && casesCount && deathsCount && recoveriesCount ?
               <div>
                 <p>Recovery rate: {(recoveriesCount / casesCount * 100).toFixed(1)}%</p>
                 <p>Death rate: {(deathsCount / casesCount * 100).toFixed(1)}%</p>
-                <p>Active cases: {casesCount - recoveriesCount}</p>
+                <p>Active cases: {casesCount - recoveriesCount - deathsCount}</p>
               </div>
             : null
           }
-          {
+          {/* {
             endpoint === "active" ?
               <div>
                 <p>Total Recoveries: {recoveriesCount}</p>
                 <p>Total Deaths: {deathsCount}</p>
               </div>
             : null
-          }
+          } */}
           <TableDisplay
             count={casesCount}
             endpoint={endpoint}

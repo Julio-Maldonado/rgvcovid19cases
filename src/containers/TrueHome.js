@@ -17,7 +17,6 @@ import {
   compare,
   sendAnalytics,
   scrollToTop,
-  getDefaultCases,
 } from '../constants/helperFunctions';
 
 import { ENDPOINT_MAP } from '../constants/constants';
@@ -26,22 +25,6 @@ import DEFAULT_CORONA_DATA from '../constants/DEFAULT_CORONA_DATA';
 
 import './styles.css';
 import { isMobile } from 'react-device-detect';
-
-let getDefaultCase = () => {
-  let cameronData = getDefaultCases("active", "cameron");
-  let hidalgoData = getDefaultCases("active", "hidalgo");
-
-  hidalgoData.unshift({Date: "3/19", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
-  hidalgoData.unshift({Date: "3/18", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
-  hidalgoData.forEach((data, i) => {
-    cameronData[i]["CountHidalgo"] = data['Count'];
-    cameronData[i]["CasesHidalgo"] = data['Cases'];
-    cameronData[i]["DeathsHidalgo"] = data['Deaths'];
-    cameronData[i]["RecoveriesHidalgo"] = data['Recoveries'];
-  })
-  let coronaData = cameronData;
-  return coronaData;
-}
 
 class Home extends React.Component {
   state = {
@@ -100,7 +83,6 @@ class Home extends React.Component {
     if (height / width > 1.7 || this.checkScreenSize()) this.screenIsSuperLong = true;
     else this.screenIsSuperLong = false;
     const temp = {width, height}
-    console.log({temp})
     this.setState({ width, height })
   }
 
@@ -178,24 +160,30 @@ class Home extends React.Component {
     // console.log({starrData})
     // console.log({willacyData})
 
-    hidalgoData.unshift({Date: "3/19", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
-    hidalgoData.unshift({Date: "3/18", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+    if (hidalgoData.length !== cameronData.length) {
+      hidalgoData.unshift({Date: "3/19", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+      hidalgoData.unshift({Date: "3/18", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+    }
 
-    starrData.unshift({Date: "3/24", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
-    starrData.unshift({Date: "3/23", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
-    starrData.unshift({Date: "3/22", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
-    starrData.unshift({Date: "3/21", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
-    starrData.unshift({Date: "3/20", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
-    starrData.unshift({Date: "3/19", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
-    starrData.unshift({Date: "3/18", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+    if (starrData.length !== cameronData.length) {
+      starrData.unshift({Date: "3/24", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+      starrData.unshift({Date: "3/23", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+      starrData.unshift({Date: "3/22", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+      starrData.unshift({Date: "3/21", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+      starrData.unshift({Date: "3/20", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+      starrData.unshift({Date: "3/19", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+      starrData.unshift({Date: "3/18", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+    }
 
-    willacyData.unshift({Date: "3/24", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
-    willacyData.unshift({Date: "3/23", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
-    willacyData.unshift({Date: "3/22", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
-    willacyData.unshift({Date: "3/21", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
-    willacyData.unshift({Date: "3/20", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
-    willacyData.unshift({Date: "3/19", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
-    willacyData.unshift({Date: "3/18", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+    if (willacyData.length !== cameronData.length) {
+      willacyData.unshift({Date: "3/24", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+      willacyData.unshift({Date: "3/23", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+      willacyData.unshift({Date: "3/22", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+      willacyData.unshift({Date: "3/21", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+      willacyData.unshift({Date: "3/20", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+      willacyData.unshift({Date: "3/19", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+      willacyData.unshift({Date: "3/18", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
+    }
 
     hidalgoData.forEach((data, i) => {
       cameronData[i]["CountHidalgo"] = data['Count'];
@@ -229,13 +217,12 @@ class Home extends React.Component {
     console.log("you should definitely email me at julio.maldonado.guzman@gmail.com to help contribute to this project");
 
     // this.routeSite(this.state.county, endpoint);
-    const coronaData = await this.getAllLatestCases();
     this.getLatestUsefulData("cameron");
     this.getLatestUsefulData("hidalgo");
     this.getLatestUsefulData("starr");
     this.getLatestUsefulData("willacy");
+    const coronaData = await this.getAllLatestCases();
     this.setState({coronaData});
-    console.log({coronaData})
   }
 
   getActiveCases = async (county, defaultData = true) => {
