@@ -482,12 +482,10 @@ class Home extends React.Component {
             linkClick={this.linkClick}
             refreshData={this.refreshData}
           />
-          <p>How has the RGV responded to COVID-19? How can we recover? How can we open up again?</p>
-          <div onClick={() => sendAnalytics(`Clicking Survey Link`, `User pressed survey link from ${endpoint} page`)}>
-            <p>
-              Fill out <a href="https://qfreeaccountssjc1.az1.qualtrics.com/jfe/form/SV_bmcINjXL5EUEbUF">this survey</a> to let us know what you think.
-            </p>
-          </div>
+          <p>Consider donating to the Food Bank of the Rio Grande Valley as we get through this pandemic.</p>
+          <p>
+            <a href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">Donate here</a>
+          </p>
           <Footer
             county={county}
             endpoint={endpoint}
