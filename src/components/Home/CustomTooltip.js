@@ -42,7 +42,7 @@ const CustomTooltip = ({ payload, label, active, category, endpoint, width }) =>
       if (!isMobile && width > 800) {
         return (
           <div className="custom-tooltip">
-            <p className="label">{label}: Cameron - {payload.value}, Hidalgo - {payload['payload']['CountHidalgo']}, Starr - {payload['payload']['CountStarr']}, Willacy - {payload['payload']['CountWillacy']}</p>
+            <p className="label">{label}: Total in the RGV - {payload.value + payload['payload']['CountHidalgo'] + payload['payload']['CountStarr'] + payload['payload']['CountWillacy']}; Cameron - {payload.value}, Hidalgo - {payload['payload']['CountHidalgo']}, Starr - {payload['payload']['CountStarr']}, Willacy - {payload['payload']['CountWillacy']}</p>
             {
               "Cases" in payload["payload"] && payload["payload"]["Cases"] > 0 ?
                 <p className="category-stats">New Cases in Cameron: {payload["payload"]["Cases"]}</p>

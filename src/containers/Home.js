@@ -17,6 +17,8 @@ import {
   getDatesObj,
   getUsefulData,
   getCoronaData,
+  getSiteData,
+  numberWithCommas,
   determineScreenState,
   shallowCompare,
   compare,
@@ -126,6 +128,9 @@ class Home extends React.Component {
       scrollToTop();
       this.getLatestUsefulData(this.state.county);
     }
+
+    const siteData = await getSiteData('getSiteData');
+    if (siteData['status'] === 200) this.setState({ fundData: siteData['data'] })
   }
 
   setActiveCases = async (county) => {
@@ -321,7 +326,7 @@ class Home extends React.Component {
 
   render() {
     let { county, endpoint } = this.state;
-    const { coronaData, category, width } = this.state;
+    const { coronaData, category, width, fundData } = this.state;
     const {
       casesCount,
       cityCasesData,
@@ -482,7 +487,10 @@ class Home extends React.Component {
             linkClick={this.linkClick}
             refreshData={this.refreshData}
           />
-          <p>Consider donating to the Food Bank of the Rio Grande Valley as we get through this pandemic.</p>
+          <p>The Food Bank of the RGV is supporting our community through this pandemic. That's why I started this <a href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">fundraiser</a> to support them.</p>
+          <p>Fundraiser Goal: {fundData && fundData.length > 0 && 'goal' in fundData[0] ? `$${numberWithCommas(fundData[0]['goal'])}` : "$2,500"}</p>
+          <p>Funds Raised: {fundData && fundData.length > 2 && 'total_raised' in fundData[2] ? `$${numberWithCommas(fundData[2]['total_raised'])}` : "$142"}</p>
+          <p>Total Donors: {fundData && fundData.length > 1 && 'donors' in fundData[1] ? `${numberWithCommas(fundData[1]['donors'])}` : "6"}</p>
           <p>
             <a href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">Donate here</a>
           </p>

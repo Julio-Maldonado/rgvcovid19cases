@@ -59,14 +59,14 @@ class About extends React.Component {
             <br />
             <p>All of this data was obtained from the official Press Releases by each county.</p>
             <br />
-            <p>Future updates can be suggested by anybody reading this.</p>
-            <br />
-            <p>If you want to contribute to this project, gather data, have ideas for updates, or have inquiries, email <a href="mailto:julio.maldonado.guzman@gmail.com">julio.maldonado.guzman@gmail.com</a>.</p>
+            {/* <p>Future updates can be suggested by anybody reading this.</p>
+            <br /> */}
+            <p>Future updates can be suggested by anybody reading this. If you want to contribute to this project, gather data, have ideas for updates, or have inquiries, email <a href="mailto:julio.maldonado.guzman@gmail.com">julio.maldonado.guzman@gmail.com</a>.</p>
             <br />
             <p>If you need resources, check out our <Link onClick={() => this.linkClick("resources", "about")} smooth to="/resources">resources</Link> page.</p>
             <br />
             {/* <FacebookShareButton url="https://julio-maldonado.github.io/rgvcovid19cases/"> */}
-            <button className="my-button">
+            {/* <button className="my-button">
               <Link onClick={() => this.linkClick("cases", "about")} smooth to={`/${county}/cases`}>
                 View Confirmed Cases
               </Link>
@@ -80,21 +80,21 @@ class About extends React.Component {
               <Link onClick={() => this.linkClick("deaths", "about")} smooth to={`/${county}/deaths`}>
                 View Confirmed Deaths
               </Link>
-            </button>
-            <br />
-            <br />
+            </button> */}
+            {/* <br />
+            <br /> */}
             <p>Consider donating to the Food Bank of the Rio Grande Valley as we get through this pandemic.</p>
             <p>
-              <a href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">Donate here</a>
+              <a rel="noopener noreferrer" target="_blank" href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">Donate here</a>
             </p>
-            <p>Share this site on {` `}
+            {/* <p>Share this site on {` `}
               <FacebookShareButton onShareWindowClose={() => sendAnalytics("Facebook Share", `Website shared to Facebook`)} url="https://rgvcovid19cases.com/" >
                 <FacebookIcon
                   size={30}
                   round={true}
                 />
               </FacebookShareButton>
-            </p>
+            </p> */}
             <p>This website is maintained and updated daily by <a rel="noopener noreferrer" target="_blank" href="https://juliomaldonado.com">Julio Maldonado</a>.</p>
             <br />
             <br />

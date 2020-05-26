@@ -3,6 +3,8 @@ import React from 'react';
 import { RESOURCES } from '../../constants/constants';
 import { sendAnalytics } from '../../constants/helperFunctions';
 
+import './styles.css';
+
 const RGVResources = () => {
   return (
     <div>

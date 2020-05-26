@@ -19,6 +19,8 @@ import {
   WILLACY_DEFAULT_RECOVERIES,
 } from './constants';
 
+const numberWithCommas = (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
 const getCount = (obj, field) => obj[field] ? obj[field] : 0;
 
 const updateCount = (obj, field) => field in obj ? obj[field] += 1 : obj[field] = 1;
@@ -476,12 +478,30 @@ const getCoronaCases = async(endpoint, county) => {
   }
 }
 
+const getSiteData = async(endpoint) => {
+  try {
+    const resp = await fetch(`https://rgvcovid19backend.herokuapp.com/${endpoint}`, {
+    // const resp = await fetch(`http://localhost:7555/${endpoint}/${county}`, {
+      mode: 'cors',
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    return resp.json();
+  } catch (e) {
+    console.error(e);
+    return { success: false, e };
+  }
+}
+
 export {
   getToday,
   getDatesArr,
   getDatesObj,
   getDefaultActiveCases,
   getAllLatestCases,
+  getSiteData,
+  numberWithCommas,
   shallowCompare,
   getCoronaData,
   determineScreenState,
