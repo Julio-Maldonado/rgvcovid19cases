@@ -382,7 +382,6 @@ class Home extends React.Component {
     const screenState = determineScreenState(width);
     let endpoint = "home";
 
-    console.log({fundData})
     return (
       <div className="App">
         <MyNavBar county={county} endpoint={endpoint} linkClick={this.linkClick} aClick={this.aClick}/>
