@@ -1,5 +1,6 @@
 import React from 'react';
 
+import FundClockProgress from "./custom_fundraiser";
 import PWAPrompt from 'react-ios-pwa-prompt';
 
 import Header from '../components/Home/Header';
@@ -39,6 +40,23 @@ class Home extends React.Component {
     height: 0,
     width: 0,
     endpoint: "",
+    currentFund: 150,
+    softcap: 2500,
+    hardcap: 2500,
+    milestonesData: [
+      {
+        text: "Start",
+        cap: 0
+      },
+      {
+        text: "Current $213",
+        cap: 213
+      },
+      {
+        text: "Goal $2,500",
+        cap: 2500
+      }
+    ]
   }
 
   screenIsSuperLong = false; // not iphone X or 11
@@ -55,6 +73,21 @@ class Home extends React.Component {
     else this.screenIsSuperLong = false;
 
     setTimeout(this.updateWindowDimensions, 1000);
+
+    this.icoFundRaising = setInterval(() => this.updateFundRaising(), 500);
+  }
+
+  updateFundRaising() {
+    const { fundData } = this.state;
+    let { currentFund, milestonesData } = this.state;
+
+    if (fundData && fundData.length > 2 && 'name' in fundData[2]) {
+      currentFund = fundData[2]['amount'];
+      milestonesData[1]['cap'] = currentFund;
+      milestonesData[1]['text'] = `Current $${currentFund}` ;
+      this.setState({ currentFund, milestonesData });
+      clearInterval(this.icoFundRaising);
+    }
   }
 
   checkScreenSize = () => {
@@ -67,7 +100,10 @@ class Home extends React.Component {
 
   updateStateEndpoint = (endpoint) => { endpoint in ENDPOINT_MAP ? this.setState({ endpoint }): this.setState({ endpoint: 'active'}); };
 
-  componentWillUnmount() { window.removeEventListener('resize', this.updateWindowDimensions); }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+    clearInterval(this.icoFundRaising);
+  }
 
   updateWindowDimensions = () => {
     let height = window.innerHeight;
@@ -326,7 +362,7 @@ class Home extends React.Component {
 
   render() {
     let { county, endpoint } = this.state;
-    const { coronaData, category, width, fundData } = this.state;
+    const { coronaData, category, width, fundData, milestonesData } = this.state;
     const {
       casesCount,
       cityCasesData,
@@ -487,12 +523,26 @@ class Home extends React.Component {
             linkClick={this.linkClick}
             refreshData={this.refreshData}
           />
-          <p>The Food Bank of the RGV is supporting our community through this pandemic. That's why I started this <a href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">fundraiser</a> to support them.</p>
-          <p>Fundraiser Goal: {fundData && fundData.length > 0 && 'goal' in fundData[0] ? `$${numberWithCommas(fundData[0]['goal'])}` : "$2,500"}</p>
-          <p>Funds Raised: {fundData && fundData.length > 2 && 'total_raised' in fundData[2] ? `$${numberWithCommas(fundData[2]['total_raised'])}` : "$142"}</p>
-          <p>Total Donors: {fundData && fundData.length > 1 && 'donors' in fundData[1] ? `${numberWithCommas(fundData[1]['donors'])}` : "6"}</p>
+          <p>The Food Bank of the RGV is supporting our community through this pandemic. That's why I started this <a rel="noopener noreferrer" target="_blank" href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">fundraiser</a> to support them.</p>
+          {/* <p>Fundraiser Goal: {fundData && fundData.length > 0 && 'name' in fundData[0] ? `$${numberWithCommas(fundData[0]['amount'])}` : "$2,500"}</p>
+          <p>Funds Raised: {fundData && fundData.length > 2 && 'name' in fundData[2] ? `$${numberWithCommas(fundData[2]['amount'])}` : "$142"}</p>
+          <p>Total Donors: {fundData && fundData.length > 1 && 'name' in fundData[1] ? `${numberWithCommas(fundData[1]['amount'])}` : "6"}</p> */}
+          <FundClockProgress
+            icoProgress={true}
+            currentFund={this.state.currentFund}
+            softcap={this.state.softcap}
+            hardcap={this.state.hardcap}
+            milestones={milestonesData}
+            milestoneLineColor={"#fff"}
+            // progressColor={"warning"} //bootstrap default colors: 'warning', 'info', 'success', ..etc
+            icoClockStyle={{ backgroundColor: "#ddd" }}
+            icoClockFlipStyle={{ backgroundColor: "#ddd" }}
+            icoClockFlipTextStyle={{ color: "#fff" }}
+            unitLabelContainerStyle={{ backgroundColor: "#87CEEB", textAlign: 'center', justifyContent: 'center', alignItems: 'center', alignContent: 'center', margin: 'auto' }}
+          />
           <p>
-            <a href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">Donate here</a>
+            All donations go to the Food Bank of the RGV.<br />
+            <a rel="noopener noreferrer" target="_blank" href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">Donate here</a>
           </p>
           <Footer
             county={county}

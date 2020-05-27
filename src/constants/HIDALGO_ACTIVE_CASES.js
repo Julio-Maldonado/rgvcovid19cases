@@ -1,19 +1,5 @@
 const HIDALGO_ACTIVE_CASES = [
   {
-    "Date": "3/18",
-    "Count": 0,
-    "Cases": 0,
-    "Deaths": 0,
-    "Recoveries": 0
-  },
-  {
-    "Date": "3/19",
-    "Count": 0,
-    "Cases": 0,
-    "Deaths": 0,
-    "Recoveries": 0
-  },
-  {
     "Date": "3/20",
     "Count": 0,
     "Cases": 0,
@@ -484,7 +470,14 @@ const HIDALGO_ACTIVE_CASES = [
   },
   {
     "Date": "5/26",
-    "Count": 216,
+    "Count": 198,
+    "Cases": 12,
+    "Deaths": 0,
+    "Recoveries": 30
+  },
+  {
+    "Date": "5/27",
+    "Count": 198,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0

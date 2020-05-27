@@ -8,6 +8,13 @@
   padding: 0;
 }
 
+.flipClock {
+  color: black;
+  /* background-color: white; */
+  /* width: 100%; */
+  margin: auto;
+}
+
 .App-content {
   margin: 0;
   padding: 0;
@@ -23,4 +30,72 @@
 
 .my-button {
   margin: 5px;
+}
+body * {
+	font-family: 'Nunito', sans-serif;
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #142F4C;
+}
+
+#countdown-wrap {
+  width: 100%;
+  height: 300px;
+  //border: 1px solid black;
+  padding: 20px;
+  font-family: arial;
+  max-width: 650px;
+  margin: 150px auto 300px;
+}
+
+#goal {
+  font-size: 48px;
+  text-align: right;
+  color: #FFF;
+  @media only screen and (max-width : 640px) {
+    text-align: center;  
+  }
+  
+}
+
+#glass {
+  width: 100%;
+  height: 20px;
+  background: #c7c7c7;
+  border-radius: 10px;
+  float: left;
+  overflow: hidden;
+}
+
+#progress {
+  float: left;
+  width: 16%;
+  height: 20px;
+  background: #FF5D50;
+  z-index: 333;
+  //border-radius: 5px;
+}
+
+.goal-stat {
+  width: 25%;
+  //height: 30px;
+  padding: 10px;
+  float: left;
+  margin: 0;
+  color: #FFF;
+  
+  @media only screen and (max-width : 640px) {
+    width: 50%;
+    text-align: center;
+  }
+}
+
+.goal-number, .goal-label {
+  display: block;
+}
+
+.goal-number {
+  font-weight: bold;
 }

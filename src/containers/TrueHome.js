@@ -13,7 +13,7 @@ import {
   getSiteData,
   getCoronaData,
   getDefaultActiveCases,
-  numberWithCommas,
+  // numberWithCommas,
   determineScreenState,
   shallowCompare,
   compare,
@@ -26,7 +26,25 @@ import { ENDPOINT_MAP } from '../constants/constants';
 import DEFAULT_CORONA_DATA from '../constants/DEFAULT_CORONA_DATA';
 
 import './styles.css';
+
+// import FundClockProgress from "react-fundraising-countdown";
+import FundClockProgress from "./custom_fundraiser";
 import { isMobile } from 'react-device-detect';
+
+// let milestonesData = [
+//   {
+//     text: "Start",
+//     cap: 0
+//   },
+//   {
+//     text: "Current $213",
+//     cap: 213
+//   },
+//   {
+//     text: "Goal $2,500",
+//     cap: 2500
+//   }
+// ];
 
 class Home extends React.Component {
   state = {
@@ -34,6 +52,23 @@ class Home extends React.Component {
     coronaData: DEFAULT_CORONA_DATA,
     height: 0,
     width: 0,
+    currentFund: 150,
+    softcap: 2500,
+    hardcap: 2500,
+    milestonesData: [
+      {
+        text: "Start",
+        cap: 0
+      },
+      {
+        text: "Current $213",
+        cap: 213
+      },
+      {
+        text: "Goal $2,500",
+        cap: 2500
+      }
+    ]
   }
 
   screenIsSuperLong = false; // not iphone X or 11
@@ -65,6 +100,21 @@ class Home extends React.Component {
     else this.screenIsSuperLong = false;
 
     setTimeout(this.updateWindowDimensions, 1000);
+
+    this.icoFundRaising = setInterval(() => this.updateFundRaising(), 500);
+  }
+
+  updateFundRaising() {
+    const { fundData } = this.state;
+    let { currentFund, milestonesData } = this.state;
+
+    if (fundData && fundData.length > 2 && 'name' in fundData[2]) {
+      currentFund = fundData[2]['amount'];
+      milestonesData[1]['cap'] = currentFund;
+      milestonesData[1]['text'] = `Current $${currentFund}` ;
+      this.setState({ currentFund, milestonesData });
+      clearInterval(this.icoFundRaising);
+    }
   }
 
   checkScreenSize = () => {
@@ -75,7 +125,10 @@ class Home extends React.Component {
     return false;
   }
 
-  componentWillUnmount() { window.removeEventListener('resize', this.updateWindowDimensions); }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions); 
+    clearInterval(this.icoFundRaising);
+  }
 
   updateWindowDimensions = () => {
     let height = window.innerHeight;
@@ -149,7 +202,7 @@ class Home extends React.Component {
   }
 
   getAllLatestCases = async() => {
-    const defaultData = true;
+    const defaultData = false;
     let [cameronData, hidalgoData, starrData, willacyData] = await Promise.all([
       this.getActiveCases("cameron", defaultData),
       this.getActiveCases("hidalgo", defaultData),
@@ -161,6 +214,7 @@ class Home extends React.Component {
     // console.log({hidalgoData})
     // console.log({starrData})
     // console.log({willacyData})
+    // return;
 
     if (hidalgoData.length !== cameronData.length) {
       hidalgoData.unshift({Date: "3/19", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
@@ -358,7 +412,7 @@ class Home extends React.Component {
 
   render() {
     let { county } = this.state;
-    const { coronaData, category, width, fundData } = this.state;
+    const { coronaData, category, width, fundData, milestonesData } = this.state;
     // console.log({fundData})
     const {
       casesCountCameron,
@@ -504,12 +558,26 @@ class Home extends React.Component {
           <br/>
           <br/>
           <br/>
-          <p>The Food Bank of the RGV is supporting our community through this pandemic. That's why I started this <a href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">fundraiser</a> to support them.</p>
-          <p>Fundraiser Goal: {fundData && fundData.length > 0 && 'name' in fundData[0] ? `$${numberWithCommas(fundData[0]['amount'])}` : "$2,500"}</p>
+          <p>The Food Bank of the RGV is supporting our community through this pandemic. That's why I started this <a rel="noopener noreferrer" target="_blank" href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">fundraiser</a> to support them.</p>
+          {/* <p>Fundraiser Goal: {fundData && fundData.length > 0 && 'name' in fundData[0] ? `$${numberWithCommas(fundData[0]['amount'])}` : "$2,500"}</p>
           <p>Funds Raised: {fundData && fundData.length > 2 && 'name' in fundData[2] ? `$${numberWithCommas(fundData[2]['amount'])}` : "$142"}</p>
-          <p>Total Donors: {fundData && fundData.length > 1 && 'name' in fundData[1] ? `${numberWithCommas(fundData[1]['amount'])}` : "6"}</p>
+          <p>Total Donors: {fundData && fundData.length > 1 && 'name' in fundData[1] ? `${numberWithCommas(fundData[1]['amount'])}` : "6"}</p> */}
+          <FundClockProgress
+            icoProgress={true}
+            currentFund={this.state.currentFund}
+            softcap={this.state.softcap}
+            hardcap={this.state.hardcap}
+            milestones={milestonesData}
+            milestoneLineColor={"#fff"}
+            // progressColor={"warning"} //bootstrap default colors: 'warning', 'info', 'success', ..etc
+            icoClockStyle={{ backgroundColor: "#ddd" }}
+            icoClockFlipStyle={{ backgroundColor: "#ddd" }}
+            icoClockFlipTextStyle={{ color: "#fff" }}
+            unitLabelContainerStyle={{ backgroundColor: "#87CEEB", textAlign: 'center', justifyContent: 'center', alignItems: 'center', alignContent: 'center', margin: 'auto' }}
+          />
           <p>
-            <a href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">Donate here</a>
+            All donations go to the Food Bank of the RGV.<br />
+            <a rel="noopener noreferrer" target="_blank" href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">Donate here</a>
           </p>
           <Footer
             county={county}
