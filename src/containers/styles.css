@@ -36,9 +36,9 @@ body * {
 	box-sizing: border-box;
 }
 
-body {
+/* body {
 	background-color: #142F4C;
-}
+} */
 
 #countdown-wrap {
   width: 100%;

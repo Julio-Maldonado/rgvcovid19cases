@@ -202,7 +202,7 @@ class Home extends React.Component {
   }
 
   getAllLatestCases = async() => {
-    const defaultData = false;
+    const defaultData = true;
     let [cameronData, hidalgoData, starrData, willacyData] = await Promise.all([
       this.getActiveCases("cameron", defaultData),
       this.getActiveCases("hidalgo", defaultData),
@@ -576,7 +576,7 @@ class Home extends React.Component {
             unitLabelContainerStyle={{ backgroundColor: "#87CEEB", textAlign: 'center', justifyContent: 'center', alignItems: 'center', alignContent: 'center', margin: 'auto' }}
           />
           <p>
-            All donations go to the Food Bank of the RGV.<br />
+            All donations go directly to the Food Bank of the RGV.<br />
             <a rel="noopener noreferrer" target="_blank" href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">Donate here</a>
           </p>
           <Footer

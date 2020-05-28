@@ -160,6 +160,8 @@ const shallowCompare = (instance, nextProps, nextState) =>{
   );
 }
 
+let alreadyAlertedFlag = false;
+
 const getCoronaData = async(endpoint, county) => {
   let coronaMap = {};
   let backendEndpoint = getEndpoint(endpoint);
@@ -169,7 +171,11 @@ const getCoronaData = async(endpoint, county) => {
     sendAnalytics(`Error Retrieving${backendEndpoint} Data`, `${countyData['status']} error from ${JSON.stringify(countyData)}`);
     console.error('api call failed');
     console.error({ countyData });
-    alert('There was an error getting the latest data. Please try refreshing the page later.')
+    // if (alreadyAlertedFlag) alreadyAlertedFlag = false;
+    // else { 
+    //   alert('There was an error getting the latest data. Please try refreshing the page later.')
+    //   alreadyAlertedFlag = true;
+    // }
     return getDefaultCases(endpoint, county);
   }
   // {

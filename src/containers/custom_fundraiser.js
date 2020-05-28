@@ -203,8 +203,8 @@ function (_React$Component4) {
           currency = _props4.currency,
           milestones = _props4.milestones,
           milestoneLineColor = _props4.milestoneLineColor;
-      console.log('current Fund: ', currentFund);
-      console.log('Milstones: ', JSON.stringify(milestones));
+      // console.log('current Fund: ', currentFund);
+      // console.log('Milstones: ', JSON.stringify(milestones));
       var previousCap = 0;
       var divs = milestones.map(function (item, i) {
         var width = i == 0 ? item.cap / hardcap * 100 : Math.abs(item.cap - previousCap) / hardcap * 100;
