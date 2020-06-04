@@ -481,6 +481,62 @@ const HIDALGO_ACTIVE_CASES = [
     "Cases": 21,
     "Deaths": 0,
     "Recoveries": 30
+  },
+  {
+    "Date": "5/28",
+    "Count": 169,
+    "Cases": 11,
+    "Deaths": 0,
+    "Recoveries": 31
+  },
+  {
+    "Date": "5/29",
+    "Count": 178,
+    "Cases": 12,
+    "Deaths": 0,
+    "Recoveries": 3
+  },
+  {
+    "Date": "5/30",
+    "Count": 178,
+    "Cases": 0,
+    "Deaths": 0,
+    "Recoveries": 0
+  },
+  {
+    "Date": "5/31",
+    "Count": 193,
+    "Cases": 15,
+    "Deaths": 0,
+    "Recoveries": 0
+  },
+  {
+    "Date": "6/01",
+    "Count": 192,
+    "Cases": 9,
+    "Deaths": 1,
+    "Recoveries": 9
+  },
+  {
+    "Date": "6/02",
+    "Count": 202,
+    "Cases": 26,
+    "Deaths": 0,
+    "Recoveries": 16
+  },
+  {
+    "Date": "6/03",
+    "Count": 211,
+    "Cases": 24,
+    "Deaths": 0,
+    "Recoveries": 15
+  },
+  {
+    "Date": "6/04",
+    "Count": 211,
+    "Cases": 0,
+    "Deaths": 0,
+    "Recoveries": 0
   }
 ];
 

@@ -523,7 +523,7 @@ class Home extends React.Component {
             linkClick={this.linkClick}
             refreshData={this.refreshData}
           />
-          <p>The Food Bank of the RGV is supporting our community through this pandemic. That's why I started this <a rel="noopener noreferrer" target="_blank" href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">fundraiser</a> to support them.</p>
+          <p>The Food Bank of the RGV is supporting our community through this pandemic. That's why I started <a rel="noopener noreferrer" target="_blank" href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">this fundraiser</a> to support them.</p>
           {/* <p>Fundraiser Goal: {fundData && fundData.length > 0 && 'name' in fundData[0] ? `$${numberWithCommas(fundData[0]['amount'])}` : "$2,500"}</p>
           <p>Funds Raised: {fundData && fundData.length > 2 && 'name' in fundData[2] ? `$${numberWithCommas(fundData[2]['amount'])}` : "$142"}</p>
           <p>Total Donors: {fundData && fundData.length > 1 && 'name' in fundData[1] ? `${numberWithCommas(fundData[1]['amount'])}` : "6"}</p> */}
@@ -541,7 +541,7 @@ class Home extends React.Component {
             unitLabelContainerStyle={{ backgroundColor: "#87CEEB", textAlign: 'center', justifyContent: 'center', alignItems: 'center', alignContent: 'center', margin: 'auto' }}
           />
           <p>
-            All donations go to the Food Bank of the RGV.<br />
+          All donations go directly to the Food Bank of the RGV.<br />
             <a rel="noopener noreferrer" target="_blank" href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">Donate here</a>
           </p>
           <Footer

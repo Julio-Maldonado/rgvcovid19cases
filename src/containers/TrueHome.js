@@ -202,7 +202,7 @@ class Home extends React.Component {
   }
 
   getAllLatestCases = async() => {
-    const defaultData = true;
+    const defaultData = false;
     let [cameronData, hidalgoData, starrData, willacyData] = await Promise.all([
       this.getActiveCases("cameron", defaultData),
       this.getActiveCases("hidalgo", defaultData),
@@ -281,7 +281,7 @@ class Home extends React.Component {
     this.setState({coronaData});
     const siteData = await getSiteData('getSiteData');
     if (siteData['status'] === 200) this.setState({ fundData: siteData['data'] })
-    // console.log({coronaData})
+    console.log({coronaData})
   }
 
   getActiveCases = async (county, defaultData = true) => {
@@ -558,7 +558,7 @@ class Home extends React.Component {
           <br/>
           <br/>
           <br/>
-          <p>The Food Bank of the RGV is supporting our community through this pandemic. That's why I started this <a rel="noopener noreferrer" target="_blank" href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">fundraiser</a> to support them.</p>
+          <p>The Food Bank of the RGV is supporting our community through this pandemic. That's why I started <a rel="noopener noreferrer" target="_blank" href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">this fundraiser</a> to support them.</p>
           {/* <p>Fundraiser Goal: {fundData && fundData.length > 0 && 'name' in fundData[0] ? `$${numberWithCommas(fundData[0]['amount'])}` : "$2,500"}</p>
           <p>Funds Raised: {fundData && fundData.length > 2 && 'name' in fundData[2] ? `$${numberWithCommas(fundData[2]['amount'])}` : "$142"}</p>
           <p>Total Donors: {fundData && fundData.length > 1 && 'name' in fundData[1] ? `${numberWithCommas(fundData[1]['amount'])}` : "6"}</p> */}

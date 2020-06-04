@@ -495,6 +495,62 @@ const CAMERON_ACTIVE_CASES = [
     "Cases": 20,
     "Deaths": 0,
     "Recoveries": 24
+  },
+  {
+    "Date": "5/28",
+    "Count": 170,
+    "Cases": 12,
+    "Deaths": 2,
+    "Recoveries": 16
+  },
+  {
+    "Date": "5/29",
+    "Count": 166,
+    "Cases": 11,
+    "Deaths": 1,
+    "Recoveries": 14
+  },
+  {
+    "Date": "5/30",
+    "Count": 169,
+    "Cases": 10,
+    "Deaths": 0,
+    "Recoveries": 7
+  },
+  {
+    "Date": "5/31",
+    "Count": 169,
+    "Cases": 0,
+    "Deaths": 0,
+    "Recoveries": 0
+  },
+  {
+    "Date": "6/01",
+    "Count": 174,
+    "Cases": 12,
+    "Deaths": 0,
+    "Recoveries": 7
+  },
+  {
+    "Date": "6/02",
+    "Count": 182,
+    "Cases": 23,
+    "Deaths": 0,
+    "Recoveries": 15
+  },
+  {
+    "Date": "6/03",
+    "Count": 182,
+    "Cases": 21,
+    "Deaths": 3,
+    "Recoveries": 18
+  },
+  {
+    "Date": "6/04",
+    "Count": 182,
+    "Cases": 0,
+    "Deaths": 0,
+    "Recoveries": 0
   }
 ];
 
