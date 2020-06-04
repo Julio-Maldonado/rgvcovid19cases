@@ -41,8 +41,8 @@ class Home extends React.Component {
     width: 0,
     endpoint: "",
     currentFund: 150,
-    softcap: 2500,
-    hardcap: 2500,
+    softcap: 1000,
+    hardcap: 1000,
     milestonesData: [
       {
         text: "Start",
@@ -53,8 +53,8 @@ class Home extends React.Component {
         cap: 213
       },
       {
-        text: "Goal $2,500",
-        cap: 2500
+        text: "Goal $500",
+        cap: 500
       }
     ]
   }
@@ -79,13 +79,17 @@ class Home extends React.Component {
 
   updateFundRaising() {
     const { fundData } = this.state;
-    let { currentFund, milestonesData } = this.state;
+    let { currentFund, milestonesData, softcap, hardcap } = this.state;
 
     if (fundData && fundData.length > 2 && 'name' in fundData[2]) {
       currentFund = fundData[2]['amount'];
+      let goalFund = fundData[0]['amount'];
+      hardcap = softcap = fundData[0]['amount'];
       milestonesData[1]['cap'] = currentFund;
-      milestonesData[1]['text'] = `Current $${currentFund}` ;
-      this.setState({ currentFund, milestonesData });
+      milestonesData[1]['text'] = `Current $${currentFund}`;
+      milestonesData[2]['cap'] = goalFund;
+      milestonesData[2]['text'] = `Goal $${goalFund}`;
+      this.setState({ currentFund, milestonesData, softcap, hardcap });
       clearInterval(this.icoFundRaising);
     }
   }
