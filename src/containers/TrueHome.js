@@ -206,7 +206,7 @@ class Home extends React.Component {
   }
 
   getAllLatestCases = async() => {
-    const defaultData = false;
+    const defaultData = true;
     let [cameronData, hidalgoData, starrData, willacyData] = await Promise.all([
       this.getActiveCases("cameron", defaultData),
       this.getActiveCases("hidalgo", defaultData),
@@ -285,7 +285,7 @@ class Home extends React.Component {
     this.setState({coronaData});
     const siteData = await getSiteData('getSiteData');
     if (siteData['status'] === 200) this.setState({ fundData: siteData['data'] })
-    console.log({coronaData})
+    // console.log({coronaData})
   }
 
   getActiveCases = async (county, defaultData = true) => {
@@ -416,7 +416,7 @@ class Home extends React.Component {
 
   render() {
     let { county } = this.state;
-    const { coronaData, category, width, fundData, milestonesData } = this.state;
+    const { coronaData, category, width, milestonesData } = this.state;
     // console.log({fundData})
     const {
       casesCountCameron,
@@ -581,7 +581,7 @@ class Home extends React.Component {
           />
           <p>
             All donations go directly to the Food Bank of the RGV.<br />
-            <a rel="noopener noreferrer" target="_blank" href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">Donate here</a>
+            <a rel="noopener noreferrer" target="_blank" href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">Donate now!</a>
           </p>
           <Footer
             county={county}

@@ -160,7 +160,7 @@ const shallowCompare = (instance, nextProps, nextState) =>{
   );
 }
 
-let alreadyAlertedFlag = false;
+// let alreadyAlertedFlag = false;
 
 const getCoronaData = async(endpoint, county) => {
   let coronaMap = {};

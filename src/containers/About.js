@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { HashLink as Link } from 'react-router-hash-link';
-import { FacebookIcon, FacebookShareButton } from 'react-share';
+// import { FacebookIcon, FacebookShareButton } from 'react-share';
 
 import MyNavBar from '../components/utility/MyNavBar';
 import SideMenu from '../components/utility/SideMenu';

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import FundClockProgress from "./custom_fundraiser";
-import PWAPrompt from 'react-ios-pwa-prompt';
 
 import Header from '../components/Home/Header';
 import CoronaChart from '../components/Home/CoronaChart';
@@ -19,7 +18,6 @@ import {
   getUsefulData,
   getCoronaData,
   getSiteData,
-  numberWithCommas,
   determineScreenState,
   shallowCompare,
   compare,
@@ -366,7 +364,7 @@ class Home extends React.Component {
 
   render() {
     let { county, endpoint } = this.state;
-    const { coronaData, category, width, fundData, milestonesData } = this.state;
+    const { coronaData, category, width, milestonesData } = this.state;
     const {
       casesCount,
       cityCasesData,
@@ -546,7 +544,7 @@ class Home extends React.Component {
           />
           <p>
           All donations go directly to the Food Bank of the RGV.<br />
-            <a rel="noopener noreferrer" target="_blank" href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">Donate here</a>
+            <a rel="noopener noreferrer" target="_blank" href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">Donate now!</a>
           </p>
           <Footer
             county={county}
@@ -554,7 +552,6 @@ class Home extends React.Component {
             aClick={this.aClick}
             linkClick={this.linkClick}
           />
-          <PWAPrompt delay={10000} />
         </div>
       </div>
     );
