@@ -44,6 +44,14 @@ Date.prototype.addDays = function(days) {
   return date;
 };
 
+const getPluralCount = (count) => {
+  if (count < 21) return `${count}th`;
+  if (count === 21) return `${count}st`;
+  if (count === 22) return `${count}nd`;
+  if (count === 23) return `${count}rd`;
+  if (count < 31) return `${count}th`;
+}
+
 const getDatesArr = (startDate, stopDate) => {
   let dateArray = [];
   let currentDate = startDate;
@@ -504,6 +512,7 @@ export {
   getToday,
   getDatesArr,
   getDatesObj,
+  getPluralCount,
   getDefaultActiveCases,
   getAllLatestCases,
   getSiteData,

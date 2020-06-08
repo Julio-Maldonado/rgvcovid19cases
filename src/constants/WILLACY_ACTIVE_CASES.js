@@ -393,133 +393,140 @@ const WILLACY_ACTIVE_CASES = [
   },
   {
     "Date": "5/20",
-    "Count": 2,
-    "Cases": 0,
+    "Count": 3,
+    "Cases": 1,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "5/21",
-    "Count": 2,
+    "Count": 3,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "5/22",
-    "Count": 2,
+    "Count": 3,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "5/23",
-    "Count": 2,
+    "Count": 3,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "5/24",
-    "Count": 2,
+    "Count": 3,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "5/25",
-    "Count": 2,
+    "Count": 3,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "5/26",
-    "Count": 2,
-    "Cases": 0,
+    "Count": 4,
+    "Cases": 1,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "5/27",
-    "Count": 2,
+    "Count": 4,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "5/28",
-    "Count": 2,
+    "Count": 4,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "5/29",
-    "Count": 2,
+    "Count": 4,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "5/30",
-    "Count": 2,
+    "Count": 4,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "5/31",
-    "Count": 2,
+    "Count": 4,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/01",
-    "Count": 2,
-    "Cases": 0,
+    "Count": 7,
+    "Cases": 3,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/02",
-    "Count": 2,
+    "Count": 7,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/03",
-    "Count": 2,
+    "Count": 7,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/04",
-    "Count": 2,
+    "Count": 7,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/05",
-    "Count": 2,
+    "Count": 7,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/06",
-    "Count": 2,
+    "Count": 7,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/07",
-    "Count": 2,
+    "Count": 7,
+    "Cases": 0,
+    "Deaths": 0,
+    "Recoveries": 0
+  },
+  {
+    "Date": "6/08",
+    "Count": 7,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0

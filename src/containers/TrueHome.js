@@ -14,6 +14,7 @@ import {
   getCoronaData,
   getDefaultActiveCases,
   // numberWithCommas,
+  getPluralCount,
   determineScreenState,
   shallowCompare,
   compare,
@@ -46,6 +47,7 @@ import { isMobile } from 'react-device-detect';
 //   }
 // ];
 
+
 class Home extends React.Component {
   state = {
     county: this.props.county,
@@ -68,7 +70,8 @@ class Home extends React.Component {
         text: "Goal $500",
         cap: 500
       }
-    ]
+    ],
+    totalDonors: 1
   }
 
   screenIsSuperLong = false; // not iphone X or 11
@@ -116,7 +119,9 @@ class Home extends React.Component {
       milestonesData[1]['text'] = `Current $${currentFund}`;
       milestonesData[2]['cap'] = goalFund;
       milestonesData[2]['text'] = `Goal $${goalFund}`;
-      this.setState({ currentFund, milestonesData, softcap, hardcap });
+      let totalDonors = fundData[1]['amount'];
+
+      this.setState({ currentFund, milestonesData, softcap, hardcap, totalDonors });
       clearInterval(this.icoFundRaising);
     }
   }
@@ -433,6 +438,8 @@ class Home extends React.Component {
       recoveriesCountWillacy,
     } = this.state;
 
+
+
     if (!county) county = "cameron";
 
     let { height } = this.state
@@ -581,7 +588,7 @@ class Home extends React.Component {
           />
           <p>
             All donations go directly to the Food Bank of the RGV.<br />
-            <a rel="noopener noreferrer" target="_blank" href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">Donate now!</a>
+            <a rel="noopener noreferrer" target="_blank" href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">Be the {getPluralCount(this.state.totalDonors + 1)} donor</a>
           </p>
           <Footer
             county={county}

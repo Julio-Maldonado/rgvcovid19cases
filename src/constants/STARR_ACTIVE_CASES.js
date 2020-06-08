@@ -379,147 +379,154 @@ const STARR_ACTIVE_CASES = [
   },
   {
     "Date": "5/18",
-    "Count": 12,
-    "Cases": 4,
+    "Count": 13,
+    "Cases": 5,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "5/19",
-    "Count": 12,
+    "Count": 13,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "5/20",
-    "Count": 12,
-    "Cases": 0,
+    "Count": 14,
+    "Cases": 1,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "5/21",
-    "Count": 12,
+    "Count": 14,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "5/22",
-    "Count": 13,
+    "Count": 15,
     "Cases": 1,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "5/23",
-    "Count": 13,
+    "Count": 15,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "5/24",
-    "Count": 13,
+    "Count": 15,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "5/25",
-    "Count": 13,
+    "Count": 15,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "5/26",
-    "Count": 13,
+    "Count": 15,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "5/27",
-    "Count": 13,
-    "Cases": 0,
+    "Count": 18,
+    "Cases": 3,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "5/28",
-    "Count": 13,
-    "Cases": 0,
+    "Count": 18,
+    "Cases": 6,
     "Deaths": 0,
-    "Recoveries": 0
+    "Recoveries": 6
   },
   {
     "Date": "5/29",
-    "Count": 13,
+    "Count": 18,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "5/30",
-    "Count": 13,
+    "Count": 18,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "5/31",
-    "Count": 13,
+    "Count": 18,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/01",
-    "Count": 13,
-    "Cases": 0,
+    "Count": 17,
+    "Cases": 4,
     "Deaths": 0,
-    "Recoveries": 0
+    "Recoveries": 5
   },
   {
     "Date": "6/02",
-    "Count": 13,
+    "Count": 17,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/03",
-    "Count": 13,
+    "Count": 17,
     "Cases": 0,
     "Deaths": 0,
-    "Recoveries": 0
+    "Recoveries": 2
   },
   {
     "Date": "6/04",
-    "Count": 13,
+    "Count": 17,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/05",
-    "Count": 13,
+    "Count": 17,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/06",
-    "Count": 13,
+    "Count": 27,
+    "Cases": 13,
+    "Deaths": 1,
+    "Recoveries": 0
+  },
+  {
+    "Date": "6/07",
+    "Count": 27,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
-    "Date": "6/07",
-    "Count": 13,
+    "Date": "6/08",
+    "Count": 27,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
