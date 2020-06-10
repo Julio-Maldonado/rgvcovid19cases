@@ -505,29 +505,36 @@ const WILLACY_ACTIVE_CASES = [
   },
   {
     "Date": "6/05",
-    "Count": 7,
-    "Cases": 0,
+    "Count": 13,
+    "Cases": 6,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/06",
-    "Count": 7,
-    "Cases": 0,
+    "Count": 17,
+    "Cases": 4,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/07",
-    "Count": 7,
+    "Count": 17,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/08",
-    "Count": 7,
-    "Cases": 0,
+    "Count": 26,
+    "Cases": 9,
+    "Deaths": 0,
+    "Recoveries": 0
+  },
+  {
+    "Date": "6/09",
+    "Count": 29,
+    "Cases": 3,
     "Deaths": 0,
     "Recoveries": 0
   }

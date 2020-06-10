@@ -211,6 +211,7 @@ class Home extends React.Component {
   }
 
   getAllLatestCases = async() => {
+    // const defaultData = false;
     const defaultData = true;
     let [cameronData, hidalgoData, starrData, willacyData] = await Promise.all([
       this.getActiveCases("cameron", defaultData),
@@ -218,12 +219,13 @@ class Home extends React.Component {
       this.getActiveCases("starr", defaultData),
       this.getActiveCases("willacy", defaultData)
     ]);
-
-    // console.log({cameronData})
-    // console.log({hidalgoData})
-    // console.log({starrData})
-    // console.log({willacyData})
-    // return;
+    if (defaultData === false) {
+      console.log({cameronData})
+      console.log({hidalgoData})
+      console.log({starrData})
+      console.log({willacyData})
+      return;
+    }
 
     if (hidalgoData.length !== cameronData.length) {
       hidalgoData.unshift({Date: "3/19", Count: 0, Cases: 0, Deaths: 0, Recoveries: 0})
@@ -290,7 +292,7 @@ class Home extends React.Component {
     this.setState({coronaData});
     const siteData = await getSiteData('getSiteData');
     if (siteData['status'] === 200) this.setState({ fundData: siteData['data'] })
-    console.log({coronaData})
+    // console.log({coronaData})
   }
 
   getActiveCases = async (county, defaultData = true) => {
