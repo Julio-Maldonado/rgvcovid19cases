@@ -1478,7 +1478,7 @@ const DEFAULT_CORONA_DATA = [
     "RecoveriesStarr": 2,
     "CountWillacy": 7,
     "CasesWillacy": 0,
-    "DeathsWillacy": 0,
+    "DeathsWillacy": 1,
     "RecoveriesWillacy": 0
   },
   {
@@ -1514,7 +1514,7 @@ const DEFAULT_CORONA_DATA = [
     "CasesStarr": 0,
     "DeathsStarr": 0,
     "RecoveriesStarr": 0,
-    "CountWillacy": 13,
+    "CountWillacy": 12,
     "CasesWillacy": 6,
     "DeathsWillacy": 0,
     "RecoveriesWillacy": 0
@@ -1533,7 +1533,7 @@ const DEFAULT_CORONA_DATA = [
     "CasesStarr": 13,
     "DeathsStarr": 1,
     "RecoveriesStarr": 0,
-    "CountWillacy": 17,
+    "CountWillacy": 16,
     "CasesWillacy": 4,
     "DeathsWillacy": 0,
     "RecoveriesWillacy": 0
@@ -1552,7 +1552,7 @@ const DEFAULT_CORONA_DATA = [
     "CasesStarr": 0,
     "DeathsStarr": 0,
     "RecoveriesStarr": 0,
-    "CountWillacy": 17,
+    "CountWillacy": 16,
     "CasesWillacy": 0,
     "DeathsWillacy": 0,
     "RecoveriesWillacy": 0
@@ -1571,7 +1571,7 @@ const DEFAULT_CORONA_DATA = [
     "CasesStarr": 0,
     "DeathsStarr": 0,
     "RecoveriesStarr": 0,
-    "CountWillacy": 26,
+    "CountWillacy": 25,
     "CasesWillacy": 9,
     "DeathsWillacy": 0,
     "RecoveriesWillacy": 0
@@ -1590,8 +1590,46 @@ const DEFAULT_CORONA_DATA = [
     "CasesStarr": 8,
     "DeathsStarr": 0,
     "RecoveriesStarr": 7,
-    "CountWillacy": 29,
+    "CountWillacy": 28,
     "CasesWillacy": 3,
+    "DeathsWillacy": 0,
+    "RecoveriesWillacy": 0
+  },
+  {
+    "Date": "6/10",
+    "Count": 262,
+    "Cases": 39,
+    "Deaths": 2,
+    "Recoveries": 28,
+    "CountHidalgo": 336,
+    "CasesHidalgo": 38,
+    "DeathsHidalgo": 0,
+    "RecoveriesHidalgo": 15,
+    "CountStarr": 28,
+    "CasesStarr": 3,
+    "DeathsStarr": 0,
+    "RecoveriesStarr": 3,
+    "CountWillacy": 29,
+    "CasesWillacy": 1,
+    "DeathsWillacy": 0,
+    "RecoveriesWillacy": 0
+  },
+  {
+    "Date": "6/11",
+    "Count": 262,
+    "Cases": 0,
+    "Deaths": 0,
+    "Recoveries": 0,
+    "CountHidalgo": 336,
+    "CasesHidalgo": 0,
+    "DeathsHidalgo": 0,
+    "RecoveriesHidalgo": 0,
+    "CountStarr": 28,
+    "CasesStarr": 0,
+    "DeathsStarr": 0,
+    "RecoveriesStarr": 0,
+    "CountWillacy": 29,
+    "CasesWillacy": 0,
     "DeathsWillacy": 0,
     "RecoveriesWillacy": 0
   }
