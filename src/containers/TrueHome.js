@@ -452,6 +452,9 @@ class Home extends React.Component {
 
     return (
       <div className="App">
+        <head>
+        <script data-ad-client="ca-pub-9958881248100716" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        </head>
         <MyNavBar county={county} endpoint={endpoint} linkClick={this.linkClick} aClick={this.aClick}/>
         <div onClick={() => this.navigateSideMenu()}>
           <SideMenu
