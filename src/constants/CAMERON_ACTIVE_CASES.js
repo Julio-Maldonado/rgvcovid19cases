@@ -540,77 +540,105 @@ const CAMERON_ACTIVE_CASES = [
   },
   {
     "Date": "6/03",
-    "Count": 182,
+    "Count": 181,
     "Cases": 21,
-    "Deaths": 3,
+    "Deaths": 4,
     "Recoveries": 18
   },
   {
     "Date": "6/04",
-    "Count": 201,
+    "Count": 200,
     "Cases": 21,
     "Deaths": 0,
     "Recoveries": 2
   },
   {
     "Date": "6/05",
-    "Count": 209,
+    "Count": 208,
     "Cases": 22,
     "Deaths": 0,
     "Recoveries": 14
   },
   {
     "Date": "6/06",
-    "Count": 225,
+    "Count": 224,
     "Cases": 29,
     "Deaths": 0,
     "Recoveries": 13
   },
   {
     "Date": "6/07",
-    "Count": 225,
+    "Count": 224,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/08",
-    "Count": 235,
+    "Count": 234,
     "Cases": 27,
     "Deaths": 0,
     "Recoveries": 17
   },
   {
     "Date": "6/09",
-    "Count": 253,
+    "Count": 252,
     "Cases": 32,
     "Deaths": 1,
     "Recoveries": 13
   },
   {
     "Date": "6/10",
-    "Count": 262,
+    "Count": 261,
     "Cases": 39,
     "Deaths": 2,
     "Recoveries": 28
   },
   {
     "Date": "6/11",
-    "Count": 283,
+    "Count": 282,
     "Cases": 41,
     "Deaths": 2,
     "Recoveries": 18
   },
   {
     "Date": "6/12",
-    "Count": 291,
+    "Count": 290,
     "Cases": 50,
     "Deaths": 2,
     "Recoveries": 40
   },
   {
     "Date": "6/13",
-    "Count": 291,
+    "Count": 331,
+    "Cases": 57,
+    "Deaths": 0,
+    "Recoveries": 16
+  },
+  {
+    "Date": "6/14",
+    "Count": 331,
+    "Cases": 0,
+    "Deaths": 0,
+    "Recoveries": 0
+  },
+  {
+    "Date": "6/15",
+    "Count": 350,
+    "Cases": 40,
+    "Deaths": 0,
+    "Recoveries": 21
+  },
+  {
+    "Date": "6/16",
+    "Count": 381,
+    "Cases": 58,
+    "Deaths": 1,
+    "Recoveries": 26
+  },
+  {
+    "Date": "6/17",
+    "Count": 381,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
