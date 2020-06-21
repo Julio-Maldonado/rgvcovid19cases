@@ -547,56 +547,77 @@ const WILLACY_ACTIVE_CASES = [
   },
   {
     "Date": "6/11",
-    "Count": 29,
-    "Cases": 0,
+    "Count": 34,
+    "Cases": 5,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/12",
-    "Count": 29,
-    "Cases": 0,
+    "Count": 40,
+    "Cases": 6,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/13",
-    "Count": 29,
-    "Cases": 0,
+    "Count": 42,
+    "Cases": 2,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/14",
-    "Count": 29,
+    "Count": 42,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/15",
-    "Count": 29,
+    "Count": 42,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/16",
-    "Count": 29,
-    "Cases": 0,
+    "Count": 46,
+    "Cases": 4,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/17",
-    "Count": 29,
-    "Cases": 0,
+    "Count": 52,
+    "Cases": 6,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/18",
-    "Count": 29,
+    "Count": 52,
+    "Cases": 0,
+    "Deaths": 0,
+    "Recoveries": 0
+  },
+  {
+    "Date": "6/19",
+    "Count": 52,
+    "Cases": 0,
+    "Deaths": 0,
+    "Recoveries": 0
+  },
+  {
+    "Date": "6/20",
+    "Count": 52,
+    "Cases": 0,
+    "Deaths": 0,
+    "Recoveries": 0
+  },
+  {
+    "Date": "6/21",
+    "Count": 52,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0

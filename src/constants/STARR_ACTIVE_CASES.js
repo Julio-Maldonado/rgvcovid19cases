@@ -519,84 +519,105 @@ const STARR_ACTIVE_CASES = [
   },
   {
     "Date": "6/07",
-    "Count": 27,
-    "Cases": 0,
+    "Count": 32,
+    "Cases": 5,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/08",
-    "Count": 27,
-    "Cases": 0,
+    "Count": 36,
+    "Cases": 4,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/09",
-    "Count": 28,
+    "Count": 37,
     "Cases": 8,
     "Deaths": 0,
     "Recoveries": 7
   },
   {
     "Date": "6/10",
-    "Count": 28,
+    "Count": 37,
     "Cases": 3,
     "Deaths": 0,
     "Recoveries": 3
   },
   {
     "Date": "6/11",
-    "Count": 28,
-    "Cases": 0,
+    "Count": 62,
+    "Cases": 25,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/12",
-    "Count": 30,
+    "Count": 64,
     "Cases": 2,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/13",
-    "Count": 49,
+    "Count": 83,
     "Cases": 19,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/14",
-    "Count": 49,
-    "Cases": 0,
+    "Count": 93,
+    "Cases": 12,
     "Deaths": 0,
-    "Recoveries": 0
+    "Recoveries": 2
   },
   {
     "Date": "6/15",
-    "Count": 75,
+    "Count": 119,
     "Cases": 26,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/16",
-    "Count": 75,
-    "Cases": 0,
+    "Count": 132,
+    "Cases": 13,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/17",
-    "Count": 75,
+    "Count": 132,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/18",
-    "Count": 75,
+    "Count": 182,
+    "Cases": 50,
+    "Deaths": 0,
+    "Recoveries": 0
+  },
+  {
+    "Date": "6/19",
+    "Count": 182,
+    "Cases": 0,
+    "Deaths": 0,
+    "Recoveries": 19
+  },
+  {
+    "Date": "6/20",
+    "Count": 269,
+    "Cases": 106,
+    "Deaths": 0,
+    "Recoveries": 0
+  },
+  {
+    "Date": "6/21",
+    "Count": 269,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0

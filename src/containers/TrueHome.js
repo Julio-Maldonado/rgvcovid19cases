@@ -292,7 +292,7 @@ class Home extends React.Component {
     this.setState({coronaData});
     const siteData = await getSiteData('getSiteData');
     if (siteData['status'] === 200) this.setState({ fundData: siteData['data'] })
-    // console.log({coronaData})
+    console.log({coronaData})
   }
 
   getActiveCases = async (county, defaultData = true) => {
@@ -589,7 +589,7 @@ class Home extends React.Component {
             icoClockStyle={{ backgroundColor: "#ddd" }}
             icoClockFlipStyle={{ backgroundColor: "#ddd" }}
             icoClockFlipTextStyle={{ color: "#fff" }}
-            unitLabelContainerStyle={{ backgroundColor: "#87CEEB", textAlign: 'center', justifyContent: 'center', alignItems: 'center', alignContent: 'center', margin: 'auto' }}
+            unitLabelContainerStyle={{ width: width * 0.9, backgroundColor: "#87CEEB", textAlign: 'center', justifyContent: 'center', alignItems: 'center', alignContent: 'center', margin: 'auto' }}
           />
           <p>
             All donations go directly to the Food Bank of the RGV.<br />
