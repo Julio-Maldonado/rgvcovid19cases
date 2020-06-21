@@ -292,7 +292,7 @@ class Home extends React.Component {
     this.setState({coronaData});
     const siteData = await getSiteData('getSiteData');
     if (siteData['status'] === 200) this.setState({ fundData: siteData['data'] })
-    console.log({coronaData})
+    // console.log({coronaData})
   }
 
   getActiveCases = async (county, defaultData = true) => {
