@@ -680,7 +680,14 @@ const CAMERON_ACTIVE_CASES = [
   },
   {
     "Date": "6/23",
-    "Count": 591,
+    "Count": 641,
+    "Cases": 111,
+    "Deaths": 1,
+    "Recoveries": 60
+  },
+  {
+    "Date": "6/24",
+    "Count": 641,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
