@@ -299,6 +299,7 @@ const getCoronaData = async(endpoint, county) => {
       "Cities": {
         // Cameron
         "Harlingen": getCount(coronaMap[key], "Harlingen"),
+        "Bayview": getCount(coronaMap[key], "Bayview"),
         "Brownsville": getCount(coronaMap[key], "Brownsville"),
         "Rancho Viejo": getCount(coronaMap[key], "Rancho Viejo"),
         "Rio Hondo": getCount(coronaMap[key], "Rio Hondo"),
@@ -309,6 +310,13 @@ const getCoronaData = async(endpoint, county) => {
         "Santa Rosa": getCount(coronaMap[key], "Santa Rosa"),
         "Port Isabel": getCount(coronaMap[key], "Port Isabel"),
         "Palm Valley": getCount(coronaMap[key], "Palm Valley"),
+        "Olmito": getCount(coronaMap[key], "Olmito"),
+        "Los Indios": getCount(coronaMap[key], "Los Indios"),
+        "Combes": getCount(coronaMap[key], "Combes"),
+        "Primera": getCount(coronaMap[key], "Primera"),
+        "Indian Lake": getCount(coronaMap[key], "Indian Lake"),
+        "Santa Maria": getCount(coronaMap[key], "Santa Maria"),
+        "South Padre Island": getCount(coronaMap[key], "South Padre Island"),
         // Hidalgo
         "Hidalgo": getCount(coronaMap[key], "Hidalgo"),
         "Edcouch": getCount(coronaMap[key], "Edcouch"),
@@ -324,6 +332,7 @@ const getCoronaData = async(endpoint, county) => {
         "Pharr": getCount(coronaMap[key], "Pharr"),
         "Donna": getCount(coronaMap[key], "Donna"),
         "Weslaco": getCount(coronaMap[key], "Weslaco"),
+        "Alton": getCount(coronaMap[key], "Alton"),
         // Starr
         "Rio Grande City": getCount(coronaMap[key], "Rio Grande City"),
         "Escobares": getCount(coronaMap[key], "Escobares"),
