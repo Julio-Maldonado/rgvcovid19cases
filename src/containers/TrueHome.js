@@ -30,7 +30,7 @@ import './styles.css';
 
 // import FundClockProgress from "react-fundraising-countdown";
 import FundClockProgress from "./custom_fundraiser";
-import { isMobile } from 'react-device-detect';
+import { isMobile, ConsoleView } from 'react-device-detect';
 
 // let milestonesData = [
 //   {
@@ -302,6 +302,13 @@ class Home extends React.Component {
       this.getLatestCoronaData("deaths", county),
       this.getLatestCoronaData("recoveries", county)
     ]);
+
+    if (defaultData === false) {
+      console.log(county);
+      console.log({cases});
+      console.log({deaths});
+      console.log({recoveries});
+    }
 
     let totalCases = 0;
     let firstDay = 18;
