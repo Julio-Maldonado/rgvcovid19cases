@@ -540,169 +540,169 @@ const CAMERON_ACTIVE_CASES = [
   },
   {
     "Date": "6/03",
-    "Count": 181,
+    "Count": 182,
     "Cases": 21,
-    "Deaths": 4,
+    "Deaths": 3,
     "Recoveries": 18
   },
   {
     "Date": "6/04",
-    "Count": 200,
+    "Count": 201,
     "Cases": 21,
     "Deaths": 0,
     "Recoveries": 2
   },
   {
     "Date": "6/05",
-    "Count": 208,
+    "Count": 209,
     "Cases": 22,
     "Deaths": 0,
     "Recoveries": 14
   },
   {
     "Date": "6/06",
-    "Count": 224,
+    "Count": 225,
     "Cases": 29,
     "Deaths": 0,
     "Recoveries": 13
   },
   {
     "Date": "6/07",
-    "Count": 224,
+    "Count": 225,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/08",
-    "Count": 234,
+    "Count": 235,
     "Cases": 27,
     "Deaths": 0,
     "Recoveries": 17
   },
   {
     "Date": "6/09",
-    "Count": 252,
+    "Count": 253,
     "Cases": 32,
     "Deaths": 1,
     "Recoveries": 13
   },
   {
     "Date": "6/10",
-    "Count": 261,
+    "Count": 262,
     "Cases": 39,
     "Deaths": 2,
     "Recoveries": 28
   },
   {
     "Date": "6/11",
-    "Count": 282,
+    "Count": 283,
     "Cases": 41,
     "Deaths": 2,
     "Recoveries": 18
   },
   {
     "Date": "6/12",
-    "Count": 290,
+    "Count": 293,
     "Cases": 50,
-    "Deaths": 2,
+    "Deaths": 0,
     "Recoveries": 40
   },
   {
     "Date": "6/13",
-    "Count": 331,
+    "Count": 334,
     "Cases": 57,
     "Deaths": 0,
     "Recoveries": 16
   },
   {
     "Date": "6/14",
-    "Count": 331,
+    "Count": 334,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/15",
-    "Count": 350,
+    "Count": 353,
     "Cases": 40,
     "Deaths": 0,
     "Recoveries": 21
   },
   {
     "Date": "6/16",
-    "Count": 381,
+    "Count": 384,
     "Cases": 58,
     "Deaths": 1,
     "Recoveries": 26
   },
   {
     "Date": "6/17",
-    "Count": 426,
+    "Count": 429,
     "Cases": 65,
     "Deaths": 2,
     "Recoveries": 18
   },
   {
     "Date": "6/18",
-    "Count": 462,
+    "Count": 466,
     "Cases": 70,
-    "Deaths": 2,
+    "Deaths": 1,
     "Recoveries": 32
   },
   {
     "Date": "6/19",
-    "Count": 523,
+    "Count": 527,
     "Cases": 83,
     "Deaths": 0,
     "Recoveries": 22
   },
   {
     "Date": "6/20",
-    "Count": 550,
+    "Count": 554,
     "Cases": 92,
     "Deaths": 0,
     "Recoveries": 65
   },
   {
     "Date": "6/21",
-    "Count": 550,
+    "Count": 554,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/22",
-    "Count": 592,
+    "Count": 596,
     "Cases": 101,
     "Deaths": 1,
     "Recoveries": 58
   },
   {
     "Date": "6/23",
-    "Count": 642,
+    "Count": 646,
     "Cases": 111,
     "Deaths": 1,
     "Recoveries": 60
   },
   {
     "Date": "6/24",
-    "Count": 692,
+    "Count": 696,
     "Cases": 123,
     "Deaths": 2,
     "Recoveries": 71
   },
   {
     "Date": "6/25",
-    "Count": 698,
+    "Count": 702,
     "Cases": 91,
     "Deaths": 0,
     "Recoveries": 85
   },
   {
     "Date": "6/26",
-    "Count": 955,
-    "Cases": 324,
+    "Count": 748,
+    "Cases": 113,
     "Deaths": 2,
     "Recoveries": 65
   }
