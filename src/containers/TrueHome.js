@@ -30,7 +30,7 @@ import './styles.css';
 
 // import FundClockProgress from "react-fundraising-countdown";
 import FundClockProgress from "./custom_fundraiser";
-import { isMobile, ConsoleView } from 'react-device-detect';
+import { isMobile } from 'react-device-detect';
 
 // let milestonesData = [
 //   {
@@ -213,6 +213,8 @@ class Home extends React.Component {
   getAllLatestCases = async() => {
     // const defaultData = false;
     const defaultData = true;
+    // this.printMetrics = false;
+    // this.printMetrics = true;
     let [cameronData, hidalgoData, starrData, willacyData] = await Promise.all([
       this.getActiveCases("cameron", defaultData),
       this.getActiveCases("hidalgo", defaultData),
@@ -292,10 +294,32 @@ class Home extends React.Component {
     this.setState({coronaData});
     const siteData = await getSiteData('getSiteData');
     if (siteData['status'] === 200) this.setState({ fundData: siteData['data'] })
-    console.log({coronaData})
+    // console.log({coronaData})
   }
 
   getActiveCases = async (county, defaultData = true) => {
+    if (this.printMetrics === true) {
+      const v2 = true;
+      let [cases, deaths, recoveries] = await Promise.all([
+        this.getLatestCoronaData("cases", county, v2),
+        this.getLatestCoronaData("deaths", county, v2),
+        this.getLatestCoronaData("recoveries", county, v2)
+      ]);
+      // TODO - ok got the data, now analyze it boi
+      console.log(county);
+      
+      cases = cases.slice(cases.length - 5)
+      deaths = deaths.slice(deaths.length - 5)
+      recoveries = recoveries.slice(recoveries.length - 5)
+      console.log({cases});
+      console.log({deaths});
+      console.log({recoveries});
+
+      // cases.forEach({
+
+      // })
+    }
+
     if (defaultData) return getDefaultActiveCases(county);
     const [cases, deaths, recoveries] = await Promise.all([
       this.getLatestCoronaData("cases", county),
@@ -388,13 +412,13 @@ class Home extends React.Component {
     return coronaData;
   }
 
-  getLatestCoronaData = async(endpoint, county) => {
+  getLatestCoronaData = async(endpoint, county, V2=false) => {
     sendAnalytics(`Getting Latest ${endpoint} Data`, `User requesting latest ${county} data for ${endpoint} from ${this.state.endpoint} page`);
 
     if (!endpoint) endpoint = "active"
 
     if (!county) county = this.state.county;
-    const coronaData = await getCoronaData(endpoint, county);
+    const coronaData = await getCoronaData(endpoint, county, V2);
     return coronaData;
   }
 

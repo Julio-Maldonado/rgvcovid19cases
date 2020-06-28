@@ -1917,6 +1917,25 @@ const DEFAULT_CORONA_DATA = [
     "CasesWillacy": 11,
     "DeathsWillacy": 0,
     "RecoveriesWillacy": 0
+  },
+  {
+    "Date": "6/27",
+    "Count": 738,
+    "Cases": 98,
+    "Deaths": 1,
+    "Recoveries": 107,
+    "CountHidalgo": 1918,
+    "CasesHidalgo": 0,
+    "DeathsHidalgo": 0,
+    "RecoveriesHidalgo": 0,
+    "CountStarr": 423,
+    "CasesStarr": 11,
+    "DeathsStarr": 0,
+    "RecoveriesStarr": 0,
+    "CountWillacy": 116,
+    "CasesWillacy": 0,
+    "DeathsWillacy": 0,
+    "RecoveriesWillacy": 0
   }
 ];
 

@@ -143,6 +143,21 @@ const getAgeRangeIfValueIsNumber = (age) => {
   else if (age > 80) return "81+";
 }
 
+const getAgeRangeIfValueIsNumberV2 = (age) => {
+  if (isNaN(age)) return age;
+
+  if (age === "" || age == null) return 0;
+
+  if (age === -1) return "Unknown";
+  else if (age <= 19) return "0 - 19";
+  else if (age <= 29) return "20 - 29";
+  else if (age <= 39) return "30 - 39";
+  else if (age <= 49) return "40 - 49";
+  else if (age <= 59) return "50 - 59";
+  else if (age <= 69) return "60 - 69";
+  else if (age >= 70) return "70+";
+}
+
 const shallowEqual = (objA, objB) => {
   if (objA === objB) return true;
 
@@ -170,7 +185,8 @@ const shallowCompare = (instance, nextProps, nextState) =>{
 
 // let alreadyAlertedFlag = false;
 
-const getCoronaData = async(endpoint, county) => {
+const getCoronaData = async(endpoint, county, V2=false) => {
+  console.log({V2});
   let coronaMap = {};
   let backendEndpoint = getEndpoint(endpoint);
   let countyData = await getCoronaCases(backendEndpoint, county);
@@ -206,7 +222,10 @@ const getCoronaData = async(endpoint, county) => {
     updateCount(coronaMap[date], "count");
     for (let d in data) {
       if (d === "county") coronaMap[date]["county"] = data[d];
-      else updateCount(coronaMap[date], getAgeRangeIfValueIsNumber(data[d]));
+      else {
+        if (V2 === true) updateCount(coronaMap[date], getAgeRangeIfValueIsNumberV2(data[d]));
+        else  updateCount(coronaMap[date], getAgeRangeIfValueIsNumber(data[d]));
+      }
     }
     // updateCount(coronaMap2[date], "count");
     // for (let d in data) {
@@ -295,6 +314,14 @@ const getCoronaData = async(endpoint, county) => {
         "41 - 60": getCount(coronaMap[key], "41 - 60"),
         "61 - 80": getCount(coronaMap[key], "61 - 80"),
         "81+": getCount(coronaMap[key], "81+"),
+        "0 - 19": getCount(coronaMap[key], "0 - 19"),
+        "20 - 29": getCount(coronaMap[key], "20 - 29"),
+        "20 - 29": getCount(coronaMap[key], "20 - 29"),
+        "30 - 39": getCount(coronaMap[key], "30 - 39"),
+        "40 - 49": getCount(coronaMap[key], "40 - 49"),
+        "50 - 59": getCount(coronaMap[key], "50 - 59"),
+        "60 - 69": getCount(coronaMap[key], "60 - 69"),
+        "70+": getCount(coronaMap[key], "70+"),
       },
       "Cities": {
         // Cameron
