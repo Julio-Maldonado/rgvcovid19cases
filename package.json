@@ -20,6 +20,7 @@
     "react-router-hash-link": "^1.2.2",
     "react-scripts": "3.4.1",
     "recharts": "^1.8.5",
+    "rss-parser": "^3.8.0",
     "styled-components": "^4.4.1"
   },
   "scripts": {

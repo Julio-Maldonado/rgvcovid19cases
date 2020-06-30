@@ -68,6 +68,203 @@ const GRAPH_COLOR_MAP = {
   "home": "grey"
 }
 
+const LAST_DAY_STATS_ORIGINAL = {
+    "cameron": {
+        "total": 0,
+        "gender": {
+            "male": 0,
+            "female": 0,
+            "unknown": 0
+        },
+        "transmission": {
+            "travel": 0,
+            "community": 0,
+            "linkedToPreviousCase": 0,
+            "unknown": 0
+        },
+        "ages": {
+            "0 - 19": 0,
+            "20 - 29": 0,
+            "30 - 39": 0,
+            "40 - 49": 0,
+            "50 - 59": 0,
+            "60 - 69": 0,
+            "70+": 0,
+            "unknown": 0
+        },
+        "cities": {
+            "Harlingen": 0,
+            "Bayview": 0,
+            "Brownsville": 0,
+            "Rancho Viejo": 0,
+            "Rio Hondo": 0,
+            "Los Fresnos": 0,
+            "La Feria": 0,
+            "San Benito": 0,
+            "Laguna Vista": 0,
+            "Santa Rosa": 0,
+            "Port Isabel": 0,
+            "Palm Valley": 0,
+            "Olmito": 0,
+            "Los Indios": 0,
+            "Combes": 0,
+            "Primera": 0,
+            "Indian Lake": 0,
+            "Santa Maria": 0,
+            "South Padre Island": 0,
+            "unknown": 0
+        }
+    },
+    "hidalgo": {
+        "total": 0,
+        "gender": {
+            "male": 0,
+            "female": 0,
+            "unknown": 0
+        },
+        "transmission": {
+            "travel": 0,
+            "community": 0,
+            "linkedToPreviousCase": 0,
+            "unknown": 0
+        },
+        "ages": {
+            "0 - 19": 0,
+            "20 - 29": 0,
+            "30 - 39": 0,
+            "40 - 49": 0,
+            "50 - 59": 0,
+            "60 - 69": 0,
+            "70+": 0,
+            "unknown": 0
+        },
+        "cities": {
+            "McAllen": 0,
+            "Alamo": 0,
+            "Edinburg": 0,
+            "Mission": 0,
+            "San Juan": 0,
+            "Pharr": 0,
+            "Mercedes": 0,
+            "Weslaco": 0,
+            "Donna": 0,
+            "Hidalgo": 0,
+            "La Joya": 0,
+            "Edcouch": 0,
+            "Palmview": 0,
+            "Elsa": 0,
+            "Alton": 0,
+            "unknown": 0
+        }
+    },
+    "starr": {
+        "total": 0,
+        "gender": {
+            "male": 0,
+            "female": 0,
+            "unknown": 0
+        },
+        "transmission": {
+            "travel": 0,
+            "community": 0,
+            "linkedToPreviousCase": 0,
+            "unknown": 0
+        },
+        "ages": {
+            "0 - 19": 0,
+            "20 - 29": 0,
+            "30 - 39": 0,
+            "40 - 49": 0,
+            "50 - 59": 0,
+            "60 - 69": 0,
+            "70+": 0,
+            "unknown": 0
+        },
+        "cities": {
+            "Rio Grande City": 0,
+            "Escobares": 0,
+            "La Grulla": 0,
+            "Roma": 0,
+            "unknown": 0
+        }
+    },
+    "willacy": {
+        "total": 0,
+        "gender": {
+            "male": 0,
+            "female": 0,
+            "unknown": 0
+        },
+        "transmission": {
+            "travel": 0,
+            "community": 0,
+            "linkedToPreviousCase": 0,
+            "unknown": 0
+        },
+        "ages": {
+            "0 - 19": 0,
+            "20 - 29": 0,
+            "30 - 39": 0,
+            "40 - 49": 0,
+            "50 - 59": 0,
+            "60 - 69": 0,
+            "70+": 0,
+            "unknown": 0
+        },
+        "cities": {
+            "unknown": 0
+        }
+    }
+}
+
+const CITIES_MAP = {
+  "cameron": [
+    "Harlingen",
+    "Bayview",
+    "Brownsville",
+    "Rancho Viejo",
+    "Rio Hondo",
+    "Los Fresnos",
+    "La Feria",
+    "San Benito",
+    "Laguna Vista",
+    "Santa Rosa",
+    "Port Isabel",
+    "Palm Valley",
+    "Olmito",
+    "Los Indios",
+    "Combes",
+    "Primera",
+    "Indian Lake",
+    "Santa Maria",
+    "South Padre Island",
+  ],
+  "hidalgo": [
+    "McAllen",
+    "Alamo",
+    "Edinburg",
+    "Mission",
+    "San Juan",
+    "Pharr",
+    "Mercedes",
+    "Weslaco",
+    "Donna",
+    "Hidalgo",
+    "La Joya",
+    "Edcouch",
+    "Palmview",
+    "Elsa",
+    "Alton"
+  ],
+  "starr": [
+    "Rio Grande City",
+    "Escobares",
+    "La Grulla",
+    "Roma"
+  ],
+  "willacy": []
+}
+
 export {
   PRESS_RELEASES,
   RESOURCES,
@@ -93,4 +290,6 @@ export {
   WILLACY_DEFAULT_RECOVERIES,
   LINE_COLOR_MAP,
   GRAPH_COLOR_MAP,
+  LAST_DAY_STATS_ORIGINAL,
+  CITIES_MAP,
 };

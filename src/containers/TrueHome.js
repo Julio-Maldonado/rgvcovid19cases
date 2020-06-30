@@ -6,6 +6,8 @@ import SideMenu from '../components/utility/SideMenu';
 import Footer from '../components/utility/Footer';
 import MyNavBar from '../components/utility/MyNavBar';
 
+import Parser from 'rss-parser';
+
 import {
   getToday,
   getDatesObj,
@@ -22,7 +24,7 @@ import {
   scrollToTop,
 } from '../constants/helperFunctions';
 
-import { ENDPOINT_MAP } from '../constants/constants';
+import { ENDPOINT_MAP, LAST_DAY_STATS_ORIGINAL, CITIES_MAP } from '../constants/constants';
 
 import DEFAULT_CORONA_DATA from '../constants/DEFAULT_CORONA_DATA';
 
@@ -71,7 +73,11 @@ class Home extends React.Component {
         cap: 500
       }
     ],
-    totalDonors: 1
+    totalDonors: 1,
+    lastDayStatsCameron: {},
+    lastDayStatsHidalgo: {},
+    lastDayStatsStarr: {},
+    lastDayStatsWillacy: {}
   }
 
   screenIsSuperLong = false; // not iphone X or 11
@@ -107,7 +113,7 @@ class Home extends React.Component {
     this.icoFundRaising = setInterval(() => this.updateFundRaising(), 500);
   }
 
-  updateFundRaising() {
+  updateFundRaising = () => {
     const { fundData } = this.state;
     let { currentFund, milestonesData, softcap, hardcap } = this.state;
 
@@ -151,6 +157,15 @@ class Home extends React.Component {
   }
 
   getLatestUsefulData = async (county) => {
+    let parser = new Parser();
+
+    let feed = await parser.parseURL('https://rss.app/feeds/oC1FkguURyVrIjQ3.xml');
+    // console.log(feed.title);
+  
+    // feed.items.forEach(item => {
+      // console.log(item.title + ':' + item.link)
+      // console.log({item});
+    // });
     const usefulData = await getUsefulData(county);
     if (county === "cameron")
       this.setState({
@@ -213,7 +228,7 @@ class Home extends React.Component {
   getAllLatestCases = async() => {
     // const defaultData = false;
     const defaultData = true;
-    // this.printMetrics = false;
+    this.printMetrics = false;
     // this.printMetrics = true;
     let [cameronData, hidalgoData, starrData, willacyData] = await Promise.all([
       this.getActiveCases("cameron", defaultData),
@@ -297,6 +312,35 @@ class Home extends React.Component {
     // console.log({coronaData})
   }
 
+  updateCountyStats = (county, statsToBeUpdated, apiData) => {
+    const total = apiData["Count"];
+
+    statsToBeUpdated["total"] = total;
+    statsToBeUpdated["gender"]["male"] = apiData["Gender"]["Male"];
+    statsToBeUpdated["gender"]["female"] = apiData["Gender"]["Female"];
+    statsToBeUpdated["gender"]["unknown"] = total - statsToBeUpdated["gender"]["male"] - statsToBeUpdated["gender"]["female"];
+    statsToBeUpdated["transmission"]["travel"] = apiData["Transmission"]["Travel"];
+    statsToBeUpdated["transmission"]["community"] = apiData["Transmission"]["Community"]
+    statsToBeUpdated["transmission"]["linkedToPreviousCase"] = apiData["Transmission"]["Linked To Previous Case"]
+    statsToBeUpdated["transmission"]["unknown"] = total -  apiData["Transmission"]["Travel"] -apiData["Transmission"]["Community"] - apiData["Transmission"]["Linked To Previous Case"];
+    statsToBeUpdated["ages"]["0 - 19"] = apiData["Ages"]["0 - 19"];
+    statsToBeUpdated["ages"]["20 - 29"] = apiData["Ages"]["20 - 29"];
+    statsToBeUpdated["ages"]["30 - 39"] = apiData["Ages"]["30 - 39"];
+    statsToBeUpdated["ages"]["40 - 49"] = apiData["Ages"]["40 - 49"];
+    statsToBeUpdated["ages"]["50 - 59"] = apiData["Ages"]["50 - 59"];
+    statsToBeUpdated["ages"]["60 - 69"] = apiData["Ages"]["60 - 69"];
+    statsToBeUpdated["ages"]["70+"] = apiData["Ages"]["70+"];
+    statsToBeUpdated["ages"]["unknown"] = total - apiData["Ages"]["0 - 19"] - apiData["Ages"]["20 - 29"] - apiData["Ages"]["30 - 39"] - apiData["Ages"]["40 - 49"] - apiData["Ages"]["50 - 59"] - apiData["Ages"]["60 - 69"] - apiData["Ages"]["70+"];
+
+    let cityCount = 0;
+    CITIES_MAP[county].forEach(city => {
+      statsToBeUpdated["cities"][city] = apiData["Cities"][city];
+      cityCount += apiData["Cities"][city];
+    })
+
+    statsToBeUpdated["cities"]["unknown"] = total - cityCount;
+  }
+
   getActiveCases = async (county, defaultData = true) => {
     if (this.printMetrics === true) {
       const v2 = true;
@@ -305,15 +349,29 @@ class Home extends React.Component {
         this.getLatestCoronaData("deaths", county, v2),
         this.getLatestCoronaData("recoveries", county, v2)
       ]);
-      // TODO - ok got the data, now analyze it boi
-      console.log(county);
-      
-      cases = cases.slice(cases.length - 5)
-      deaths = deaths.slice(deaths.length - 5)
-      recoveries = recoveries.slice(recoveries.length - 5)
-      console.log({cases});
-      console.log({deaths});
-      console.log({recoveries});
+
+      let lastDayCases = cases.slice(cases.length - 1)[0];
+      let lastDayDeaths = deaths.slice(deaths.length - 1)[0];
+      let lastDayRecoveries = recoveries.slice(recoveries.length - 1)[0];
+
+      let lastDayStats = JSON.parse(JSON.stringify(LAST_DAY_STATS_ORIGINAL))[county];
+      if (county === "cameron") this.setState({ lastDayStatsCameron: lastDayStats })
+      else if (county === "hidalgo") this.setState({ lastDayStatsHidalgo: lastDayStats })
+      else if (county === "starr") this.setState({ lastDayStatsStarr: lastDayStats })
+      else if (county === "willacy") this.setState({ lastDayStatsWillacy: lastDayStats })
+
+      this.updateCountyStats(county, lastDayStats, lastDayCases);
+      // console.log(county);
+      // console.log({lastDayStats});
+      // console.log({lastDayCases});
+      // let lastWeekCases = cases.slice(cases.length - 7)
+      // let lastWeekDeaths = deaths.slice(deaths.length - 7)
+      // let lastWeekRecoveries = recoveries.slice(recoveries.length - 7)
+      // console.log({cases});
+      // console.log({deaths});
+      // console.log({recoveries});
+
+
 
       // cases.forEach({
 
@@ -455,7 +513,9 @@ class Home extends React.Component {
   render() {
     let { county } = this.state;
     const { coronaData, category, width, milestonesData } = this.state;
-    // console.log({fundData})
+
+    const { lastDayStatsCameron, lastDayStatsHidalgo, lastDayStatsStarr, lastDayStatsWillacy } = this.state;
+
     const {
       casesCountCameron,
       deathsCountCameron,
@@ -471,7 +531,10 @@ class Home extends React.Component {
       recoveriesCountWillacy,
     } = this.state;
 
-
+    // console.log({lastDayStatsCameron});
+    // console.log({lastDayStatsHidalgo});
+    // console.log({lastDayStatsStarr});
+    // console.log({lastDayStatsWillacy});
 
     if (!county) county = "cameron";
 
@@ -528,7 +591,7 @@ class Home extends React.Component {
           }
           <br/>
           {deathsCountCameron && recoveriesCountCameron && deathsCountHidalgo && recoveriesCountHidalgo ?
-            <p>Stats at a Glance</p>
+            <p>Numbers at a Glance</p>
             : null
           }
           {
@@ -585,6 +648,104 @@ class Home extends React.Component {
           }
           <br/>
           <br/>
+          {/* <p>Last Day Summaries</p>
+          {
+            Object.keys(lastDayStatsCameron).length !== 0 && lastDayStatsCameron.constructor === Object ?
+              <div>
+                <p>Cameron County</p>
+                  Of the {lastDayStatsCameron["total"]} new cases,
+                  {' '}{(lastDayStatsCameron["gender"][Object.keys(lastDayStatsCameron["gender"]).reduce((prev, current) => (lastDayStatsCameron["gender"][prev] > lastDayStatsCameron["gender"][current]) ? prev : current)] / lastDayStatsCameron["total"] * 100).toFixed(0)}% were
+                  {' '}{(Object.keys(lastDayStatsCameron["gender"]).reduce((prev, current) => (lastDayStatsCameron["gender"][prev] > lastDayStatsCameron["gender"][current]) ? prev : current))},
+                  {' '}{(lastDayStatsCameron["transmission"][Object.keys(lastDayStatsCameron["transmission"]).reduce((prev, current) => (lastDayStatsCameron["transmission"][prev] > lastDayStatsCameron["transmission"][current]) ? prev : current)] / lastDayStatsCameron["total"] * 100).toFixed(0)}% were contracted through
+                  {' '}{(Object.keys(lastDayStatsCameron["transmission"]).reduce((prev, current) => (lastDayStatsCameron["transmission"][prev] > lastDayStatsCameron["transmission"][current]) ? prev : current))}, and
+                  {' '}{(lastDayStatsCameron["ages"][Object.keys(lastDayStatsCameron["ages"]).reduce((prev, current) => (lastDayStatsCameron["ages"][prev] > lastDayStatsCameron["ages"][current]) ? prev : current)] / lastDayStatsCameron["total"] * 100).toFixed(0)}% are in the age range of
+                  {' '}{(Object.keys(lastDayStatsCameron["ages"]).reduce((prev, current) => (lastDayStatsCameron["ages"][prev] > lastDayStatsCameron["ages"][current]) ? prev : current))}.
+                { <p>Total new cases: {lastDayStatsCameron["total"]}</p>
+                <p>City with the most cases: {Object.keys(lastDayStatsCameron["cities"]).reduce((prev, current) => (lastDayStatsCameron["cities"][prev] > lastDayStatsCameron["cities"][current]) ? prev : current)}</p>
+                <p>Trasmissions: </p>
+                <p>Travel - {lastDayStatsCameron["transmission"]["travel"]} -> {(lastDayStatsCameron["transmission"]["travel"] / lastDayStatsCameron["total"] * 100).toFixed(1)}%</p>
+                <p>Community - {lastDayStatsCameron["transmission"]["community"]} -> {(lastDayStatsCameron["transmission"]["community"] / lastDayStatsCameron["total"] * 100).toFixed(1)}%</p>
+                <p>Linked to Previous Case - {lastDayStatsCameron["transmission"]["linkedToPreviousCase"]} -> {(lastDayStatsCameron["transmission"]["linkedToPreviousCase"] / lastDayStatsCameron["total"] * 100).toFixed(1)}%</p>
+                <p>Gender: </p>
+                <o>Age Range: </o>
+                <p>{(recoveriesCountCameron / casesCountCameron * 100).toFixed(1)}%</p> }
+              </div>
+              : null
+          }
+          <br />
+          {
+            Object.keys(lastDayStatsHidalgo).length !== 0 && lastDayStatsHidalgo.constructor === Object ?
+              <div>
+                <p>Hidalgo County</p>
+                  Of the {lastDayStatsHidalgo["total"]} new cases,
+                  {' '}{(lastDayStatsHidalgo["gender"][Object.keys(lastDayStatsHidalgo["gender"]).reduce((prev, current) => (lastDayStatsHidalgo["gender"][prev] > lastDayStatsHidalgo["gender"][current]) ? prev : current)] / lastDayStatsHidalgo["total"] * 100).toFixed(0)}% were
+                  {' '}{(Object.keys(lastDayStatsHidalgo["gender"]).reduce((prev, current) => (lastDayStatsHidalgo["gender"][prev] > lastDayStatsHidalgo["gender"][current]) ? prev : current))},
+                  {' '}{(lastDayStatsHidalgo["transmission"][Object.keys(lastDayStatsHidalgo["transmission"]).reduce((prev, current) => (lastDayStatsHidalgo["transmission"][prev] > lastDayStatsHidalgo["transmission"][current]) ? prev : current)] / lastDayStatsHidalgo["total"] * 100).toFixed(0)}% were contracted through
+                  {' '}{(Object.keys(lastDayStatsHidalgo["transmission"]).reduce((prev, current) => (lastDayStatsHidalgo["transmission"][prev] > lastDayStatsHidalgo["transmission"][current]) ? prev : current))}, and
+                  {' '}{(lastDayStatsHidalgo["ages"][Object.keys(lastDayStatsHidalgo["ages"]).reduce((prev, current) => (lastDayStatsHidalgo["ages"][prev] > lastDayStatsHidalgo["ages"][current]) ? prev : current)] / lastDayStatsHidalgo["total"] * 100).toFixed(0)}% are in the age range of
+                  {' '}{(Object.keys(lastDayStatsHidalgo["ages"]).reduce((prev, current) => (lastDayStatsHidalgo["ages"][prev] > lastDayStatsHidalgo["ages"][current]) ? prev : current))}.
+                <p>Total new cases: {lastDayStatsHidalgo["total"]}</p>
+                <p>City with the most cases: {Object.keys(lastDayStatsHidalgo["cities"]).reduce((prev, current) => (lastDayStatsHidalgo["cities"][prev] > lastDayStatsHidalgo["cities"][current]) ? prev : current)}</p>
+                <p>Trasmissions: </p>
+                <p>Travel - {lastDayStatsHidalgo["transmission"]["travel"]} -> {(lastDayStatsHidalgo["transmission"]["travel"] / lastDayStatsHidalgo["total"] * 100).toFixed(1)}%</p>
+                <p>Community - {lastDayStatsHidalgo["transmission"]["community"]} -> {(lastDayStatsHidalgo["transmission"]["community"] / lastDayStatsHidalgo["total"] * 100).toFixed(1)}%</p>
+                <p>Linked to Previous Case - {lastDayStatsHidalgo["transmission"]["linkedToPreviousCase"]} -> {(lastDayStatsHidalgo["transmission"]["linkedToPreviousCase"] / lastDayStatsHidalgo["total"] * 100).toFixed(1)}%</p>
+                <p>Gender: </p>
+                <o>Age Range: </o>
+                <p>{(recoveriesCountCameron / casesCountCameron * 100).toFixed(1)}%</p>
+              </div>
+              : null
+          }
+          <br />
+          {
+            Object.keys(lastDayStatsStarr).length !== 0 && lastDayStatsStarr.constructor === Object ?
+              <div>
+                <p>Starr County</p>
+                  Of the {lastDayStatsStarr["total"]} new cases,
+                  {' '}{(lastDayStatsStarr["gender"][Object.keys(lastDayStatsStarr["gender"]).reduce((prev, current) => (lastDayStatsStarr["gender"][prev] > lastDayStatsStarr["gender"][current]) ? prev : current)] / lastDayStatsStarr["total"] * 100).toFixed(0)}% were
+                  {' '}{(Object.keys(lastDayStatsStarr["gender"]).reduce((prev, current) => (lastDayStatsStarr["gender"][prev] > lastDayStatsStarr["gender"][current]) ? prev : current))},
+                  {' '}{(lastDayStatsStarr["transmission"][Object.keys(lastDayStatsStarr["transmission"]).reduce((prev, current) => (lastDayStatsStarr["transmission"][prev] > lastDayStatsStarr["transmission"][current]) ? prev : current)] / lastDayStatsStarr["total"] * 100).toFixed(0)}% were contracted through
+                  {' '}{(Object.keys(lastDayStatsStarr["transmission"]).reduce((prev, current) => (lastDayStatsStarr["transmission"][prev] > lastDayStatsStarr["transmission"][current]) ? prev : current))}, and
+                  {' '}{(lastDayStatsStarr["ages"][Object.keys(lastDayStatsStarr["ages"]).reduce((prev, current) => (lastDayStatsStarr["ages"][prev] > lastDayStatsStarr["ages"][current]) ? prev : current)] / lastDayStatsStarr["total"] * 100).toFixed(0)}% are in the age range of
+                  {' '}{(Object.keys(lastDayStatsStarr["ages"]).reduce((prev, current) => (lastDayStatsStarr["ages"][prev] > lastDayStatsStarr["ages"][current]) ? prev : current))}.
+                <p>Total new cases: {lastDayStatsStarr["total"]}</p>
+                <p>City with the most cases: {Object.keys(lastDayStatsStarr["cities"]).reduce((prev, current) => (lastDayStatsStarr["cities"][prev] > lastDayStatsStarr["cities"][current]) ? prev : current)}</p>
+                <p>Trasmissions: </p>
+                <p>Travel - {lastDayStatsStarr["transmission"]["travel"]} -> {(lastDayStatsStarr["transmission"]["travel"] / lastDayStatsStarr["total"] * 100).toFixed(1)}%</p>
+                <p>Community - {lastDayStatsStarr["transmission"]["community"]} -> {(lastDayStatsStarr["transmission"]["community"] / lastDayStatsStarr["total"] * 100).toFixed(1)}%</p>
+                <p>Linked to Previous Case - {lastDayStatsStarr["transmission"]["linkedToPreviousCase"]} -> {(lastDayStatsStarr["transmission"]["linkedToPreviousCase"] / lastDayStatsStarr["total"] * 100).toFixed(1)}%</p>
+                <p>Gender: </p>
+                <o>Age Range: </o>
+                <p>{(recoveriesCountCameron / casesCountCameron * 100).toFixed(1)}%</p>
+              </div>
+              : null
+          }
+          <br />
+          {
+            Object.keys(lastDayStatsWillacy).length !== 0 && lastDayStatsWillacy.constructor === Object ?
+              <div>
+                <p>Willacy County</p>
+                  Of the {lastDayStatsWillacy["total"]} new cases,
+                  {' '}{(lastDayStatsWillacy["gender"][Object.keys(lastDayStatsWillacy["gender"]).reduce((prev, current) => (lastDayStatsWillacy["gender"][prev] > lastDayStatsWillacy["gender"][current]) ? prev : current)] / lastDayStatsWillacy["total"] * 100).toFixed(0)}% were
+                  {' '}{(Object.keys(lastDayStatsWillacy["gender"]).reduce((prev, current) => (lastDayStatsWillacy["gender"][prev] > lastDayStatsWillacy["gender"][current]) ? prev : current))},
+                  {' '}{(lastDayStatsWillacy["transmission"][Object.keys(lastDayStatsWillacy["transmission"]).reduce((prev, current) => (lastDayStatsWillacy["transmission"][prev] > lastDayStatsWillacy["transmission"][current]) ? prev : current)] / lastDayStatsWillacy["total"] * 100).toFixed(0)}% were contracted through
+                  {' '}{(Object.keys(lastDayStatsWillacy["transmission"]).reduce((prev, current) => (lastDayStatsWillacy["transmission"][prev] > lastDayStatsWillacy["transmission"][current]) ? prev : current))}, and
+                  {' '}{(lastDayStatsWillacy["ages"][Object.keys(lastDayStatsWillacy["ages"]).reduce((prev, current) => (lastDayStatsWillacy["ages"][prev] > lastDayStatsWillacy["ages"][current]) ? prev : current)] / lastDayStatsWillacy["total"] * 100).toFixed(0)}% are in the age range of
+                  {' '}{(Object.keys(lastDayStatsWillacy["ages"]).reduce((prev, current) => (lastDayStatsWillacy["ages"][prev] > lastDayStatsWillacy["ages"][current]) ? prev : current))}.
+                <p>Total new cases: {lastDayStatsWillacy["total"]}</p>
+                <p>City with the most cases: {Object.keys(lastDayStatsWillacy["cities"]).reduce((prev, current) => (lastDayStatsWillacy["cities"][prev] > lastDayStatsWillacy["cities"][current]) ? prev : current)}</p>
+                <p>Trasmissions: </p>
+                <p>Travel - {lastDayStatsWillacy["transmission"]["travel"]} -> {(lastDayStatsWillacy["transmission"]["travel"] / lastDayStatsWillacy["total"] * 100).toFixed(1)}%</p>
+                <p>Community - {lastDayStatsWillacy["transmission"]["community"]} -> {(lastDayStatsWillacy["transmission"]["community"] / lastDayStatsWillacy["total"] * 100).toFixed(1)}%</p>
+                <p>Linked to Previous Case - {lastDayStatsWillacy["transmission"]["linkedToPreviousCase"]} -> {(lastDayStatsWillacy["transmission"]["linkedToPreviousCase"] / lastDayStatsWillacy["total"] * 100).toFixed(1)}%</p>
+                <p>Gender: </p>
+                <o>Age Range: </o>
+                <p>{(recoveriesCountCameron / casesCountCameron * 100).toFixed(1)}%</p>
+              </div>
+              : null
+          }
+          <br />
+          <br /> */}
           See more data on:
           {isMobile ? <br /> : null}
           <button className="my-button" onClick={e => {this.aClick("active", "home", "cameron");}}>

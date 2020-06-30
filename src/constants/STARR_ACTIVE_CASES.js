@@ -652,22 +652,29 @@ const STARR_ACTIVE_CASES = [
   },
   {
     "Date": "6/26",
-    "Count": 412,
+    "Count": 415,
     "Cases": 58,
     "Deaths": 0,
-    "Recoveries": 21
+    "Recoveries": 18
   },
   {
     "Date": "6/27",
-    "Count": 423,
+    "Count": 426,
     "Cases": 11,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "6/28",
-    "Count": 469,
+    "Count": 472,
     "Cases": 46,
+    "Deaths": 0,
+    "Recoveries": 0
+  },
+  {
+    "Date": "6/29",
+    "Count": 490,
+    "Cases": 18,
     "Deaths": 0,
     "Recoveries": 0
   }

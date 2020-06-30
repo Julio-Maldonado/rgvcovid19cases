@@ -50,6 +50,9 @@ const getPluralCount = (count) => {
   if (count === 22) return `${count}nd`;
   if (count === 23) return `${count}rd`;
   if (count < 31) return `${count}th`;
+  if (count === 32) return `${count}nd`;
+  if (count === 33) return `${count}rd`;
+  if (count < 41) return `${count}th`;
 }
 
 const getDatesArr = (startDate, stopDate) => {
@@ -186,7 +189,6 @@ const shallowCompare = (instance, nextProps, nextState) =>{
 // let alreadyAlertedFlag = false;
 
 const getCoronaData = async(endpoint, county, V2=false) => {
-  console.log({V2});
   let coronaMap = {};
   let backendEndpoint = getEndpoint(endpoint);
   let countyData = await getCoronaCases(backendEndpoint, county);
@@ -194,7 +196,6 @@ const getCoronaData = async(endpoint, county, V2=false) => {
   if (countyData['status'] !== 200) {
     sendAnalytics(`Error Retrieving${backendEndpoint} Data`, `${countyData['status']} error from ${JSON.stringify(countyData)}`);
     console.error('api call failed');
-    console.error({ countyData });
     // if (alreadyAlertedFlag) alreadyAlertedFlag = false;
     // else { 
     //   alert('There was an error getting the latest data. Please try refreshing the page later.')
@@ -363,6 +364,8 @@ const getCoronaData = async(endpoint, county, V2=false) => {
         // Starr
         "Rio Grande City": getCount(coronaMap[key], "Rio Grande City"),
         "Escobares": getCount(coronaMap[key], "Escobares"),
+        "La Grulla": getCount(coronaMap[key], "La Grulla"),
+        "Roma": getCount(coronaMap[key], "Roma"),
       },
     }
   })
