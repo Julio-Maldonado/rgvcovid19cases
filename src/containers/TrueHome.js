@@ -228,7 +228,7 @@ class Home extends React.Component {
   getAllLatestCases = async() => {
     // const defaultData = false;
     const defaultData = true;
-    this.printMetrics = false;
+    // this.printMetrics = false;
     // this.printMetrics = true;
     let [cameronData, hidalgoData, starrData, willacyData] = await Promise.all([
       this.getActiveCases("cameron", defaultData),
@@ -439,6 +439,9 @@ class Home extends React.Component {
       } else if (currMonth === 5 && currDay === 1) {
         currMonth -= 1;
         prevDay = 30;
+      } else if (currMonth === 7 && currDay === 1) {
+        currMonth -= 1;
+        prevDay = 30;
       }
 
       if (prevDay < 10)
@@ -453,6 +456,7 @@ class Home extends React.Component {
       let cases = currentDay["cases"];
       let deaths = currentDay["deaths"];
       let recoveries = currentDay["recoveries"];
+      // console.log({activeCases})
       if (i !== 0) {
         if (isNaN(count)) {
           currentDay["activeCases"] = activeCases[prevDate]["activeCases"];
