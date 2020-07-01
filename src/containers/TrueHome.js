@@ -348,41 +348,41 @@ class Home extends React.Component {
   }
 
   getActiveCases = async (county, defaultData = true) => {
-    if (this.printMetrics === true) {
-      const v2 = true;
-      let [cases, deaths, recoveries] = await Promise.all([
-        this.getLatestCoronaData("cases", county, v2),
-        this.getLatestCoronaData("deaths", county, v2),
-        this.getLatestCoronaData("recoveries", county, v2)
-      ]);
+    // if (this.printMetrics === true) {
+    //   const v2 = true;
+    //   let [cases, deaths, recoveries] = await Promise.all([
+    //     this.getLatestCoronaData("cases", county, v2),
+    //     this.getLatestCoronaData("deaths", county, v2),
+    //     this.getLatestCoronaData("recoveries", county, v2)
+    //   ]);
 
-      let lastDayCases = cases.slice(cases.length - 1)[0];
-      let lastDayDeaths = deaths.slice(deaths.length - 1)[0];
-      let lastDayRecoveries = recoveries.slice(recoveries.length - 1)[0];
+    //   let lastDayCases = cases.slice(cases.length - 1)[0];
+    //   let lastDayDeaths = deaths.slice(deaths.length - 1)[0];
+    //   let lastDayRecoveries = recoveries.slice(recoveries.length - 1)[0];
 
-      let lastDayStats = JSON.parse(JSON.stringify(LAST_DAY_STATS_ORIGINAL))[county];
-      if (county === "cameron") this.setState({ lastDayStatsCameron: lastDayStats })
-      else if (county === "hidalgo") this.setState({ lastDayStatsHidalgo: lastDayStats })
-      else if (county === "starr") this.setState({ lastDayStatsStarr: lastDayStats })
-      else if (county === "willacy") this.setState({ lastDayStatsWillacy: lastDayStats })
+    //   let lastDayStats = JSON.parse(JSON.stringify(LAST_DAY_STATS_ORIGINAL))[county];
+    //   if (county === "cameron") this.setState({ lastDayStatsCameron: lastDayStats })
+    //   else if (county === "hidalgo") this.setState({ lastDayStatsHidalgo: lastDayStats })
+    //   else if (county === "starr") this.setState({ lastDayStatsStarr: lastDayStats })
+    //   else if (county === "willacy") this.setState({ lastDayStatsWillacy: lastDayStats })
 
-      this.updateCountyStats(county, lastDayStats, lastDayCases);
-      // console.log(county);
-      // console.log({lastDayStats});
-      // console.log({lastDayCases});
-      // let lastWeekCases = cases.slice(cases.length - 7)
-      // let lastWeekDeaths = deaths.slice(deaths.length - 7)
-      // let lastWeekRecoveries = recoveries.slice(recoveries.length - 7)
-      // console.log({cases});
-      // console.log({deaths});
-      // console.log({recoveries});
+    //   this.updateCountyStats(county, lastDayStats, lastDayCases);
+    //   // console.log(county);
+    //   // console.log({lastDayStats});
+    //   // console.log({lastDayCases});
+    //   // let lastWeekCases = cases.slice(cases.length - 7)
+    //   // let lastWeekDeaths = deaths.slice(deaths.length - 7)
+    //   // let lastWeekRecoveries = recoveries.slice(recoveries.length - 7)
+    //   // console.log({cases});
+    //   // console.log({deaths});
+    //   // console.log({recoveries});
 
 
 
-      // cases.forEach({
+    //   // cases.forEach({
 
-      // })
-    }
+    //   // })
+    // }
 
     if (defaultData) return getDefaultActiveCases(county);
     const [cases, deaths, recoveries] = await Promise.all([
