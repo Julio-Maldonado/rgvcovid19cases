@@ -157,9 +157,9 @@ class Home extends React.Component {
   }
 
   getLatestUsefulData = async (county) => {
-    let parser = new Parser();
+    // let parser = new Parser();
 
-    let feed = await parser.parseURL('https://rss.app/feeds/oC1FkguURyVrIjQ3.xml');
+    // let feed = await parser.parseURL('https://rss.app/feeds/oC1FkguURyVrIjQ3.xml');
     // console.log(feed.title);
   
     // feed.items.forEach(item => {
@@ -301,16 +301,16 @@ class Home extends React.Component {
     console.log("you should definitely email me at julio.maldonado.guzman@gmail.com to help contribute to this project");
 
     // this.routeSite(this.state.county, endpoint);
-    // this.getLatestUsefulData("cameron");
-    // this.getLatestUsefulData("hidalgo");
-    // this.getLatestUsefulData("starr");
-    // this.getLatestUsefulData("willacy");
-    await Promise.all([
-      this.getLatestUsefulData("cameron"),
-      this.getLatestUsefulData("hidalgo"),
-      this.getLatestUsefulData("starr"),
-      this.getLatestUsefulData("willacy")
-    ]);
+    this.getLatestUsefulData("cameron");
+    this.getLatestUsefulData("hidalgo");
+    this.getLatestUsefulData("starr");
+    this.getLatestUsefulData("willacy");
+    // await Promise.all([
+    //   this.getLatestUsefulData("cameron"),
+    //   this.getLatestUsefulData("hidalgo"),
+    //   this.getLatestUsefulData("starr"),
+    //   this.getLatestUsefulData("willacy")
+    // ]);
     const coronaData = await this.getAllLatestCases();
     this.setState({coronaData});
     const siteData = await getSiteData('getSiteData');
