@@ -157,71 +157,74 @@ class Home extends React.Component {
   }
 
   getLatestUsefulData = async (county) => {
-    // let parser = new Parser();
-
-    // let feed = await parser.parseURL('https://rss.app/feeds/oC1FkguURyVrIjQ3.xml');
-    // console.log(feed.title);
-  
-    // feed.items.forEach(item => {
-      // console.log(item.title + ':' + item.link)
-      // console.log({item});
-    // });
-    // const usefulData = await getUsefulData(county);
+    const usefulData = await getUsefulData(county);
     if (county === "cameron")
       this.setState({
-        casesCountCameron: 2399,
+        // casesCountCameron: 2399,
+        casesCountCameron: usefulData['cases']['count'] - 1,
+        // deathsCountCameron: 55,
+        deathsCountCameron: usefulData['deaths']['count'] - 1,
+        // recoveriesCountCameron: 1539,
+        recoveriesCountCameron: usefulData['recoveries']['count'] - 1,
         // cityCasesDataCameron: usefulData['cases']['cities'].sort(compare),
         // ageCasesDataCameron: usefulData['cases']['ages'].sort(compare),
         // transmissionCasesDataCameron: usefulData['cases']['transmission'].sort(compare),
         // genderCasesDataCameron: usefulData['cases']['gender'].sort(compare),
-        deathsCountCameron: 55,
         // cityDeathsDataCameron: usefulData['deaths']['cities'].sort(compare),
         // ageDeathsDataCameron: usefulData['deaths']['ages'].sort(compare),
         // transmissionDeathsDataCameron: usefulData['deaths']['transmission'].sort(compare),
         // genderDeathsDataCameron: usefulData['deaths']['gender'].sort(compare),
-        recoveriesCountCameron: 1539,
       });
     else if (county === "hidalgo")
       this.setState({
-        casesCountHidalgo: 3982,
+        // casesCountHidalgo: 3982,
+        casesCountHidalgo: usefulData['cases']['count'] - 1,
+        // deathsCountHidalgo: 1150,
+        deathsCountHidalgo: usefulData['deaths']['count'] - 1,
+        // recoveriesCountHidalgo: 46,
+        recoveriesCountHidalgo: usefulData['recoveries']['count'] - 1,
         // cityCasesDataHidalgo: usefulData['cases']['cities'].sort(compare),
         // ageCasesDataHidalgo: usefulData['cases']['ages'].sort(compare),
         // transmissionCasesDataHidalgo: usefulData['cases']['transmission'].sort(compare),
         // genderCasesDataHidalgo: usefulData['cases']['gender'].sort(compare),
-        deathsCountHidalgo: 1150,
         // cityDeathsDataHidalgo: usefulData['deaths']['cities'].sort(compare),
         // ageDeathsDataHidalgo: usefulData['deaths']['ages'].sort(compare),
         // transmissionDeathsDataHidalgo: usefulData['deaths']['transmission'].sort(compare),
         // genderDeathsDataHidalgo: usefulData['deaths']['gender'].sort(compare),
-        recoveriesCountHidalgo: 46,
       });
     else if (county === "starr")
       this.setState({
-        casesCountStarr: 718,
+        // casesCountStarr: 718,
+        casesCountStarr: usefulData['cases']['count'] - 1,
+        // deathsCountStarr: 146,
+        deathsCountStarr: usefulData['deaths']['count'] - 1,
+        // recoveriesCountStarr: 3,
+        recoveriesCountStarr: usefulData['recoveries']['count'] - 1,
         // cityCasesDataStarr: usefulData['cases']['cities'].sort(compare),
         // ageCasesDataStarr: usefulData['cases']['ages'].sort(compare),
         // transmissionCasesDataStarr: usefulData['cases']['transmission'].sort(compare),
         // genderCasesDataStarr: usefulData['cases']['gender'].sort(compare),
-        deathsCountStarr: 146,
         // cityDeathsDataStarr: usefulData['deaths']['cities'].sort(compare),
         // ageDeathsDataStarr: usefulData['deaths']['ages'].sort(compare),
         // transmissionDeathsDataStarr: usefulData['deaths']['transmission'].sort(compare),
         // genderDeathsDataStarr: usefulData['deaths']['gender'].sort(compare),
-        recoveriesCountStarr: 3,
       });
     else if (county === "willacy")
       this.setState({
-        casesCountWillacy: 156,
+        // casesCountWillacy: 156,
+        casesCountWillacy: usefulData['cases']['count'] - 1,
+        // deathsCountWillacy: 11,
+        deathsCountWillacy: usefulData['deaths']['count'] - 1,
+        // recoveriesCountWillacy: 2,
+        recoveriesCountWillacy: usefulData['recoveries']['count'] - 1,
         // cityCasesDataWillacy: usefulData['cases']['cities'].sort(compare),
         // ageCasesDataWillacy: usefulData['cases']['ages'].sort(compare),
         // transmissionCasesDataWillacy: usefulData['cases']['transmission'].sort(compare),
         // genderCasesDataWillacy: usefulData['cases']['gender'].sort(compare),
-        deathsCountWillacy: 11,
         // cityDeathsDataWillacy: usefulData['deaths']['cities'].sort(compare),
         // ageDeathsDataWillacy: usefulData['deaths']['ages'].sort(compare),
         // transmissionDeathsDataWillacy: usefulData['deaths']['transmission'].sort(compare),
         // genderDeathsDataWillacy: usefulData['deaths']['gender'].sort(compare),
-        recoveriesCountWillacy: 2,
       });
   }
 
@@ -305,6 +308,19 @@ class Home extends React.Component {
     this.getLatestUsefulData("hidalgo");
     this.getLatestUsefulData("starr");
     this.getLatestUsefulData("willacy");
+
+    // let parser = new Parser();
+
+    // let feed = await parser.parseURL('https://rss.app/feeds/oC1FkguURyVrIjQ3.xml');
+    // console.log({feed})
+    // console.log(feed.title);
+  
+    // feed.items.forEach(item => {
+    //   console.log(item.title + ':' + item.link)
+    //   console.log({item});
+    // });
+
+    // this.setState({})
     // await Promise.all([
     //   this.getLatestUsefulData("cameron"),
     //   this.getLatestUsefulData("hidalgo"),
@@ -462,7 +478,7 @@ class Home extends React.Component {
       let cases = currentDay["cases"];
       let deaths = currentDay["deaths"];
       let recoveries = currentDay["recoveries"];
-      // console.log({activeCases})
+
       if (i !== 0) {
         if (isNaN(count)) {
           currentDay["activeCases"] = activeCases[prevDate]["activeCases"];
@@ -540,11 +556,6 @@ class Home extends React.Component {
       deathsCountWillacy,
       recoveriesCountWillacy,
     } = this.state;
-
-    // console.log({lastDayStatsCameron});
-    // console.log({lastDayStatsHidalgo});
-    // console.log({lastDayStatsStarr});
-    // console.log({lastDayStatsWillacy});
 
     if (!county) county = "cameron";
 
