@@ -12,6 +12,8 @@ import SideMenu from '../components/utility/SideMenu';
 import Footer from '../components/utility/Footer';
 import MyNavBar from '../components/utility/MyNavBar';
 
+import Parser from 'rss-parser';
+
 import {
   getToday,
   getDatesObj,
@@ -25,6 +27,7 @@ import {
   sendAnalytics,
   scrollToTop,
   getDefaultCases,
+  getFBPostTime,
 } from '../constants/helperFunctions';
 
 import { ENDPOINT_MAP } from '../constants/constants';
@@ -173,6 +176,12 @@ class Home extends React.Component {
 
     const siteData = await getSiteData('getSiteData');
     if (siteData['status'] === 200) this.setState({ fundData: siteData['data'] })
+
+    let parser = new Parser();
+    let feed = await parser.parseURL('https://rss.app/feeds/oC1FkguURyVrIjQ3.xml');
+    const feedUrl = feed.image.url;
+    const feedItems = feed.items.slice(0, Math.max(5, Math.min(5, feed.items.length)));
+    this.setState({feedUrl, feedItems});
   }
 
   setActiveCases = async (county) => {
@@ -368,7 +377,7 @@ class Home extends React.Component {
 
   render() {
     let { county, endpoint } = this.state;
-    const { coronaData, category, width, milestonesData } = this.state;
+    const { coronaData, category, width, milestonesData, feedUrl, feedItems } = this.state;
     const {
       casesCount,
       cityCasesData,
@@ -529,6 +538,42 @@ class Home extends React.Component {
             linkClick={this.linkClick}
             refreshData={this.refreshData}
           />
+          {
+            feedUrl && feedItems ?
+            (
+              <div>
+                Latest Updates
+                <br />
+                <br />
+                {
+                  feedItems.map(item => {
+                    return (
+                      <div className="rss-feed-post-container">
+                        <div className="fb-post-profile-pic-container">
+                          <a className="fb-post-profile-pic" href={item.link}>
+                            <img className="fb-post-img" src={feedUrl} />
+                          </a>
+                        </div>
+                        <div className="fb-post-title-container">
+                          <a className="fb-post-title-text" href={item.link}>
+                            <b>Rise RGV</b>
+                          </a>
+                          <a className="fb-post-title-text" href={item.link}>
+                            <p>{getFBPostTime(item.pubDate)}</p>
+                          </a>
+                        </div>
+                        {/* {item.contentSnippet} */}
+                        <div dangerouslySetInnerHTML={{__html: item.content}} />
+                      </div>
+                  )})
+                }
+                {/* <img src={this.state.feedUrl}></img> */}
+                <br/>
+                <br/>
+                <br/>
+              </div>
+            ) : null
+          }
           <p>The Food Bank of the RGV is supporting our community through this pandemic. That's why I started <a rel="noopener noreferrer" target="_blank" href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">this fundraiser</a> to support them.</p>
           {/* <p>Fundraiser Goal: {fundData && fundData.length > 0 && 'name' in fundData[0] ? `$${numberWithCommas(fundData[0]['amount'])}` : "$2,500"}</p>
           <p>Funds Raised: {fundData && fundData.length > 2 && 'name' in fundData[2] ? `$${numberWithCommas(fundData[2]['amount'])}` : "$142"}</p>

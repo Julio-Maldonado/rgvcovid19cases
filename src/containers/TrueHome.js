@@ -22,6 +22,7 @@ import {
   compare,
   sendAnalytics,
   scrollToTop,
+  getFBPostTime,
 } from '../constants/helperFunctions';
 
 import { ENDPOINT_MAP, LAST_DAY_STATS_ORIGINAL, CITIES_MAP } from '../constants/constants';
@@ -77,7 +78,9 @@ class Home extends React.Component {
     lastDayStatsCameron: {},
     lastDayStatsHidalgo: {},
     lastDayStatsStarr: {},
-    lastDayStatsWillacy: {}
+    lastDayStatsWillacy: {},
+    feedUrl: "",
+    feedItems: []
   }
 
   screenIsSuperLong = false; // not iphone X or 11
@@ -231,8 +234,8 @@ class Home extends React.Component {
   getAllLatestCases = async() => {
     // const defaultData = false;
     const defaultData = true;
-    this.printMetrics = false;
-    // this.printMetrics = true;
+    // this.printMetrics = false;
+    this.printMetrics = true;
     let [cameronData, hidalgoData, starrData, willacyData] = await Promise.all([
       this.getActiveCases("cameron", defaultData),
       this.getActiveCases("hidalgo", defaultData),
@@ -309,18 +312,6 @@ class Home extends React.Component {
     this.getLatestUsefulData("starr");
     this.getLatestUsefulData("willacy");
 
-    // let parser = new Parser();
-
-    // let feed = await parser.parseURL('https://rss.app/feeds/oC1FkguURyVrIjQ3.xml');
-    // console.log({feed})
-    // console.log(feed.title);
-  
-    // feed.items.forEach(item => {
-    //   console.log(item.title + ':' + item.link)
-    //   console.log({item});
-    // });
-
-    // this.setState({})
     // await Promise.all([
     //   this.getLatestUsefulData("cameron"),
     //   this.getLatestUsefulData("hidalgo"),
@@ -332,6 +323,12 @@ class Home extends React.Component {
     const siteData = await getSiteData('getSiteData');
     if (siteData['status'] === 200) this.setState({ fundData: siteData['data'] })
     // console.log({coronaData})
+
+    let parser = new Parser();
+    let feed = await parser.parseURL('https://rss.app/feeds/oC1FkguURyVrIjQ3.xml');
+    const feedUrl = feed.image.url;
+    const feedItems = feed.items.slice(0, Math.max(5, Math.min(5, feed.items.length)));
+    this.setState({feedUrl, feedItems});
   }
 
   updateCountyStats = (county, statsToBeUpdated, apiData) => {
@@ -363,42 +360,120 @@ class Home extends React.Component {
     statsToBeUpdated["cities"]["unknown"] = total - cityCount;
   }
 
+  updateAllStats = (allStats, dayStats) => {
+    Object.keys(dayStats).forEach(dayStatsKey => {
+      const dayStatValueType = typeof(dayStats[dayStatsKey]);
+      const dayStatValue = dayStats[dayStatsKey];
+      if (dayStatValueType === "number") {
+        allStats[dayStatsKey] += dayStatValue;
+      } else if (dayStatValueType === "object") {
+        Object.keys(dayStatValue).forEach(dayStatInnerKey => {
+          allStats[dayStatsKey][dayStatInnerKey] += dayStats[dayStatsKey][dayStatInnerKey];
+        })
+      }
+    })
+  }
+
+  calculateLastXStats = (numOfDays, cases, county) => {
+    let lastWeekCases = cases.slice(cases.length - numOfDays)
+    let totalStats = JSON.parse(JSON.stringify(LAST_DAY_STATS_ORIGINAL))[county];
+    lastWeekCases.forEach(dayCases => {
+      let tempDayStats = JSON.parse(JSON.stringify(LAST_DAY_STATS_ORIGINAL))[county];
+      this.updateCountyStats(county, tempDayStats, dayCases);
+      this.updateAllStats(totalStats, tempDayStats);
+    })
+    return totalStats;
+  }
+
   getActiveCases = async (county, defaultData = true) => {
-    // if (this.printMetrics === true) {
-    //   const v2 = true;
-    //   let [cases, deaths, recoveries] = await Promise.all([
-    //     this.getLatestCoronaData("cases", county, v2),
-    //     this.getLatestCoronaData("deaths", county, v2),
-    //     this.getLatestCoronaData("recoveries", county, v2)
-    //   ]);
+    this.printMetrics = false;
+    this.printMetrics = true;
+    if (this.printMetrics === true) {
+      const v2 = true;
+      let [cases, deaths, recoveries] = await Promise.all([
+        this.getLatestCoronaData("cases", county, v2),
+        this.getLatestCoronaData("deaths", county, v2),
+        this.getLatestCoronaData("recoveries", county, v2)
+      ]);
 
-    //   let lastDayCases = cases.slice(cases.length - 1)[0];
-    //   let lastDayDeaths = deaths.slice(deaths.length - 1)[0];
-    //   let lastDayRecoveries = recoveries.slice(recoveries.length - 1)[0];
+      let lastDayCases = cases.slice(cases.length - 1)[0];
+      const lastDayCasesDate = lastDayCases['Date'];
+      let lastDayDeaths = deaths.slice(deaths.length - 1)[0];
+      let lastDayRecoveries = recoveries.slice(recoveries.length - 1)[0];
 
-    //   let lastDayStats = JSON.parse(JSON.stringify(LAST_DAY_STATS_ORIGINAL))[county];
-    //   if (county === "cameron") this.setState({ lastDayStatsCameron: lastDayStats })
-    //   else if (county === "hidalgo") this.setState({ lastDayStatsHidalgo: lastDayStats })
-    //   else if (county === "starr") this.setState({ lastDayStatsStarr: lastDayStats })
-    //   else if (county === "willacy") this.setState({ lastDayStatsWillacy: lastDayStats })
+      let lastDayStats = JSON.parse(JSON.stringify(LAST_DAY_STATS_ORIGINAL))[county];
 
-    //   this.updateCountyStats(county, lastDayStats, lastDayCases);
-    //   // console.log(county);
-    //   // console.log({lastDayStats});
-    //   // console.log({lastDayCases});
-    //   // let lastWeekCases = cases.slice(cases.length - 7)
-    //   // let lastWeekDeaths = deaths.slice(deaths.length - 7)
-    //   // let lastWeekRecoveries = recoveries.slice(recoveries.length - 7)
-    //   // console.log({cases});
-    //   // console.log({deaths});
-    //   // console.log({recoveries});
+      this.updateCountyStats(county, lastDayStats, lastDayCases);
+      const consoleMap = {
+        "linkedToPreviousCase": "a link to a previous case",
+        "travel": "travel",
+        "community": "community",
+        "unknown": "unknown"
+        // ""
+      }
+      const printLastDayFlag = false;
+      // const printLastDayFlag = true;
+      if (printLastDayFlag) {
+        console.log(
+          `${county[0].toUpperCase() + county.slice(1,county.length)} County update for ${lastDayCasesDate}: ${lastDayStats["total"]} new cases, ` +
+          `${(lastDayStats["gender"][Object.keys(lastDayStats["gender"]).reduce((prev, current) => (lastDayStats["gender"][prev] > lastDayStats["gender"][current]) ? prev : current)] / lastDayStats["total"] * 100).toFixed(0)}% were ` +
+          `${(Object.keys(lastDayStats["gender"]).reduce((prev, current) => (lastDayStats["gender"][prev] > lastDayStats["gender"][current]) ? prev : current))}, ` +
+          `${(lastDayStats["transmission"][Object.keys(lastDayStats["transmission"]).reduce((prev, current) => (lastDayStats["transmission"][prev] > lastDayStats["transmission"][current]) ? prev : current)] / lastDayStats["total"] * 100).toFixed(0)}% were contracted through ` +
+          `${consoleMap[(Object.keys(lastDayStats["transmission"]).reduce((prev, current) => (lastDayStats["transmission"][prev] > lastDayStats["transmission"][current]) ? prev : current))]}, and ` +
+          `${(lastDayStats["ages"][Object.keys(lastDayStats["ages"]).reduce((prev, current) => (lastDayStats["ages"][prev] > lastDayStats["ages"][current]) ? prev : current)] / lastDayStats["total"] * 100).toFixed(0)}% were in the age range of ` +
+          `${(Object.keys(lastDayStats["ages"]).reduce((prev, current) => (lastDayStats["ages"][prev] > lastDayStats["ages"][current]) ? prev : current))}.`
+        )
 
+        console.log(`gender percentages for ${county}`);
+        console.log(Object.keys(lastDayStats["gender"]).map(genderKey => {return {[genderKey]: (lastDayStats["gender"][genderKey] / lastDayStats["total"] * 100).toFixed()}}));
+        console.log(`city percentages for ${county}`);
+        console.log(Object.keys(lastDayStats["cities"]).map(citiesKey => {return {[citiesKey]: (lastDayStats["cities"][citiesKey] / lastDayStats["total"] * 100).toFixed()}}));
+        console.log(`transmission percentages for ${county}`);
+        console.log(Object.keys(lastDayStats["transmission"]).map(transmissionKey => {return {[transmissionKey]: (lastDayStats['transmission'][transmissionKey] / lastDayStats["total"] * 100).toFixed()}}));
+        console.log(`age range percentages for ${county}`);
+        console.log(Object.keys(lastDayStats["ages"]).map(agesKey => {return {[agesKey]: (lastDayStats['ages'][agesKey] / lastDayStats["total"] * 100).toFixed()}}))
 
+        console.log('\n');
+      }
 
-    //   // cases.forEach({
+      const printLastXDaysFlag = false;
+      // const printLastXDaysFlag = true;
+      if (printLastXDaysFlag) {
+        const numOfDays = 7;
+        const lastXStats = this.calculateLastXStats(numOfDays, cases, county);
 
-    //   // })
-    // }
+        console.log(
+          `${county[0].toUpperCase() + county.slice(1,county.length)} County update for ${cases[cases.length - 7]['Date']} - ${cases[cases.length - 1]['Date']}: ${lastXStats["total"]} confirmed cases, ` +
+          `${(lastXStats["gender"][Object.keys(lastXStats["gender"]).reduce((prev, current) => (lastXStats["gender"][prev] > lastXStats["gender"][current]) ? prev : current)] / lastXStats["total"] * 100).toFixed(0)}% were ` +
+          `${(Object.keys(lastXStats["gender"]).reduce((prev, current) => (lastXStats["gender"][prev] > lastXStats["gender"][current]) ? prev : current))}, ` +
+          `${(lastXStats["transmission"][Object.keys(lastXStats["transmission"]).reduce((prev, current) => (lastXStats["transmission"][prev] > lastXStats["transmission"][current]) ? prev : current)] / lastXStats["total"] * 100).toFixed(0)}% were contracted through ` +
+          `${consoleMap[(Object.keys(lastXStats["transmission"]).reduce((prev, current) => (lastXStats["transmission"][prev] > lastXStats["transmission"][current]) ? prev : current))]}, and ` +
+          `${(lastXStats["ages"][Object.keys(lastXStats["ages"]).reduce((prev, current) => (lastXStats["ages"][prev] > lastXStats["ages"][current]) ? prev : current)] / lastXStats["total"] * 100).toFixed(0)}% were in the age range of ` +
+          `${(Object.keys(lastXStats["ages"]).reduce((prev, current) => (lastXStats["ages"][prev] > lastXStats["ages"][current]) ? prev : current))}.`
+        );
+
+        console.log(`gender percentages for ${county}`);
+        console.log(Object.keys(lastXStats["gender"]).map(genderKey => {return {[genderKey]: (lastXStats["gender"][genderKey] / lastXStats["total"] * 100).toFixed()}}));
+        console.log(`city percentages for ${county}`);
+        console.log(Object.keys(lastXStats["cities"]).map(citiesKey => {return {[citiesKey]: (lastXStats["cities"][citiesKey] / lastXStats["total"] * 100).toFixed()}}));
+        console.log(`transmission percentages for ${county}`);
+        console.log(Object.keys(lastXStats["transmission"]).map(transmissionKey => {return {[transmissionKey]: (lastXStats['transmission'][transmissionKey] / lastXStats["total"] * 100).toFixed()}}));
+        console.log(`age range percentages for ${county}`);
+        console.log(Object.keys(lastXStats["ages"]).map(agesKey => {return {[agesKey]: (lastXStats['ages'][agesKey] / lastXStats["total"] * 100).toFixed()}}))
+
+        console.log('\n');
+      }
+
+      // console.log({lastDayCases});
+      // let lastWeekDeaths = deaths.slice(deaths.length - 7)
+      // let lastWeekRecoveries = recoveries.slice(recoveries.length - 7)
+      // console.log({cases});
+      // console.log({deaths});
+      // console.log({recoveries});
+      // cases.forEach({
+
+      // })
+    }
 
     if (defaultData) return getDefaultActiveCases(county);
     const [cases, deaths, recoveries] = await Promise.all([
@@ -538,7 +613,7 @@ class Home extends React.Component {
 
   render() {
     let { county } = this.state;
-    const { coronaData, category, width, milestonesData } = this.state;
+    const { coronaData, category, width, milestonesData, feedUrl, feedItems } = this.state;
 
     // const { lastDayStatsCameron, lastDayStatsHidalgo, lastDayStatsStarr, lastDayStatsWillacy } = this.state;
 
@@ -787,6 +862,42 @@ class Home extends React.Component {
           <br/>
           <br/>
           <br/>
+          {
+            feedUrl && feedItems ?
+            (
+              <div>
+                Latest Updates
+                <br />
+                <br />
+                {
+                  feedItems.map(item => {
+                    return (
+                      <div className="rss-feed-post-container">
+                        <div className="fb-post-profile-pic-container">
+                          <a className="fb-post-profile-pic" href={item.link} rel="noopener noreferrer" target="_blank">
+                            <img className="fb-post-img" src={feedUrl} />
+                          </a>
+                        </div>
+                        <div className="fb-post-title-container">
+                          <a className="fb-post-title-text" href={item.link} rel="noopener noreferrer" target="_blank">
+                            <b>Rise RGV</b>
+                          </a>
+                          <a className="fb-post-title-text" href={item.link} rel="noopener noreferrer" target="_blank">
+                            <p>{getFBPostTime(item.pubDate)}</p>
+                          </a>
+                        </div>
+                        {/* {item.contentSnippet} */}
+                        <div dangerouslySetInnerHTML={{__html: item.content}} />
+                      </div>
+                  )})
+                }
+                {/* <img src={this.state.feedUrl}></img> */}
+                <br/>
+                <br/>
+                <br/>
+              </div>
+            ) : null
+          }
           <p>The Food Bank of the RGV is supporting our community through this pandemic. That's why I started <a rel="noopener noreferrer" target="_blank" href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">this fundraiser</a> to support them.</p>
           {/* <p>Fundraiser Goal: {fundData && fundData.length > 0 && 'name' in fundData[0] ? `$${numberWithCommas(fundData[0]['amount'])}` : "$2,500"}</p>
           <p>Funds Raised: {fundData && fundData.length > 2 && 'name' in fundData[2] ? `$${numberWithCommas(fundData[2]['amount'])}` : "$142"}</p>

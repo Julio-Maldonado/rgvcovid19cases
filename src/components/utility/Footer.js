@@ -12,7 +12,7 @@ const Footer = ({ county, linkClick, endpoint }) => {
       </p>
       */}
       <br />
-      <p>This website is maintained and updated daily by <a rel="noopener noreferrer" target="_blank" href="https://www.facebook.com/Rise-RGV-106137601156849/?modal=admin_todo_tour">Rise RGV</a>.</p>
+      <p>This website is maintained and updated daily by <a rel="noopener noreferrer" target="_blank" href="https://www.facebook.com/risergv">Rise RGV</a>.</p>
       <Link
         smooth
         className="menu-item"

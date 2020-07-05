@@ -29,6 +29,41 @@ const sendAnalytics = (category, action) => ReactGA.event({ category, action });
 
 const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
+const milliseconds2Hours = (milliseconds) => { return Math.round(milliseconds / 1000 / 60 / 60); }
+
+const milliseconds2Minutes = (milliseconds) => { return Math.round(milliseconds / 1000 / 60); }
+
+const formatString2Date = (strDate, postHoursAgo) => {
+  const d = new Date(strDate);
+  const dateTimeFormat = new Intl.DateTimeFormat(
+      'en',
+      {
+          // year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          // second: 'long',
+          hour12: true
+      }
+  );
+  const [{ value: month } , , { value: day } , , {value: hour} , , {value: minute} , , {value: dayPeriod}] = dateTimeFormat.formatToParts(d);
+  if (postHoursAgo < 48) return `Yesterday at ${hour}:${minute} ${dayPeriod}`
+  return `${month} ${day} at ${hour}:${minute} ${dayPeriod}`;
+}
+
+const getFBPostTime = (postDateStr) => {
+  const rightNowDate = new Date();
+  const postDate = new Date(postDateStr);
+  const postMillisecondsAgo = rightNowDate.valueOf() - postDate.valueOf();
+  const postHoursAgo = milliseconds2Hours(rightNowDate.valueOf() - postDate.valueOf());
+
+  if (postHoursAgo === 0) return `${milliseconds2Minutes(postMillisecondsAgo)} min ago`;
+  else if (postHoursAgo === 1) return `${postHoursAgo} hr ago`; 
+  else if (postHoursAgo < 24) return `${postHoursAgo} hrs ago`;
+  else return formatString2Date(postDate, postHoursAgo);
+}
+
 const getToday = () => {
   const today = new Date();
   const dateTimeFormat = new Intl.DateTimeFormat('en', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
@@ -564,4 +599,5 @@ export {
   sendAnalytics,
   scrollToTop,
   getDefaultCases,
+  getFBPostTime,
 };
