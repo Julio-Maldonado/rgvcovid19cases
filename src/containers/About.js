@@ -95,7 +95,7 @@ class About extends React.Component {
                 />
               </FacebookShareButton>
             </p> */}
-            <p>This website is maintained and updated daily by <a rel="noopener noreferrer" target="_blank" href="https://juliomaldonado.com">Julio Maldonado</a>.</p>
+            <p>This website is maintained and updated daily by <a rel="noopener noreferrer" target="_blank" href="https://www.facebook.com/risergv">Rise RGV</a>.</p>
             <br />
             <br />
           </div>

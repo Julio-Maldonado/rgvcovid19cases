@@ -85,6 +85,7 @@ const getPluralCount = (count) => {
   if (count === 22) return `${count}nd`;
   if (count === 23) return `${count}rd`;
   if (count < 31) return `${count}th`;
+  if (count === 31) return `${count}st`;
   if (count === 32) return `${count}nd`;
   if (count === 33) return `${count}rd`;
   if (count < 41) return `${count}th`;

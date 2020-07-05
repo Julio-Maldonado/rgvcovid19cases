@@ -546,9 +546,9 @@ class Home extends React.Component {
                 <br />
                 <br />
                 {
-                  feedItems.map(item => {
+                  feedItems.map((item, i) => {
                     return (
-                      <div className="rss-feed-post-container">
+                      <div key={`rss${i}`} className="rss-feed-post-container">
                         <div className="fb-post-profile-pic-container">
                           <a className="fb-post-profile-pic" href={item.link}>
                             <img className="fb-post-img" src={feedUrl} />
