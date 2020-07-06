@@ -33,7 +33,7 @@ import './styles.css';
 
 // import FundClockProgress from "react-fundraising-countdown";
 import FundClockProgress from "./custom_fundraiser";
-import { isMobile } from 'react-device-detect';
+import { isMobile, isAndroid, isIOS } from 'react-device-detect';
 
 // let milestonesData = [
 //   {
@@ -322,26 +322,41 @@ class Home extends React.Component {
     this.setState({coronaData});
     const siteData = await getSiteData('getSiteData');
     if (siteData['status'] === 200) this.setState({ fundData: siteData['data'] })
-    // console.log({coronaData})
+    console.log({coronaData})
 
-    let parser = new Parser();
-    let feed = await parser.parseURL('https://rss.app/feeds/oC1FkguURyVrIjQ3.xml');
+    let parser = {};
+    let feed = {};
+
+    if (!isMobile) {
+      parser = new Parser();
+      feed = await parser.parseURL('https://rss.app/feeds/oC1FkguURyVrIjQ3.xml');
+    }
 
     let feedUrl = "";
     let feedItems = [];
     let filteredFeedItems = [];
     // feed = false;
-    if (!isMobile) {
-      feedUrl = feed.image.url;
-      console.log({feed})
-      feedItems = feed.items;
-      filteredFeedItems = feedItems.filter(feedItem => feedItem.contentSnippet.includes("safe"))
-      feedItems = filteredFeedItems.slice(0, Math.max(5, Math.min(5, filteredFeedItems.length)));
-    } else {
+    if (isMobile) {
       feedUrl = "https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/83673078_107766820993927_3770145121888083400_n.png?_nc_cat=102&_nc_sid=dbb9e7&_nc_ohc=ghvqlrsI3ScAX9uyheq&_nc_ht=scontent-syd2-1.xx&oh=974b14f8a6a147938473736e645f002a&oe=5F27DDA2";
       feed = RSS_ITEMS;
       feedItems = feed.items;
-      console.log({RSS_ITEMS})
+      filteredFeedItems = feedItems.filter(feedItem => feedItem.contentSnippet.includes("safe"))
+      feedItems = filteredFeedItems.slice(0, Math.max(5, Math.min(5, filteredFeedItems.length)));
+      if (isAndroid) {
+        feedItems = feedItems.map(feedItem => {
+          feedItem['link'] = `fb://page/106137601156849`;
+          return feedItem;
+        })
+      } else if (isIOS) {
+        feedItems = feedItems.map(feedItem => {
+          feedItem['link'] = `fb://profile/106137601156849`;
+          return feedItem;
+        })
+      }
+    } else {
+      feedUrl = feed.image.url;
+      console.log({feed})
+      feedItems = feed.items;
       filteredFeedItems = feedItems.filter(feedItem => feedItem.contentSnippet.includes("safe"))
       feedItems = filteredFeedItems.slice(0, Math.max(5, Math.min(5, filteredFeedItems.length)));
     }
@@ -352,10 +367,10 @@ class Home extends React.Component {
         content = content.replace("width: 100%", "width: 50%");
         content = content.replace("<img src", '<div style="text-align: center;"><img src');
         content = content.replace("><div>", '></div><div>');
-        console.log({content})
+        // console.log({content})
         feedItems[i].content = content;
       })
-      console.log({feedItems})
+      // console.log({feedItems})
     }
 
     this.setState({feedUrl, feedItems});
@@ -901,15 +916,30 @@ class Home extends React.Component {
                     return (
                       <div key={`rss${i}`} className="rss-feed-post-container">
                         <div className="fb-post-profile-pic-container">
-                          <a className="fb-post-profile-pic" href={item.link} rel="noopener noreferrer" target="_blank">
+                          <a
+                            className="fb-post-profile-pic"
+                            href={item.link}
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
                             <img className="fb-post-img" src={feedUrl} />
                           </a>
                         </div>
                         <div className="fb-post-title-container">
-                          <a className="fb-post-title-text" href={item.link} rel="noopener noreferrer" target="_blank">
+                          <a
+                            className="fb-post-title-text"
+                            href={item.link}
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
                             <b>Rise RGV</b>
                           </a>
-                          <a className="fb-post-title-text" href={item.link} rel="noopener noreferrer" target="_blank">
+                          <a
+                            className="fb-post-title-text"
+                            href={item.link}
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
                             <p>{getFBPostTime(item.pubDate)}</p>
                           </a>
                         </div>

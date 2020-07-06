@@ -2,6 +2,8 @@ import React from 'react';
 
 import { HashLink as Link } from 'react-router-hash-link';
 
+import { isMobile, isAndroid, isIOS } from 'react-device-detect';
+
 import './styles.css';
 
 const Footer = ({ county, linkClick, endpoint }) => {
@@ -12,7 +14,17 @@ const Footer = ({ county, linkClick, endpoint }) => {
       </p>
       */}
       <br />
-      <p>This website is maintained and updated daily by <a rel="noopener noreferrer" target="_blank" href="https://www.facebook.com/risergv">Rise RGV</a>.</p>
+      <p>This website is maintained and updated daily by <a
+        rel="noopener noreferrer"
+        target="_blank"
+        href={isMobile ?
+        (isAndroid ? "fb://page/106137601156849"
+          : (isIOS ?
+          "fb://profile/106137601156849" :
+          "https://www.facebook.com/risergv"
+          )
+        )
+        : "https://www.facebook.com/risergv"}>Rise RGV</a>.</p>
       <Link
         smooth
         className="menu-item"
