@@ -2,11 +2,22 @@ const RSS_ITEMS = {
   "items": [
     {
       "creator": "Facebook",
+      "title": "Hidalgo County update for July 5: 547 new cases, 51% were female, 27% were in the age range of 20 - 29, 19% were in the...",
+      "link": "https://www.facebook.com/risergv/photos/a.116519273452015/116519256785350/",
+      "pubDate": "Mon, 06 Jul 2020 04:11:53 GMT",
+      "dc:creator": "Facebook",
+      "content": "<div><div style=\"text-align: center;\"><img src=\"https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-0/p64x64/106989510_116519260118683_6458887532597794285_n.png?_nc_cat=103&_nc_sid=8024bb&_nc_ohc=gIFbarTeP-4AX-ji8AX&_nc_ht=scontent-lax3-1.xx&oh=b257205ab10861dc307729dda1370fdc&oe=5F294EAE\" style=\"width: 50%;\"></div><div>Hidalgo County update for July 5: 547 new cases, 51% were female, 27% were in the age range of 20 - 29, 19% were in the age range 30 - 39, and 17% were from Edinburg. Stay safe RGV!</div></div>",
+      "contentSnippet": "Hidalgo County update for July 5: 547 new cases, 51% were female, 27% were in the age range of 20 - 29, 19% were in the age range 30 - 39, and 17% were from Edinburg. Stay safe RGV!",
+      "guid": "aec885d4ad065c24a3ea370d0021256a",
+      "isoDate": "2020-07-06T04:11:53.000Z"
+    },
+    {
+      "creator": "Facebook",
       "title": "10 / 12 hospitals in the RGV are full.  The number of people hospitalized with COVID-19 has tripled over the last two we...",
       "link": "https://www.facebook.com/risergv/posts/116339446803331",
       "pubDate": "Sun, 05 Jul 2020 19:11:32 GMT",
       "dc:creator": "Facebook",
-      "content": "<div><img src=\"https://external-sea1-1.xx.fbcdn.net/safe_image.php?d=AQDswJUDWg9nrbzK&w=540&h=282&url=https%3A%2F%2Fewscripps.brightspotcdn.com%2Fdims4%2Fdefault%2F1246a14%2F2147483647%2Fstrip%2Ftrue%2Fcrop%2F960x504%2B0%2B85%2Fresize%2F1200x630%21%2Fquality%2F90%2F%3Furl%3Dhttp%253A%252F%252Fewscripps-brightspot.s3.amazonaws.com%252F28%252F05%252F2af9138148109bb24eea7c898b78%252Fhospital-ward.jpg&cfs=1&upscale=1&fallback=news_d_placeholder_publisher&_nc_hash=AQAcGKPtEz5JlG9X\" style=\"width: 100%;\"><div>10 / 12 hospitals in the RGV are full.  The number of people hospitalized with COVID-19 has tripled over the last two weeks, from 253 people on June 22 to 820 on July 4. Stay safe RGV</div></div>",
+      "content": "<div><div style=\"text-align: center;\"><img src=\"https://external-lax3-1.xx.fbcdn.net/safe_image.php?d=AQDswJUDWg9nrbzK&w=540&h=282&url=https%3A%2F%2Fewscripps.brightspotcdn.com%2Fdims4%2Fdefault%2F1246a14%2F2147483647%2Fstrip%2Ftrue%2Fcrop%2F960x504%2B0%2B85%2Fresize%2F1200x630%21%2Fquality%2F90%2F%3Furl%3Dhttp%253A%252F%252Fewscripps-brightspot.s3.amazonaws.com%252F28%252F05%252F2af9138148109bb24eea7c898b78%252Fhospital-ward.jpg&cfs=1&upscale=1&fallback=news_d_placeholder_publisher&_nc_hash=AQAcGKPtEz5JlG9X\" style=\"width: 50%;\"></div><div>10 / 12 hospitals in the RGV are full.  The number of people hospitalized with COVID-19 has tripled over the last two weeks, from 253 people on June 22 to 820 on July 4. Stay safe RGV</div></div>",
       "contentSnippet": "10 / 12 hospitals in the RGV are full.  The number of people hospitalized with COVID-19 has tripled over the last two weeks, from 253 people on June 22 to 820 on July 4. Stay safe RGV",
       "guid": "be6381b99c0bf8aa5d6de315e3dc767c",
       "isoDate": "2020-07-05T19:11:32.000Z"
@@ -17,7 +28,7 @@ const RSS_ITEMS = {
       "link": "https://www.facebook.com/risergv/posts/116064250164184",
       "pubDate": "Sun, 05 Jul 2020 08:23:09 GMT",
       "dc:creator": "Facebook",
-      "content": "<div><img src=\"https://scontent-sea1-1.xx.fbcdn.net/v/t1.0-0/c112.0.596.312a/s526x296/105988267_107756124328330_3083053132687621055_n.png?_nc_cat=100&_nc_sid=dd9801&_nc_oc=AQkVNHDBPeLkeVou51vCtf6df-uum3HKWpKsnOn9BMREuJBqqmbebJy0ismPz-TLjzA&_nc_ht=scontent-sea1-1.xx&oh=dd6f06a4e18972623e464c1c66c49009&oe=5F287B4A\" style=\"width: 100%;\"></div>",
+      "content": "<div><img src=\"https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-0/c112.0.596.312a/s526x296/105988267_107756124328330_3083053132687621055_n.png?_nc_cat=100&_nc_sid=dd9801&_nc_ohc=gHuuO_OYRdMAX9P9x-X&_nc_ht=scontent-lax3-1.xx&oh=9be2c2a60a747ed570a39ec570929f0b&oe=5F287B4A\" style=\"width: 100%;\"></div>",
       "contentSnippet": "",
       "guid": "d9f6494886846b49a19f7d3bda597efa",
       "isoDate": "2020-07-05T08:23:09.000Z"
@@ -116,7 +127,7 @@ const RSS_ITEMS = {
       "link": "https://www.facebook.com/risergv/photos/a.107165361054073/107756120994997/",
       "pubDate": "Fri, 26 Jun 2020 17:47:52 GMT",
       "dc:creator": "Facebook",
-      "content": "<div><img src=\"https://scontent-sea1-1.xx.fbcdn.net/v/t1.0-0/p200x200/105988267_107756124328330_3083053132687621055_n.png?_nc_cat=100&_nc_sid=dd9801&_nc_oc=AQkVNHDBPeLkeVou51vCtf6df-uum3HKWpKsnOn9BMREuJBqqmbebJy0ismPz-TLjzA&_nc_ht=scontent-sea1-1.xx&oh=70ad7afb64a218556558818e1f327e03&oe=5F2635C6\" style=\"width: 100%;\"></div>",
+      "content": "<div><img src=\"https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-0/p200x200/105988267_107756124328330_3083053132687621055_n.png?_nc_cat=100&_nc_sid=dd9801&_nc_ohc=gHuuO_OYRdMAX9P9x-X&_nc_ht=scontent-lax3-1.xx&oh=0b6452cc26d295e8b8a13570d3103658&oe=5F2A2A46\" style=\"width: 100%;\"></div>",
       "contentSnippet": "",
       "guid": "976d727985ebdb8158f93f2f104a95ee",
       "isoDate": "2020-06-26T17:47:52.000Z"
@@ -125,15 +136,15 @@ const RSS_ITEMS = {
   "feedUrl": "https://rss.app/feeds/oC1FkguURyVrIjQ3.xml",
   "image": {
     "link": "https://www.facebook.com/risergv",
-    "url": "https://scontent-sea1-1.xx.fbcdn.net/v/t1.0-1/p200x200/83673078_107766820993927_3770145121888083400_n.png?_nc_cat=102&_nc_sid=dbb9e7&_nc_oc=AQm0C_GZUyIeoW0DoyomhBOutJUNB7fqg4xHigrdTM6n7llrQ8ozug5qcf1sfccBZ9M&_nc_ht=scontent-sea1-1.xx&oh=219dd4f2306058f1deb1012c5160243e&oe=5F27DDA2",
+    "url": "https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-1/p200x200/83673078_107766820993927_3770145121888083400_n.png?_nc_cat=102&_nc_sid=dbb9e7&_nc_ohc=ZJU5p_GQZb4AX8IJ2tO&_nc_ht=scontent-lax3-1.xx&oh=60fcb473fac26f5ad8255e9222d435fa&oe=5F27DDA2",
     "title": "Rise RGV - Posts | Facebook"
   },
   "title": "Rise RGV - Posts | Facebook",
-  "description": "Rise RGV. 4 likes · 1 talking about this. Empowering and elevating the residents of the Rio Grande Valley.",
+  "description": "Rise RGV. 17 likes · 15 talking about this. Empowering and elevating the residents of the Rio Grande Valley.",
   "generator": "https://rss.app",
   "link": "https://www.facebook.com/risergv",
   "language": "en",
-  "lastBuildDate": "Sun, 05 Jul 2020 19:48:40 GMT"
+  "lastBuildDate": "Tue, 07 Jul 2020 05:09:05 GMT"
 };
 
 export default RSS_ITEMS;

@@ -456,8 +456,8 @@ class Home extends React.Component {
         "unknown": "unknown"
         // ""
       }
-      const printLastDayFlag = false;
-      // const printLastDayFlag = true;
+      // const printLastDayFlag = false;
+      const printLastDayFlag = true;
       if (printLastDayFlag) {
         console.log(
           `${county[0].toUpperCase() + county.slice(1,county.length)} County update for ${lastDayCasesDate}: ${lastDayStats["total"]} new cases, ` +
