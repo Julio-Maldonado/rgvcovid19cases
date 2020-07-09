@@ -322,7 +322,7 @@ class Home extends React.Component {
     this.setState({coronaData});
     const siteData = await getSiteData('getSiteData');
     if (siteData['status'] === 200) this.setState({ fundData: siteData['data'] })
-    console.log({coronaData})
+    // console.log({coronaData})
 
     let parser = {};
     let feed = {};
@@ -940,11 +940,22 @@ class Home extends React.Component {
                             rel="noopener noreferrer"
                             target="_blank"
                           >
+                            
                             <p>{getFBPostTime(item.pubDate)}</p>
                           </a>
                         </div>
                         {/* {item.contentSnippet} */}
-                          <div dangerouslySetInnerHTML={{__html: item.content}} />
+                        {isMobile ?
+                            <a
+                              className="fb-post-title-text"
+                              href={item.link}
+                              rel="noopener noreferrer"
+                              target="_blank"
+                            >
+                              <div dangerouslySetInnerHTML={{__html: item.content}} />
+                            </a>
+                            : <div dangerouslySetInnerHTML={{__html: item.content}} />
+                          }
                       </div>
                   )})
                 }

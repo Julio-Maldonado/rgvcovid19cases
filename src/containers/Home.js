@@ -625,7 +625,18 @@ class Home extends React.Component {
                           </a>
                         </div>
                         {/* {item.contentSnippet} */}
-                          <div dangerouslySetInnerHTML={{__html: item.content}} />
+                          {isMobile ?
+                            <a
+                              className="fb-post-title-text"
+                              href={item.link}
+                              rel="noopener noreferrer"
+                              target="_blank"
+                            >
+                              <div dangerouslySetInnerHTML={{__html: item.content}} />
+                            </a>
+                            : <div dangerouslySetInnerHTML={{__html: item.content}} />
+                          }
+                          {/* </a> */}
                       </div>
                   )})
                 }
