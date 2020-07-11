@@ -747,6 +747,13 @@ const WILLACY_ACTIVE_CASES = [
     "Cases": 8,
     "Deaths": 0,
     "Recoveries": 0
+  },
+  {
+    "Date": "7/10",
+    "Count": 218,
+    "Cases": 0,
+    "Deaths": 0,
+    "Recoveries": 0
   }
 ];
 

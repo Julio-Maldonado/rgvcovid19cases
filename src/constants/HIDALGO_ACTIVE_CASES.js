@@ -782,6 +782,13 @@ const HIDALGO_ACTIVE_CASES = [
     "Cases": 1274,
     "Deaths": 20,
     "Recoveries": 39
+  },
+  {
+    "Date": "7/10",
+    "Count": 4697,
+    "Cases": 393,
+    "Deaths": 19,
+    "Recoveries": 52
   }
 ];
 
