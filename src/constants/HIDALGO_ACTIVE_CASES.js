@@ -785,38 +785,45 @@ const HIDALGO_ACTIVE_CASES = [
   },
   {
     "Date": "7/10",
-    "Count": 4697,
+    "Count": 4696,
     "Cases": 393,
     "Deaths": 19,
-    "Recoveries": 52
+    "Recoveries": 53
   },
   {
     "Date": "7/11",
-    "Count": 4697,
+    "Count": 4696,
     "Cases": 0,
     "Deaths": 0,
     "Recoveries": 0
   },
   {
     "Date": "7/12",
-    "Count": 4875,
+    "Count": 4874,
     "Cases": 313,
     "Deaths": 8,
     "Recoveries": 127
   },
   {
     "Date": "7/13",
-    "Count": 4667,
+    "Count": 4666,
     "Cases": 157,
     "Deaths": 2,
     "Recoveries": 363
   },
   {
     "Date": "7/14",
-    "Count": 5032,
+    "Count": 5031,
     "Cases": 396,
     "Deaths": 31,
     "Recoveries": 0
+  },
+  {
+    "Date": "7/15",
+    "Count": 4871,
+    "Cases": 651,
+    "Deaths": 35,
+    "Recoveries": 776
   }
 ];
 

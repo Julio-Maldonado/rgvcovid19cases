@@ -15,7 +15,6 @@ import {
   getSiteData,
   getCoronaData,
   getDefaultActiveCases,
-  // numberWithCommas,
   getPluralCount,
   determineScreenState,
   shallowCompare,
@@ -23,33 +22,17 @@ import {
   sendAnalytics,
   scrollToTop,
   getFBPostTime,
+  checkScreenSize
 } from '../constants/helperFunctions';
 
 import { ENDPOINT_MAP, LAST_DAY_STATS_ORIGINAL, CITIES_MAP, RSS_ITEMS } from '../constants/constants';
 
 import DEFAULT_CORONA_DATA from '../constants/DEFAULT_CORONA_DATA';
 
-import './styles.css';
-
-// import FundClockProgress from "react-fundraising-countdown";
 import FundClockProgress from "./custom_fundraiser";
 import { isMobile, isAndroid, isIOS } from 'react-device-detect';
 
-// let milestonesData = [
-//   {
-//     text: "Start",
-//     cap: 0
-//   },
-//   {
-//     text: "Current $213",
-//     cap: 213
-//   },
-//   {
-//     text: "Goal $2,500",
-//     cap: 500
-//   }
-// ];
-
+import './styles.css';
 
 class Home extends React.Component {
   state = {
@@ -57,22 +40,13 @@ class Home extends React.Component {
     coronaData: DEFAULT_CORONA_DATA,
     height: 0,
     width: 0,
-    currentFund: 150,
-    softcap: 500,
-    hardcap: 500,
+    currentFund: 872,
+    softcap: 1500,
+    hardcap: 1500,
     milestonesData: [
-      {
-        text: "Start",
-        cap: 0
-      },
-      {
-        text: "Current $213",
-        cap: 213
-      },
-      {
-        text: "Goal $500",
-        cap: 500
-      }
+      { text: "Start", cap: 0 },
+      { text: "Current $872", cap: 872 },
+      { text: "Goal $1500", cap: 1500 }
     ],
     totalDonors: 1,
     lastDayStatsCameron: {},
@@ -108,7 +82,7 @@ class Home extends React.Component {
 
     setTimeout(this.justMounted, 1000);
 
-    if (this.checkScreenSize()) this.screenIsSuperLong = true;
+    if (checkScreenSize()) this.screenIsSuperLong = true;
     else this.screenIsSuperLong = false;
 
     setTimeout(this.updateWindowDimensions, 1000);
@@ -135,14 +109,6 @@ class Home extends React.Component {
     }
   }
 
-  checkScreenSize = () => {
-    let iPhone = /iPhone/.test(navigator.userAgent) && !window.MSStream;
-    let aspect = window.screen.width / window.screen.height;
-    if (iPhone && aspect.toFixed(3) === "0.462") return true;
-
-    return false;
-  }
-
   componentWillUnmount() {
     window.removeEventListener('resize', this.updateWindowDimensions); 
     clearInterval(this.icoFundRaising);
@@ -151,83 +117,40 @@ class Home extends React.Component {
   updateWindowDimensions = () => {
     let height = window.innerHeight;
     let width = window.innerWidth;
+
     if (Math.abs(this.state.height - window.innerHeight) < 100) height = this.state.height;
 
-    if (height / width > 1.7 || this.checkScreenSize()) this.screenIsSuperLong = true;
+    if (height / width > 1.7 || checkScreenSize()) this.screenIsSuperLong = true;
     else this.screenIsSuperLong = false;
 
-    this.setState({ width, height })
+    this.setState({ width, height });
   }
 
   getLatestUsefulData = async (county) => {
     const usefulData = await getUsefulData(county);
     if (county === "cameron")
       this.setState({
-        // casesCountCameron: 2399,
         casesCountCameron: usefulData['cases']['count'] - 1,
-        // deathsCountCameron: 55,
         deathsCountCameron: usefulData['deaths']['count'] - 1,
-        // recoveriesCountCameron: 1539,
         recoveriesCountCameron: usefulData['recoveries']['count'] - 1,
-        // cityCasesDataCameron: usefulData['cases']['cities'].sort(compare),
-        // ageCasesDataCameron: usefulData['cases']['ages'].sort(compare),
-        // transmissionCasesDataCameron: usefulData['cases']['transmission'].sort(compare),
-        // genderCasesDataCameron: usefulData['cases']['gender'].sort(compare),
-        // cityDeathsDataCameron: usefulData['deaths']['cities'].sort(compare),
-        // ageDeathsDataCameron: usefulData['deaths']['ages'].sort(compare),
-        // transmissionDeathsDataCameron: usefulData['deaths']['transmission'].sort(compare),
-        // genderDeathsDataCameron: usefulData['deaths']['gender'].sort(compare),
       });
     else if (county === "hidalgo")
       this.setState({
-        // casesCountHidalgo: 3982,
         casesCountHidalgo: usefulData['cases']['count'] - 1,
-        // deathsCountHidalgo: 1150,
         deathsCountHidalgo: usefulData['deaths']['count'] - 1,
-        // recoveriesCountHidalgo: 46,
         recoveriesCountHidalgo: usefulData['recoveries']['count'] - 1,
-        // cityCasesDataHidalgo: usefulData['cases']['cities'].sort(compare),
-        // ageCasesDataHidalgo: usefulData['cases']['ages'].sort(compare),
-        // transmissionCasesDataHidalgo: usefulData['cases']['transmission'].sort(compare),
-        // genderCasesDataHidalgo: usefulData['cases']['gender'].sort(compare),
-        // cityDeathsDataHidalgo: usefulData['deaths']['cities'].sort(compare),
-        // ageDeathsDataHidalgo: usefulData['deaths']['ages'].sort(compare),
-        // transmissionDeathsDataHidalgo: usefulData['deaths']['transmission'].sort(compare),
-        // genderDeathsDataHidalgo: usefulData['deaths']['gender'].sort(compare),
       });
     else if (county === "starr")
       this.setState({
-        // casesCountStarr: 718,
         casesCountStarr: usefulData['cases']['count'] - 1,
-        // deathsCountStarr: 146,
         deathsCountStarr: usefulData['deaths']['count'] - 1,
-        // recoveriesCountStarr: 3,
         recoveriesCountStarr: usefulData['recoveries']['count'] - 1,
-        // cityCasesDataStarr: usefulData['cases']['cities'].sort(compare),
-        // ageCasesDataStarr: usefulData['cases']['ages'].sort(compare),
-        // transmissionCasesDataStarr: usefulData['cases']['transmission'].sort(compare),
-        // genderCasesDataStarr: usefulData['cases']['gender'].sort(compare),
-        // cityDeathsDataStarr: usefulData['deaths']['cities'].sort(compare),
-        // ageDeathsDataStarr: usefulData['deaths']['ages'].sort(compare),
-        // transmissionDeathsDataStarr: usefulData['deaths']['transmission'].sort(compare),
-        // genderDeathsDataStarr: usefulData['deaths']['gender'].sort(compare),
       });
     else if (county === "willacy")
       this.setState({
-        // casesCountWillacy: 156,
         casesCountWillacy: usefulData['cases']['count'] - 1,
-        // deathsCountWillacy: 11,
         deathsCountWillacy: usefulData['deaths']['count'] - 1,
-        // recoveriesCountWillacy: 2,
         recoveriesCountWillacy: usefulData['recoveries']['count'] - 1,
-        // cityCasesDataWillacy: usefulData['cases']['cities'].sort(compare),
-        // ageCasesDataWillacy: usefulData['cases']['ages'].sort(compare),
-        // transmissionCasesDataWillacy: usefulData['cases']['transmission'].sort(compare),
-        // genderCasesDataWillacy: usefulData['cases']['gender'].sort(compare),
-        // cityDeathsDataWillacy: usefulData['deaths']['cities'].sort(compare),
-        // ageDeathsDataWillacy: usefulData['deaths']['ages'].sort(compare),
-        // transmissionDeathsDataWillacy: usefulData['deaths']['transmission'].sort(compare),
-        // genderDeathsDataWillacy: usefulData['deaths']['gender'].sort(compare),
       });
   }
 
@@ -632,7 +555,7 @@ class Home extends React.Component {
     return false;
   }
 
-  updateStateEndpoint = (endpoint) => { endpoint in ENDPOINT_MAP ? this.setState({ endpoint }): this.setState({ endpoint: 'active'}); };
+  updateStateEndpoint = (endpoint) => { endpoint in ENDPOINT_MAP ? this.setState({ endpoint }): this.setState({ endpoint: 'active'}); }
 
   navigateSideMenu = () => { this.setState({isOpen: !this.state.isOpen}); }
 
@@ -659,8 +582,6 @@ class Home extends React.Component {
   render() {
     let { county } = this.state;
     const { coronaData, category, width, milestonesData, feedUrl, feedItems } = this.state;
-
-    // const { lastDayStatsCameron, lastDayStatsHidalgo, lastDayStatsStarr, lastDayStatsWillacy } = this.state;
 
     const {
       casesCountCameron,
@@ -786,104 +707,6 @@ class Home extends React.Component {
           }
           <br/>
           <br/>
-          {/* <p>Last Day Summaries</p>
-          {
-            Object.keys(lastDayStatsCameron).length !== 0 && lastDayStatsCameron.constructor === Object ?
-              <div>
-                <p>Cameron County</p>
-                  Of the {lastDayStatsCameron["total"]} new cases,
-                  {' '}{(lastDayStatsCameron["gender"][Object.keys(lastDayStatsCameron["gender"]).reduce((prev, current) => (lastDayStatsCameron["gender"][prev] > lastDayStatsCameron["gender"][current]) ? prev : current)] / lastDayStatsCameron["total"] * 100).toFixed(0)}% were
-                  {' '}{(Object.keys(lastDayStatsCameron["gender"]).reduce((prev, current) => (lastDayStatsCameron["gender"][prev] > lastDayStatsCameron["gender"][current]) ? prev : current))},
-                  {' '}{(lastDayStatsCameron["transmission"][Object.keys(lastDayStatsCameron["transmission"]).reduce((prev, current) => (lastDayStatsCameron["transmission"][prev] > lastDayStatsCameron["transmission"][current]) ? prev : current)] / lastDayStatsCameron["total"] * 100).toFixed(0)}% were contracted through
-                  {' '}{(Object.keys(lastDayStatsCameron["transmission"]).reduce((prev, current) => (lastDayStatsCameron["transmission"][prev] > lastDayStatsCameron["transmission"][current]) ? prev : current))}, and
-                  {' '}{(lastDayStatsCameron["ages"][Object.keys(lastDayStatsCameron["ages"]).reduce((prev, current) => (lastDayStatsCameron["ages"][prev] > lastDayStatsCameron["ages"][current]) ? prev : current)] / lastDayStatsCameron["total"] * 100).toFixed(0)}% are in the age range of
-                  {' '}{(Object.keys(lastDayStatsCameron["ages"]).reduce((prev, current) => (lastDayStatsCameron["ages"][prev] > lastDayStatsCameron["ages"][current]) ? prev : current))}.
-                { <p>Total new cases: {lastDayStatsCameron["total"]}</p>
-                <p>City with the most cases: {Object.keys(lastDayStatsCameron["cities"]).reduce((prev, current) => (lastDayStatsCameron["cities"][prev] > lastDayStatsCameron["cities"][current]) ? prev : current)}</p>
-                <p>Trasmissions: </p>
-                <p>Travel - {lastDayStatsCameron["transmission"]["travel"]} -> {(lastDayStatsCameron["transmission"]["travel"] / lastDayStatsCameron["total"] * 100).toFixed(1)}%</p>
-                <p>Community - {lastDayStatsCameron["transmission"]["community"]} -> {(lastDayStatsCameron["transmission"]["community"] / lastDayStatsCameron["total"] * 100).toFixed(1)}%</p>
-                <p>Linked to Previous Case - {lastDayStatsCameron["transmission"]["linkedToPreviousCase"]} -> {(lastDayStatsCameron["transmission"]["linkedToPreviousCase"] / lastDayStatsCameron["total"] * 100).toFixed(1)}%</p>
-                <p>Gender: </p>
-                <o>Age Range: </o>
-                <p>{(recoveriesCountCameron / casesCountCameron * 100).toFixed(1)}%</p> }
-              </div>
-              : null
-          }
-          <br />
-          {
-            Object.keys(lastDayStatsHidalgo).length !== 0 && lastDayStatsHidalgo.constructor === Object ?
-              <div>
-                <p>Hidalgo County</p>
-                  Of the {lastDayStatsHidalgo["total"]} new cases,
-                  {' '}{(lastDayStatsHidalgo["gender"][Object.keys(lastDayStatsHidalgo["gender"]).reduce((prev, current) => (lastDayStatsHidalgo["gender"][prev] > lastDayStatsHidalgo["gender"][current]) ? prev : current)] / lastDayStatsHidalgo["total"] * 100).toFixed(0)}% were
-                  {' '}{(Object.keys(lastDayStatsHidalgo["gender"]).reduce((prev, current) => (lastDayStatsHidalgo["gender"][prev] > lastDayStatsHidalgo["gender"][current]) ? prev : current))},
-                  {' '}{(lastDayStatsHidalgo["transmission"][Object.keys(lastDayStatsHidalgo["transmission"]).reduce((prev, current) => (lastDayStatsHidalgo["transmission"][prev] > lastDayStatsHidalgo["transmission"][current]) ? prev : current)] / lastDayStatsHidalgo["total"] * 100).toFixed(0)}% were contracted through
-                  {' '}{(Object.keys(lastDayStatsHidalgo["transmission"]).reduce((prev, current) => (lastDayStatsHidalgo["transmission"][prev] > lastDayStatsHidalgo["transmission"][current]) ? prev : current))}, and
-                  {' '}{(lastDayStatsHidalgo["ages"][Object.keys(lastDayStatsHidalgo["ages"]).reduce((prev, current) => (lastDayStatsHidalgo["ages"][prev] > lastDayStatsHidalgo["ages"][current]) ? prev : current)] / lastDayStatsHidalgo["total"] * 100).toFixed(0)}% are in the age range of
-                  {' '}{(Object.keys(lastDayStatsHidalgo["ages"]).reduce((prev, current) => (lastDayStatsHidalgo["ages"][prev] > lastDayStatsHidalgo["ages"][current]) ? prev : current))}.
-                <p>Total new cases: {lastDayStatsHidalgo["total"]}</p>
-                <p>City with the most cases: {Object.keys(lastDayStatsHidalgo["cities"]).reduce((prev, current) => (lastDayStatsHidalgo["cities"][prev] > lastDayStatsHidalgo["cities"][current]) ? prev : current)}</p>
-                <p>Trasmissions: </p>
-                <p>Travel - {lastDayStatsHidalgo["transmission"]["travel"]} -> {(lastDayStatsHidalgo["transmission"]["travel"] / lastDayStatsHidalgo["total"] * 100).toFixed(1)}%</p>
-                <p>Community - {lastDayStatsHidalgo["transmission"]["community"]} -> {(lastDayStatsHidalgo["transmission"]["community"] / lastDayStatsHidalgo["total"] * 100).toFixed(1)}%</p>
-                <p>Linked to Previous Case - {lastDayStatsHidalgo["transmission"]["linkedToPreviousCase"]} -> {(lastDayStatsHidalgo["transmission"]["linkedToPreviousCase"] / lastDayStatsHidalgo["total"] * 100).toFixed(1)}%</p>
-                <p>Gender: </p>
-                <o>Age Range: </o>
-                <p>{(recoveriesCountCameron / casesCountCameron * 100).toFixed(1)}%</p>
-              </div>
-              : null
-          }
-          <br />
-          {
-            Object.keys(lastDayStatsStarr).length !== 0 && lastDayStatsStarr.constructor === Object ?
-              <div>
-                <p>Starr County</p>
-                  Of the {lastDayStatsStarr["total"]} new cases,
-                  {' '}{(lastDayStatsStarr["gender"][Object.keys(lastDayStatsStarr["gender"]).reduce((prev, current) => (lastDayStatsStarr["gender"][prev] > lastDayStatsStarr["gender"][current]) ? prev : current)] / lastDayStatsStarr["total"] * 100).toFixed(0)}% were
-                  {' '}{(Object.keys(lastDayStatsStarr["gender"]).reduce((prev, current) => (lastDayStatsStarr["gender"][prev] > lastDayStatsStarr["gender"][current]) ? prev : current))},
-                  {' '}{(lastDayStatsStarr["transmission"][Object.keys(lastDayStatsStarr["transmission"]).reduce((prev, current) => (lastDayStatsStarr["transmission"][prev] > lastDayStatsStarr["transmission"][current]) ? prev : current)] / lastDayStatsStarr["total"] * 100).toFixed(0)}% were contracted through
-                  {' '}{(Object.keys(lastDayStatsStarr["transmission"]).reduce((prev, current) => (lastDayStatsStarr["transmission"][prev] > lastDayStatsStarr["transmission"][current]) ? prev : current))}, and
-                  {' '}{(lastDayStatsStarr["ages"][Object.keys(lastDayStatsStarr["ages"]).reduce((prev, current) => (lastDayStatsStarr["ages"][prev] > lastDayStatsStarr["ages"][current]) ? prev : current)] / lastDayStatsStarr["total"] * 100).toFixed(0)}% are in the age range of
-                  {' '}{(Object.keys(lastDayStatsStarr["ages"]).reduce((prev, current) => (lastDayStatsStarr["ages"][prev] > lastDayStatsStarr["ages"][current]) ? prev : current))}.
-                <p>Total new cases: {lastDayStatsStarr["total"]}</p>
-                <p>City with the most cases: {Object.keys(lastDayStatsStarr["cities"]).reduce((prev, current) => (lastDayStatsStarr["cities"][prev] > lastDayStatsStarr["cities"][current]) ? prev : current)}</p>
-                <p>Trasmissions: </p>
-                <p>Travel - {lastDayStatsStarr["transmission"]["travel"]} -> {(lastDayStatsStarr["transmission"]["travel"] / lastDayStatsStarr["total"] * 100).toFixed(1)}%</p>
-                <p>Community - {lastDayStatsStarr["transmission"]["community"]} -> {(lastDayStatsStarr["transmission"]["community"] / lastDayStatsStarr["total"] * 100).toFixed(1)}%</p>
-                <p>Linked to Previous Case - {lastDayStatsStarr["transmission"]["linkedToPreviousCase"]} -> {(lastDayStatsStarr["transmission"]["linkedToPreviousCase"] / lastDayStatsStarr["total"] * 100).toFixed(1)}%</p>
-                <p>Gender: </p>
-                <o>Age Range: </o>
-                <p>{(recoveriesCountCameron / casesCountCameron * 100).toFixed(1)}%</p>
-              </div>
-              : null
-          }
-          <br />
-          {
-            Object.keys(lastDayStatsWillacy).length !== 0 && lastDayStatsWillacy.constructor === Object ?
-              <div>
-                <p>Willacy County</p>
-                  Of the {lastDayStatsWillacy["total"]} new cases,
-                  {' '}{(lastDayStatsWillacy["gender"][Object.keys(lastDayStatsWillacy["gender"]).reduce((prev, current) => (lastDayStatsWillacy["gender"][prev] > lastDayStatsWillacy["gender"][current]) ? prev : current)] / lastDayStatsWillacy["total"] * 100).toFixed(0)}% were
-                  {' '}{(Object.keys(lastDayStatsWillacy["gender"]).reduce((prev, current) => (lastDayStatsWillacy["gender"][prev] > lastDayStatsWillacy["gender"][current]) ? prev : current))},
-                  {' '}{(lastDayStatsWillacy["transmission"][Object.keys(lastDayStatsWillacy["transmission"]).reduce((prev, current) => (lastDayStatsWillacy["transmission"][prev] > lastDayStatsWillacy["transmission"][current]) ? prev : current)] / lastDayStatsWillacy["total"] * 100).toFixed(0)}% were contracted through
-                  {' '}{(Object.keys(lastDayStatsWillacy["transmission"]).reduce((prev, current) => (lastDayStatsWillacy["transmission"][prev] > lastDayStatsWillacy["transmission"][current]) ? prev : current))}, and
-                  {' '}{(lastDayStatsWillacy["ages"][Object.keys(lastDayStatsWillacy["ages"]).reduce((prev, current) => (lastDayStatsWillacy["ages"][prev] > lastDayStatsWillacy["ages"][current]) ? prev : current)] / lastDayStatsWillacy["total"] * 100).toFixed(0)}% are in the age range of
-                  {' '}{(Object.keys(lastDayStatsWillacy["ages"]).reduce((prev, current) => (lastDayStatsWillacy["ages"][prev] > lastDayStatsWillacy["ages"][current]) ? prev : current))}.
-                <p>Total new cases: {lastDayStatsWillacy["total"]}</p>
-                <p>City with the most cases: {Object.keys(lastDayStatsWillacy["cities"]).reduce((prev, current) => (lastDayStatsWillacy["cities"][prev] > lastDayStatsWillacy["cities"][current]) ? prev : current)}</p>
-                <p>Trasmissions: </p>
-                <p>Travel - {lastDayStatsWillacy["transmission"]["travel"]} -> {(lastDayStatsWillacy["transmission"]["travel"] / lastDayStatsWillacy["total"] * 100).toFixed(1)}%</p>
-                <p>Community - {lastDayStatsWillacy["transmission"]["community"]} -> {(lastDayStatsWillacy["transmission"]["community"] / lastDayStatsWillacy["total"] * 100).toFixed(1)}%</p>
-                <p>Linked to Previous Case - {lastDayStatsWillacy["transmission"]["linkedToPreviousCase"]} -> {(lastDayStatsWillacy["transmission"]["linkedToPreviousCase"] / lastDayStatsWillacy["total"] * 100).toFixed(1)}%</p>
-                <p>Gender: </p>
-                <o>Age Range: </o>
-                <p>{(recoveriesCountCameron / casesCountCameron * 100).toFixed(1)}%</p>
-              </div>
-              : null
-          }
-          <br />
-          <br /> */}
           See more data on:
           {isMobile ? <br /> : null}
           <button className="my-button" onClick={e => {this.aClick("active", "home", "cameron");}}>
@@ -959,7 +782,6 @@ class Home extends React.Component {
                       </div>
                   )})
                 }
-                {/* <img src={this.state.feedUrl}></img> */}
                 <br/>
                 <br/>
                 <br/>
@@ -967,9 +789,6 @@ class Home extends React.Component {
             ) : null
           }
           <p>The Food Bank of the RGV is supporting our community through this pandemic. That's why I started <a rel="noopener noreferrer" target="_blank" href="https://secure.givelively.org/donate/food-bank-of-the-rio-grande-valley-inc/julio-maldonado-1">this fundraiser</a> to support them.</p>
-          {/* <p>Fundraiser Goal: {fundData && fundData.length > 0 && 'name' in fundData[0] ? `$${numberWithCommas(fundData[0]['amount'])}` : "$2,500"}</p>
-          <p>Funds Raised: {fundData && fundData.length > 2 && 'name' in fundData[2] ? `$${numberWithCommas(fundData[2]['amount'])}` : "$142"}</p>
-          <p>Total Donors: {fundData && fundData.length > 1 && 'name' in fundData[1] ? `${numberWithCommas(fundData[1]['amount'])}` : "6"}</p> */}
           <FundClockProgress
             icoProgress={true}
             currentFund={this.state.currentFund}
@@ -993,7 +812,6 @@ class Home extends React.Component {
             aClick={this.aClick}
             linkClick={this.linkClick}
           />
-          {/* <PWAPrompt delay={10000} /> */}
         </div>
       </div>
     );

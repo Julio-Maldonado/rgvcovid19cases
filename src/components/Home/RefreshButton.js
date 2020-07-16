@@ -1,37 +1,35 @@
 import React from 'react';
 
+import CustomButton from './CustomButton';
+
 const RefreshButton = ({ county, endpoint, refreshData, aClick }) => {
   return (
     <div>
-      {
-        endpoint !== "cases" ?
-          <button className="my-button" onClick={e => {endpoint !== "home" ? refreshData("cases", county) : aClick("cases", "home", county);}}>
-            View Confirmed Cases
-          </button>
-          : null
-      }
-      {
-        endpoint !== "recoveries" ?
-          <button className="my-button" onClick={e => {refreshData("recoveries", county);}}>
-            View Confirmed Recoveries
-          </button>
-          : null
-      }
-      {
-        endpoint !== "deaths" ?
-          <button className="my-button" onClick={e => {refreshData("deaths", county);}}>
-            View Confirmed Deaths
-          </button>
-          : null
-      }
+      <CustomButton
+        desiredEndpoint="cases"
+        currentEndpoint={endpoint}
+        caseText="Confirmed Cases"
+        buttonFunction={() => endpoint !== "home" ? refreshData("cases", county) : aClick("cases", "home", county)}
+      />
+      <CustomButton
+        desiredEndpoint="recoveries"
+        currentEndpoint={endpoint}
+        caseText="Confirmed Recoveries"
+        buttonFunction={() => refreshData("recoveries", county)}
+      />
+      <CustomButton
+        desiredEndpoint="deaths"
+        currentEndpoint={endpoint}
+        caseText="Confirmed Deaths"
+        buttonFunction={() => refreshData("deaths", county)}
+      />
       <br/>
-      {
-        endpoint !== "active" ?
-          <button className="my-button" onClick={e => {refreshData("active", county);}}>
-            View Active Cases
-          </button>
-          : null
-      }
+      <CustomButton
+        desiredEndpoint="active"
+        currentEndpoint={endpoint}
+        caseText="Active Cases"
+        buttonFunction={() => refreshData("active", county)}
+      />
       <br/>
       <br/>
     </div>

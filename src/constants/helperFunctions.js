@@ -29,6 +29,14 @@ const sendAnalytics = (category, action) => ReactGA.event({ category, action });
 
 const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
+const checkScreenSize = () => {
+  let iPhone = /iPhone/.test(navigator.userAgent) && !window.MSStream;
+  let aspect = window.screen.width / window.screen.height;
+  if (iPhone && aspect.toFixed(3) === "0.462") return true;
+
+  return false;
+}
+
 const milliseconds2Hours = (milliseconds) => { return Math.round(milliseconds / 1000 / 60 / 60); }
 
 const milliseconds2Minutes = (milliseconds) => { return Math.round(milliseconds / 1000 / 60); }
@@ -601,4 +609,5 @@ export {
   scrollToTop,
   getDefaultCases,
   getFBPostTime,
+  checkScreenSize
 };
