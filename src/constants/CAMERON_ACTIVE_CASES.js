@@ -820,24 +820,38 @@ const CAMERON_ACTIVE_CASES = [
   },
   {
     "Date": "7/13",
-    "Count": 1548,
+    "Count": 1506,
     "Cases": 321,
     "Deaths": 0,
-    "Recoveries": 0
+    "Recoveries": 42
   },
   {
     "Date": "7/14",
-    "Count": 1926,
+    "Count": 1884,
     "Cases": 415,
     "Deaths": 0,
     "Recoveries": 37
   },
   {
     "Date": "7/15",
-    "Count": 2198,
+    "Count": 2156,
     "Cases": 315,
     "Deaths": 0,
     "Recoveries": 43
+  },
+  {
+    "Date": "7/16",
+    "Count": 2428,
+    "Cases": 335,
+    "Deaths": 10,
+    "Recoveries": 53
+  },
+  {
+    "Date": "7/17",
+    "Count": 2428,
+    "Cases": 0,
+    "Deaths": 0,
+    "Recoveries": 0
   }
 ];
 
