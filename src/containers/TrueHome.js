@@ -278,22 +278,22 @@ class Home extends React.Component {
       }
     } else {
       feedUrl = feed.image.url;
-      console.log({feed})
+      console.log({feed});
       feedItems = feed.items;
-      filteredFeedItems = feedItems.filter(feedItem => feedItem.contentSnippet.includes("safe"))
+      filteredFeedItems = feedItems.filter(feedItem => feedItem.contentSnippet.includes("safe"));
       feedItems = filteredFeedItems.slice(0, Math.max(5, Math.min(5, filteredFeedItems.length)));
-    }
-    const screenState = determineScreenState(this.state.width);
-    if (screenState === "wide" || screenState === "full" || screenState === "pacman") {
-      feedItems.forEach((feedItem, i) => {
-        let content = feedItems[i].content;
-        content = content.replace("width: 100%", "width: 50%");
-        content = content.replace("<img src", '<div style="text-align: center;"><img src');
-        content = content.replace("><div>", '></div><div>');
-        // console.log({content})
-        feedItems[i].content = content;
-      })
-      // console.log({feedItems})
+      const screenState = determineScreenState(this.state.width);
+      if ((screenState === "wide" || screenState === "full" || screenState === "pacman")) {
+        feedItems.forEach((feedItem, i) => {
+          let content = feedItems[i].content;
+          content = content.replace("width: 100%", "width: 50%");
+          content = content.replace("<img src", '<div style="text-align: center;"><img src');
+          content = content.replace("><div>", '></div><div>');
+          // console.log({content})
+          feedItems[i].content = content;
+        })
+        // console.log({feedItems})
+      }
     }
 
     this.setState({feedUrl, feedItems});
