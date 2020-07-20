@@ -289,10 +289,8 @@ class Home extends React.Component {
           content = content.replace("width: 100%", "width: 50%");
           content = content.replace("<img src", '<div style="text-align: center;"><img src');
           content = content.replace("><div>", '></div><div>');
-          // console.log({content})
           feedItems[i].content = content;
         })
-        // console.log({feedItems})
       }
     }
 
