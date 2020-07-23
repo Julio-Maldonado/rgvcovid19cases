@@ -831,6 +831,13 @@ const STARR_ACTIVE_CASES = [
     "Cases": 145,
     "Deaths": 0,
     "Recoveries": 0
+  },
+  {
+    "Date": "7/22",
+    "Count": 502,
+    "Cases": 44,
+    "Deaths": 9,
+    "Recoveries": 616
   }
 ];
 
