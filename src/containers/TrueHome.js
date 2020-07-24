@@ -155,8 +155,8 @@ class Home extends React.Component {
   }
 
   getAllLatestCases = async() => {
-    // const defaultData = false;
-    const defaultData = true;
+    // let defaultData = false;
+    let defaultData = true;
     // this.printMetrics = false;
     this.printMetrics = true;
     let [cameronData, hidalgoData, starrData, willacyData] = await Promise.all([
