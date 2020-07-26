@@ -361,7 +361,6 @@ const getCoronaData = async(endpoint, county, V2=false) => {
         "81+": getCount(coronaMap[key], "81+"),
         "0 - 19": getCount(coronaMap[key], "0 - 19"),
         "20 - 29": getCount(coronaMap[key], "20 - 29"),
-        "20 - 29": getCount(coronaMap[key], "20 - 29"),
         "30 - 39": getCount(coronaMap[key], "30 - 39"),
         "40 - 49": getCount(coronaMap[key], "40 - 49"),
         "50 - 59": getCount(coronaMap[key], "50 - 59"),
@@ -591,6 +590,22 @@ const getSiteData = async(endpoint) => {
   }
 }
 
+const getAllActiveCases = async(endpoint) => {
+  try {
+    const resp = await fetch(`https://rgvcovid19backend.herokuapp.com/getActiveCases/${endpoint}`, {
+    // const resp = await fetch(`http://localhost:7555/${endpoint}/${county}`, {
+      mode: 'cors',
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    return resp.json();
+  } catch (e) {
+    console.error(e);
+    return { success: false, e };
+  }
+}
+
 export {
   getToday,
   getDatesArr,
@@ -609,5 +624,6 @@ export {
   scrollToTop,
   getDefaultCases,
   getFBPostTime,
-  checkScreenSize
+  checkScreenSize,
+  getAllActiveCases
 };

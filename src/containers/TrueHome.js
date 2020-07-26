@@ -18,11 +18,11 @@ import {
   getPluralCount,
   determineScreenState,
   shallowCompare,
-  compare,
   sendAnalytics,
   scrollToTop,
   getFBPostTime,
-  checkScreenSize
+  checkScreenSize,
+  getAllActiveCases
 } from '../constants/helperFunctions';
 
 import { ENDPOINT_MAP, LAST_DAY_STATS_ORIGINAL, CITIES_MAP, RSS_ITEMS } from '../constants/constants';
@@ -54,7 +54,8 @@ class Home extends React.Component {
     lastDayStatsStarr: {},
     lastDayStatsWillacy: {},
     feedUrl: "",
-    feedItems: []
+    feedItems: [],
+    site_last_updated_at: 0
   }
 
   screenIsSuperLong = false; // not iphone X or 11
@@ -92,7 +93,7 @@ class Home extends React.Component {
 
   updateFundRaising = () => {
     const { fundData } = this.state;
-    let { currentFund, milestonesData, softcap, hardcap } = this.state;
+    let { currentFund, milestonesData, softcap, hardcap, site_last_updated_at } = this.state;
 
     if (fundData && fundData.length > 2 && 'name' in fundData[2]) {
       currentFund = fundData[2]['amount'];
@@ -103,8 +104,9 @@ class Home extends React.Component {
       milestonesData[2]['cap'] = goalFund;
       milestonesData[2]['text'] = `Goal $${goalFund}`;
       let totalDonors = fundData[1]['amount'];
+      site_last_updated_at = fundData[3]['amount'];
 
-      this.setState({ currentFund, milestonesData, softcap, hardcap, totalDonors });
+      this.setState({ currentFund, milestonesData, softcap, hardcap, totalDonors, site_last_updated_at });
       clearInterval(this.icoFundRaising);
     }
   }
@@ -241,7 +243,11 @@ class Home extends React.Component {
     //   this.getLatestUsefulData("starr"),
     //   this.getLatestUsefulData("willacy")
     // ]);
-    const coronaData = await this.getAllLatestCases();
+    // const coronaData = await this.getAllLatestCases();
+    let activeCasesResponse = await getAllActiveCases('get');
+    console.log({activeCasesResponse})
+    const coronaData = activeCasesResponse['status'] === 400 ? activeCasesResponse['activeCases'] : DEFAULT_CORONA_DATA;
+
     this.setState({coronaData});
     const siteData = await getSiteData('getSiteData');
     if (siteData['status'] === 200) this.setState({ fundData: siteData['data'] })
@@ -364,8 +370,8 @@ class Home extends React.Component {
 
       let lastDayCases = cases.slice(cases.length - 1)[0];
       const lastDayCasesDate = lastDayCases['Date'];
-      let lastDayDeaths = deaths.slice(deaths.length - 1)[0];
-      let lastDayRecoveries = recoveries.slice(recoveries.length - 1)[0];
+      // let lastDayDeaths = deaths.slice(deaths.length - 1)[0];
+      // let lastDayRecoveries = recoveries.slice(recoveries.length - 1)[0];
 
       let lastDayStats = JSON.parse(JSON.stringify(LAST_DAY_STATS_ORIGINAL))[county];
 
@@ -579,7 +585,7 @@ class Home extends React.Component {
 
   render() {
     let { county } = this.state;
-    const { coronaData, category, width, milestonesData, feedUrl, feedItems } = this.state;
+    const { coronaData, category, width, milestonesData, feedUrl, feedItems, site_last_updated_at } = this.state;
 
     const {
       casesCountCameron,
@@ -633,7 +639,7 @@ class Home extends React.Component {
             screenState={screenState}
           />
           <br/>
-          <p>Active Cases as of {getToday()}</p>
+          <p>Last updated: {site_last_updated_at ? getFBPostTime(site_last_updated_at) : ''}</p>
           {
             deathsCountCameron && recoveriesCountCameron && deathsCountHidalgo && recoveriesCountHidalgo ?
             <div>
