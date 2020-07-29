@@ -66,8 +66,15 @@ const getFBPostTime = (postDateStr) => {
   const postMillisecondsAgo = rightNowDate.valueOf() - postDate.valueOf();
   const postHoursAgo = milliseconds2Hours(rightNowDate.valueOf() - postDate.valueOf());
 
-  if (postHoursAgo === 0) return `${milliseconds2Minutes(postMillisecondsAgo)} min ago`;
-  else if (postHoursAgo === 1) return `${postHoursAgo} hr ago`; 
+  if (postHoursAgo === 0) {
+    const minAgo = milliseconds2Minutes(postMillisecondsAgo);
+    if (minAgo < 2) {
+      return "Just Now";
+    } else {
+      return `${milliseconds2Minutes(postMillisecondsAgo)} min ago`;
+    }
+  }
+  else if (postHoursAgo === 1) return `${postHoursAgo} hr ago`;
   else if (postHoursAgo < 24) return `${postHoursAgo} hrs ago`;
   else return formatString2Date(postDate, postHoursAgo);
 }
@@ -606,6 +613,22 @@ const getAllActiveCases = async(endpoint) => {
   }
 }
 
+const getFBPosts = async() => {
+  try {
+    const resp = await fetch("https://rss-bridge-example.herokuapp.com/?action=display&bridge=Facebook&context=User&u=https%3A%2F%2Fwww.facebook.com%2Frisergv&media_type=novideo&skip_reviews=on&limit=5&format=Json", {
+      mode: 'no-cors',
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    console.log({resp})
+
+    return resp.json();
+  } catch (e) {
+    console.error(e);
+    return { success: false, e };
+  }
+}
+
 export {
   getToday,
   getDatesArr,
@@ -625,5 +648,6 @@ export {
   getDefaultCases,
   getFBPostTime,
   checkScreenSize,
-  getAllActiveCases
+  getAllActiveCases,
+  getFBPosts
 };

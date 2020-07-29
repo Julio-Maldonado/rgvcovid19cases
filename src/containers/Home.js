@@ -183,7 +183,7 @@ class Home extends React.Component {
 
     if (!isMobile) {
       parser = new Parser();
-      feed = await parser.parseURL('https://rss.app/feeds/oC1FkguURyVrIjQ3.xml');
+      feed = await parser.parseURL('https://rss.app/feeds/rAMc2FScYE5gozOS.xml');
     }
 
     let feedUrl = "";
@@ -195,7 +195,7 @@ class Home extends React.Component {
       feed = RSS_ITEMS;
       feedItems = feed.items;
       filteredFeedItems = feedItems.filter(feedItem => feedItem.contentSnippet.includes("safe"))
-      feedItems = filteredFeedItems.slice(0, Math.max(5, Math.min(5, filteredFeedItems.length)));
+      feedItems = filteredFeedItems.slice(0, Math.max(3, Math.min(3, filteredFeedItems.length)));
       if (isAndroid) {
         feedItems = feedItems.map(feedItem => {
           feedItem['link'] = `fb://page/106137601156849`;
@@ -209,10 +209,10 @@ class Home extends React.Component {
       }
     } else {
       feedUrl = feed.image.url;
-      console.log({feed})
+      console.log({feed});
       feedItems = feed.items;
       filteredFeedItems = feedItems.filter(feedItem => feedItem.contentSnippet.includes("safe"))
-      feedItems = filteredFeedItems.slice(0, Math.max(5, Math.min(5, filteredFeedItems.length)));
+      feedItems = filteredFeedItems.slice(0, Math.max(3, Math.min(3, filteredFeedItems.length)));
     }
     const screenState = determineScreenState(this.state.width);
     if (screenState === "wide" || screenState === "full" || screenState === "pacman") {
