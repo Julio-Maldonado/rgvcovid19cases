@@ -6,7 +6,7 @@ import SideMenu from '../components/utility/SideMenu';
 import Footer from '../components/utility/Footer';
 import MyNavBar from '../components/utility/MyNavBar';
 
-import Parser from 'rss-parser';
+import RiseRGVImage from './rise_rgv_pfp.png';
 
 import {
   getUsefulData,
@@ -154,19 +154,37 @@ class Home extends React.Component {
     this.setState({ width, height });
   }
 
+  getAgeCountFromUsefulDataObject = (ageString, usefulDataObject)  => {
+    console.log({usefulDataObject})
+    console.log(usefulDataObject.ages.find(c => 
+      Object.keys(c)[0] === ageString
+    ))
+    return usefulDataObject.ages.find(c => 
+        Object.keys(c)[0] === ageString
+      ) ? usefulDataObject.ages.find(c => 
+        Object.keys(c)[0] === ageString
+      )[ageString] : 0;
+  }
+
   getLatestUsefulData = async (county) => {
     const usefulData = await getUsefulData(county);
+    console.log(county)
+    console.log({usefulData})
     if (county === "cameron")
       this.setState({
         casesCountCameron: usefulData['cases']['count'] - 1,
         deathsCountCameron: usefulData['deaths']['count'] - 1,
         recoveriesCountCameron: usefulData['recoveries']['count'] - 1,
+        olderCasesCountCameron: this.getAgeCountFromUsefulDataObject('70 - 79', usefulData['cases']) + this.getAgeCountFromUsefulDataObject('80 - 89', usefulData['cases']) + this.getAgeCountFromUsefulDataObject('90+', usefulData['cases']),
+        olderDeathsCountCameron: this.getAgeCountFromUsefulDataObject('70 - 79', usefulData['deaths']) + this.getAgeCountFromUsefulDataObject('80 - 89', usefulData['deaths']) + this.getAgeCountFromUsefulDataObject('90+', usefulData['deaths'])
       });
     else if (county === "hidalgo")
       this.setState({
         casesCountHidalgo: usefulData['cases']['count'] - 1,
         deathsCountHidalgo: usefulData['deaths']['count'] - 1,
         recoveriesCountHidalgo: usefulData['recoveries']['count'] - 1,
+        olderCasesCountHidalgo: this.getAgeCountFromUsefulDataObject('70 - 79', usefulData['cases']) + this.getAgeCountFromUsefulDataObject('80 - 89', usefulData['cases']) + this.getAgeCountFromUsefulDataObject('90+', usefulData['cases']),
+        olderDeathsCountHidalgo: this.getAgeCountFromUsefulDataObject('70 - 79', usefulData['deaths']) + this.getAgeCountFromUsefulDataObject('80 - 89', usefulData['deaths']) + this.getAgeCountFromUsefulDataObject('90+', usefulData['deaths'])
       });
     else if (county === "starr")
       this.setState({
@@ -196,110 +214,57 @@ class Home extends React.Component {
     this.getLatestUsefulData("willacy");
 
     let activeCasesResponse = await getAllActiveCases('get');
-    console.log({activeCasesResponse})
     const coronaData = activeCasesResponse['status'] === 400 ? activeCasesResponse['activeCases'] : DEFAULT_CORONA_DATA;
 
     this.setState({coronaData});
     const siteData = await getSiteData('getSiteData');
     if (siteData['status'] === 200) this.setState({ fundData: siteData['data'] })
-    console.log({coronaData});
 
-    let parser = {};
-    let feed = {};
-
-    if (!isMobile) {
-      parser = new Parser();
-      feed = await parser.parseURL('https://rss.app/feeds/rAMc2FScYE5gozOS.xml');
-    }
-
-    let feedUrl = "";
-    let feedItems = [];
-    let filteredFeedItems = [];
-    // feed = false;
-    if (isMobile) {
-      feedUrl = "https://scontent-syd2-1.xx.fbcdn.net/v/t1.0-1/p200x200/83673078_107766820993927_3770145121888083400_n.png?_nc_cat=102&_nc_sid=dbb9e7&_nc_ohc=ghvqlrsI3ScAX9uyheq&_nc_ht=scontent-syd2-1.xx&oh=974b14f8a6a147938473736e645f002a&oe=5F27DDA2";
-      feed = RSS_ITEMS;
-      feedItems = feed.items;
-      filteredFeedItems = feedItems.filter(feedItem => feedItem.contentSnippet.includes("safe"))
+    getFBPosts().then(res => {
+      let feedUrl = "https://www.facebook.com/risergv";
+      let feedItems = [];
+      let filteredFeedItems = [];
+      feedItems = res.items;
+      filteredFeedItems = feedItems.filter(feedItem => feedItem.content_html.includes('safe'));
       feedItems = filteredFeedItems.slice(0, Math.max(3, Math.min(3, filteredFeedItems.length)));
-      if (isAndroid) {
-        feedItems = feedItems.map(feedItem => {
-          feedItem['link'] = `fb://page/106137601156849`;
-          return feedItem;
-        })
-      } else if (isIOS) {
-        feedItems = feedItems.map(feedItem => {
-          feedItem['link'] = `fb://profile/106137601156849`;
-          return feedItem;
-        })
-      }
-    } else {
-      feedUrl = feed.image.url;
-      console.log({feed});
-      feedItems = feed.items;
-      filteredFeedItems = feedItems.filter(feedItem => feedItem.contentSnippet.includes("safe"))
-      feedItems = filteredFeedItems.slice(0, Math.max(3, Math.min(3, filteredFeedItems.length)));
-    }
-    const screenState = determineScreenState(this.state.width);
-    if (screenState === "wide" || screenState === "full" || screenState === "pacman") {
-      feedItems.forEach((feedItem, i) => {
-        let content = feedItems[i].content;
-        content = content.replace("width: 100%", "width: 50%");
-        content = content.replace("<img src", '<div style="text-align: center;"><img src');
-        content = content.replace("><div>", '></div><div>');
-        // console.log({content})
-        feedItems[i].content = content;
+
+      feedItems.forEach((item, i) => {
+        let content_html = feedItems[i].content_html;
+        let postContent = content_html.substr(content_html.indexOf('</a><p>') + 4);
+
+        const screenState = determineScreenState(this.state.width);
+        if ((screenState === "wide" || screenState === "full" || screenState === "pacman") && !isMobile) {
+          postContent = postContent.replace('width=\"500\"', "width= '50%'");
+        } else {
+          postContent = postContent.replace('width=\"500\"', "width= '100%'");
+        }
+
+        let RISE_RGV_URL = `https://www.facebook.com/risergv`;
+
+        if (isMobile) {
+          if (isAndroid) {
+            RISE_RGV_URL = `fb://page/106137601156849`;
+          } else if (isIOS) {
+            RISE_RGV_URL = `fb://profile/106137601156849`;
+          }
+        }
+
+        feedItems[i]['link'] = RISE_RGV_URL;
+
+        postContent = postContent.substr(0, postContent.indexOf('href=') + 5) + RISE_RGV_URL + ' rel="noopener noreferrer" target="_blank" ' + postContent.substr(postContent.indexOf('><img'));
+
+        postContent = postContent.replace('<img src', '<div style="text-align: center;"><img src');
+        postContent = postContent.replace('/></a>', '></div></a>');
+
+        const heightSubstring = postContent.substr(postContent.indexOf('height'), postContent.indexOf('caption') - postContent.indexOf('height'));
+        if (heightSubstring.length < 15) {
+          postContent = postContent.replace(heightSubstring, '');
+        }
+
+        feedItems[i]['contentHTML'] = postContent;
       })
-      // console.log({feedItems})
-    }
-
-    this.setState({feedUrl, feedItems});
-    // getFBPosts().then(res => {
-    //   console.log({res})
-    //   feedItems = res.items;
-    //   filteredFeedItems = feedItems.filter(feedItem => feedItem.content_html.includes('safe'));
-    //   feedItems = filteredFeedItems.slice(0, Math.max(3, Math.min(3, filteredFeedItems.length)));
-
-    //   console.log({feedItems});
-
-    //   feedItems.forEach((item, i) => {
-    //     if (isMobile) {
-    //       // filteredFeedItems = feedItems.filter(feedItem => feedItem.contentSnippet.includes('safe'))
-    //       // feedItems = filteredFeedItems.slice(0, Math.max(3, Math.min(3, filteredFeedItems.length)));
-    //       if (isAndroid) {
-    //         feedItems[i]['link'] = `fb://page/106137601156849`;
-    //         // feedItems = feedItems.map(feedItem => {
-    //         //   feedItem['link'] = `fb://page/106137601156849`;
-    //         //   return feedItem;
-    //         // })
-    //       } else if (isIOS) {
-    //         feedItems[i]['link'] = `fb://profile/106137601156849`;
-    //         // feedItems = feedItems.map(feedItem => {
-    //         //   feedItem['link'] = `fb://profile/106137601156849`;
-    //         //   return feedItem;
-    //         // })
-    //       }
-    //     } else {
-    //       // feedUrl = feed.url;
-    //       // console.log(feed);
-    //       // feedItems = feed.items;
-    //       // filteredFeedItems = feedItems.filter(feedItem => feedItem.contentSnippet.includes('safe'));
-    //       // feedItems = filteredFeedItems.slice(0, Math.max(3, Math.min(3, filteredFeedItems.length)));
-    //       const screenState = determineScreenState(this.state.width);
-    //       if ((screenState === 'wide' || screenState === 'full' || screenState === 'pacman')) {
-    //         // feedItems.forEach((feedItem, i) => {
-    //           let content = feedItems[i].content;
-    //           content = content.replace('width: 100%', 'width: 50%');
-    //           content = content.replace('<img src', '<div style="text-align: center;"><img src');
-    //           content = content.replace('><div>', '></div><div>');
-    //           feedItems[i].content = content;
-    //         // })
-    //       }
-    //     }
-    //   })
-    // })
-    // console.log({feedItems})
-    // this.setState({feedUrl, feedItems});
+      this.setState({feedUrl, feedItems});
+    })
   }
 
   updateCountyStats = (county, statsToBeUpdated, apiData) => {
@@ -402,6 +367,10 @@ class Home extends React.Component {
       casesCountWillacy,
       deathsCountWillacy,
       recoveriesCountWillacy,
+      olderCasesCountHidalgo,
+      olderDeathsCountHidalgo,
+      olderCasesCountCameron,
+      olderDeathsCountCameron
     } = this.state;
 
     if (!county) county = "cameron";
@@ -411,6 +380,12 @@ class Home extends React.Component {
 
     const screenState = determineScreenState(width);
     let endpoint = "home";
+
+    console.log({olderCasesCountHidalgo})
+    console.log({olderDeathsCountHidalgo})
+
+    console.log({olderCasesCountCameron})
+    console.log({olderDeathsCountCameron})
 
     return (
       <div className="App">
@@ -429,7 +404,7 @@ class Home extends React.Component {
         <div className="App-content">
         <h1>RGV COVID-19 Curves</h1>
         <h2>
-          This graph shows the Cameron, Hidalgo, Starr, and Willacy County COVID-19 curves.
+          This graph shows the COVID-19 active curves for Cameron, Hidalgo, Starr, and Willacy County and is updated daily.
         </h2>
           <CoronaChart
             width={width}
@@ -442,21 +417,61 @@ class Home extends React.Component {
           />
           <br/>
           <p>Last updated: {site_last_updated_at ? getFBPostTime(site_last_updated_at) : ''}</p>
+          Active Cases
+          <div className='split-screen'>
+            <div className='half-pane'>
+              Cameron: {this.getNumber(casesCountCameron - recoveriesCountCameron - deathsCountCameron)}
+            </div>
+            <div className='half-pane'>
+              Hidalgo: {this.getNumber(casesCountHidalgo - recoveriesCountHidalgo - deathsCountHidalgo)}
+            </div>
+          </div>
+          <div className='split-screen'>
+            <div className='half-pane'>
+              Starr: {this.getNumber(casesCountStarr - recoveriesCountStarr - deathsCountStarr)}
+            </div>
+            <div className='half-pane'>
+              Willacy: {this.getNumber(casesCountWillacy - recoveriesCountWillacy - deathsCountWillacy)}
+            </div>
+          </div>
+          <br/>
+          {deathsCountCameron && recoveriesCountCameron && deathsCountHidalgo && recoveriesCountHidalgo ?
+            <p>COVID-19 Data for 70+ residents of Cameron and Hidalgo</p>
+            : null
+          }
           {
             deathsCountCameron && recoveriesCountCameron && deathsCountHidalgo && recoveriesCountHidalgo ?
-            <div>
-            <p>
-              Cameron: {this.getNumber(casesCountCameron - recoveriesCountCameron - deathsCountCameron)} -
-              Hidalgo: {this.getNumber(casesCountHidalgo - recoveriesCountHidalgo - deathsCountHidalgo)} -
-              Starr: {this.getNumber(casesCountStarr - recoveriesCountStarr - deathsCountStarr)} -
-              Willacy: {this.getNumber(casesCountWillacy - recoveriesCountWillacy - deathsCountWillacy)}
-            </p>
-            </div>
+              <table className="home-table" align={"center"}>
+                <thead>
+                <tr>
+                  <th></th>
+                  <th>Cameron</th>
+                  <th>Hidalgo</th>
+                </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>70+ Confirmed Deaths</td>
+                    <td>{this.getNumber(olderDeathsCountCameron)}</td>
+                    <td>{this.getNumber(olderDeathsCountHidalgo)}</td>
+                  </tr>
+                  <tr>
+                    <td>70+ Positive Cases</td>
+                    <td>{this.getNumber(olderCasesCountCameron)}</td>
+                    <td>{this.getNumber(olderCasesCountHidalgo)}</td>
+                  </tr>
+                  <tr>
+                    <td>70+ Death Rate</td>
+                    <td>{(olderDeathsCountCameron / olderCasesCountCameron * 100).toFixed(1)}%</td>
+                    <td>{(olderDeathsCountHidalgo / olderCasesCountHidalgo * 100).toFixed(1)}%</td>
+                  </tr>
+                </tbody>
+              </table>
               : null
           }
           <br/>
           {deathsCountCameron && recoveriesCountCameron && deathsCountHidalgo && recoveriesCountHidalgo ?
-            <p>County Data</p>
+            <p>COVID-19 Data for all 4 counties</p>
             : null
           }
           {
@@ -500,6 +515,28 @@ class Home extends React.Component {
                     <td>{this.getNumber(deathsCountStarr)}</td>
                     <td>{this.getNumber(deathsCountWillacy)}</td>
                   </tr>
+                </tbody>
+              </table>
+              : null
+          }
+          <br/>
+          {deathsCountCameron && recoveriesCountCameron && deathsCountHidalgo && recoveriesCountHidalgo ?
+            <p>Critical Rates for all 4 Counties</p>
+            : null
+          }
+          {
+            deathsCountCameron && recoveriesCountCameron && deathsCountHidalgo && recoveriesCountHidalgo ?
+              <table className="home-table" align={"center"}>
+                <thead>
+                <tr>
+                  <th></th>
+                  <th>Cameron</th>
+                  <th>Hidalgo</th>
+                  <th>Starr</th>
+                  <th>Willacy</th>
+                </tr>
+                </thead>
+                <tbody>
                   <tr>
                     <td>Positivity Rate</td>
                     <td>{(casesCountCameron / cameron_total_tested * 100).toFixed(1)}%</td>
@@ -597,7 +634,7 @@ class Home extends React.Component {
                             rel="noopener noreferrer"
                             target="_blank"
                           >
-                            <img className="fb-post-img" src={feedUrl} />
+                            <img className="fb-post-img" src={RiseRGVImage} />
                           </a>
                         </div>
                         <div className="fb-post-title-container">
@@ -616,7 +653,7 @@ class Home extends React.Component {
                             target="_blank"
                           >
                             
-                            <p>{getFBPostTime(item.pubDate)}</p>
+                            <p>{getFBPostTime(item.date_modified)}</p>
                           </a>
                         </div>
                         {/* {item.contentSnippet} */}
@@ -627,9 +664,9 @@ class Home extends React.Component {
                               rel="noopener noreferrer"
                               target="_blank"
                             >
-                              <div dangerouslySetInnerHTML={{__html: item.content}} />
+                              <div dangerouslySetInnerHTML={{__html: item.contentHTML}} />
                             </a>
-                            : <div dangerouslySetInnerHTML={{__html: item.content}} />
+                            : <div dangerouslySetInnerHTML={{__html: item.contentHTML}} />
                           }
                       </div>
                   )})

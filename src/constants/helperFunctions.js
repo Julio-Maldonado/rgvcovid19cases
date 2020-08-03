@@ -616,7 +616,7 @@ const getAllActiveCases = async(endpoint) => {
 const getFBPosts = async() => {
   try {
     const resp = await fetch("https://rss-bridge-example.herokuapp.com/?action=display&bridge=Facebook&context=User&u=https%3A%2F%2Fwww.facebook.com%2Frisergv&media_type=novideo&skip_reviews=on&limit=5&format=Json", {
-      mode: 'no-cors',
+      mode: 'cors',
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
     });

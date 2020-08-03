@@ -144,3 +144,12 @@ body * {
 .goal-number {
   font-weight: bold;
 }
+
+.split-screen {
+  display: flex;
+  flex-direction: row;
+}
+
+.half-pane {
+  width: 50%;
+}
