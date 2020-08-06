@@ -435,6 +435,8 @@ class Home extends React.Component {
             </div>
           </div>
           <br/>
+          <br/>
+          <br/>
           {deathsCountCameron && recoveriesCountCameron && deathsCountHidalgo && recoveriesCountHidalgo ?
             <p>COVID-19 Data for 70+ residents of Cameron and Hidalgo</p>
             : null
@@ -469,6 +471,8 @@ class Home extends React.Component {
               </table>
               : null
           }
+          <br/>
+          <br/>
           <br/>
           {deathsCountCameron && recoveriesCountCameron && deathsCountHidalgo && recoveriesCountHidalgo ?
             <p>COVID-19 Data for all 4 counties</p>
@@ -520,6 +524,8 @@ class Home extends React.Component {
               : null
           }
           <br/>
+          <br/>
+          <br/>
           {deathsCountCameron && recoveriesCountCameron && deathsCountHidalgo && recoveriesCountHidalgo ?
             <p>Critical Rates for all 4 Counties</p>
             : null
@@ -563,7 +569,7 @@ class Home extends React.Component {
               : null
           }
           <br/>
-          {
+          {/* {
             rgv_ICU_total && rgv_beds_available && rgv_hospitalized_total ?
             <p>Hospital Data</p>
             : null
@@ -593,7 +599,7 @@ class Home extends React.Component {
                 </tbody>
               </table>
               : null
-          }
+          } */}
           <br/>
           <br/>
           See more data on:
