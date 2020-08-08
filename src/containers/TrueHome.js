@@ -19,7 +19,8 @@ import {
   getFBPostTime,
   checkScreenSize,
   getAllActiveCases,
-  getFBPosts
+  getFBPosts,
+  getToday
 } from '../constants/helperFunctions';
 
 import { ENDPOINT_MAP, LAST_DAY_STATS_ORIGINAL, CITIES_MAP, RSS_ITEMS } from '../constants/constants';
@@ -437,6 +438,7 @@ class Home extends React.Component {
           <br/>
           <br/>
           <br/>
+          <p>Lated Data as of {getToday()}</p>
           {deathsCountCameron && recoveriesCountCameron && deathsCountHidalgo && recoveriesCountHidalgo ?
             <p>COVID-19 Data for 70+ residents of Cameron and Hidalgo</p>
             : null
