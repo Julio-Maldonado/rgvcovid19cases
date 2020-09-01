@@ -156,10 +156,6 @@ class Home extends React.Component {
   }
 
   getAgeCountFromUsefulDataObject = (ageString, usefulDataObject)  => {
-    console.log({usefulDataObject})
-    console.log(usefulDataObject.ages.find(c => 
-      Object.keys(c)[0] === ageString
-    ))
     return usefulDataObject.ages.find(c => 
         Object.keys(c)[0] === ageString
       ) ? usefulDataObject.ages.find(c => 
@@ -169,8 +165,6 @@ class Home extends React.Component {
 
   getLatestUsefulData = async (county) => {
     const usefulData = await getUsefulData(county);
-    console.log(county)
-    console.log({usefulData})
     if (county === "cameron")
       this.setState({
         casesCountCameron: usefulData['cases']['count'] - 1,
@@ -219,6 +213,7 @@ class Home extends React.Component {
 
     this.setState({coronaData});
     const siteData = await getSiteData('getSiteData');
+    console.log({siteData});
     if (siteData['status'] === 200) this.setState({ fundData: siteData['data'] })
 
     getFBPosts().then(res => {
@@ -381,12 +376,6 @@ class Home extends React.Component {
 
     const screenState = determineScreenState(width);
     let endpoint = "home";
-
-    console.log({olderCasesCountHidalgo})
-    console.log({olderDeathsCountHidalgo})
-
-    console.log({olderCasesCountCameron})
-    console.log({olderDeathsCountCameron})
 
     return (
       <div className="App">
