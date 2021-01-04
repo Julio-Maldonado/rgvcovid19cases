@@ -213,54 +213,53 @@ class Home extends React.Component {
 
     this.setState({coronaData});
     const siteData = await getSiteData('getSiteData');
-    console.log({siteData});
     if (siteData['status'] === 200) this.setState({ fundData: siteData['data'] })
 
-    getFBPosts().then(res => {
-      let feedUrl = "https://www.facebook.com/risergv";
-      let feedItems = [];
-      let filteredFeedItems = [];
-      feedItems = res.items;
-      filteredFeedItems = feedItems.filter(feedItem => feedItem.content_html.includes('safe'));
-      feedItems = filteredFeedItems.slice(0, Math.max(3, Math.min(3, filteredFeedItems.length)));
+    // getFBPosts().then(res => {
+    //   let feedUrl = "https://www.facebook.com/risergv";
+    //   let feedItems = [];
+    //   let filteredFeedItems = [];
+    //   feedItems = res.items;
+    //   filteredFeedItems = feedItems.filter(feedItem => feedItem.content_html.includes('safe'));
+    //   feedItems = filteredFeedItems.slice(0, Math.max(3, Math.min(3, filteredFeedItems.length)));
 
-      feedItems.forEach((item, i) => {
-        let content_html = feedItems[i].content_html;
-        let postContent = content_html.substr(content_html.indexOf('</a><p>') + 4);
+    //   feedItems.forEach((item, i) => {
+    //     let content_html = feedItems[i].content_html;
+    //     let postContent = content_html.substr(content_html.indexOf('</a><p>') + 4);
 
-        const screenState = determineScreenState(this.state.width);
-        if ((screenState === "wide" || screenState === "full" || screenState === "pacman") && !isMobile) {
-          postContent = postContent.replace('width=\"500\"', "width= '50%'");
-        } else {
-          postContent = postContent.replace('width=\"500\"', "width= '100%'");
-        }
+    //     const screenState = determineScreenState(this.state.width);
+    //     if ((screenState === "wide" || screenState === "full" || screenState === "pacman") && !isMobile) {
+    //       postContent = postContent.replace('width=\"500\"', "width= '50%'");
+    //     } else {
+    //       postContent = postContent.replace('width=\"500\"', "width= '100%'");
+    //     }
 
-        let RISE_RGV_URL = `https://www.facebook.com/risergv`;
+    //     let RISE_RGV_URL = `https://www.facebook.com/risergv`;
 
-        if (isMobile) {
-          if (isAndroid) {
-            RISE_RGV_URL = `fb://page/106137601156849`;
-          } else if (isIOS) {
-            RISE_RGV_URL = `fb://profile/106137601156849`;
-          }
-        }
+    //     if (isMobile) {
+    //       if (isAndroid) {
+    //         RISE_RGV_URL = `fb://page/106137601156849`;
+    //       } else if (isIOS) {
+    //         RISE_RGV_URL = `fb://profile/106137601156849`;
+    //       }
+    //     }
 
-        feedItems[i]['link'] = RISE_RGV_URL;
+    //     feedItems[i]['link'] = RISE_RGV_URL;
 
-        postContent = postContent.substr(0, postContent.indexOf('href=') + 5) + RISE_RGV_URL + ' rel="noopener noreferrer" target="_blank" ' + postContent.substr(postContent.indexOf('><img'));
+    //     postContent = postContent.substr(0, postContent.indexOf('href=') + 5) + RISE_RGV_URL + ' rel="noopener noreferrer" target="_blank" ' + postContent.substr(postContent.indexOf('><img'));
 
-        postContent = postContent.replace('<img src', '<div style="text-align: center;"><img src');
-        postContent = postContent.replace('/></a>', '></div></a>');
+    //     postContent = postContent.replace('<img src', '<div style="text-align: center;"><img src');
+    //     postContent = postContent.replace('/></a>', '></div></a>');
 
-        const heightSubstring = postContent.substr(postContent.indexOf('height'), postContent.indexOf('caption') - postContent.indexOf('height'));
-        if (heightSubstring.length < 15) {
-          postContent = postContent.replace(heightSubstring, '');
-        }
+    //     const heightSubstring = postContent.substr(postContent.indexOf('height'), postContent.indexOf('caption') - postContent.indexOf('height'));
+    //     if (heightSubstring.length < 15) {
+    //       postContent = postContent.replace(heightSubstring, '');
+    //     }
 
-        feedItems[i]['contentHTML'] = postContent;
-      })
-      this.setState({feedUrl, feedItems});
-    })
+    //     feedItems[i]['contentHTML'] = postContent;
+    //   })
+    //   this.setState({feedUrl, feedItems});
+    // })
   }
 
   updateCountyStats = (county, statsToBeUpdated, apiData) => {
@@ -593,7 +592,7 @@ class Home extends React.Component {
           } */}
           <br/>
           <br/>
-          See more data on:
+          {/* See more data on:
           {isMobile ? <br /> : null}
           <button className="my-button" onClick={e => {this.aClick("active", "home", "cameron");}}>
             Cameron County
@@ -609,7 +608,7 @@ class Home extends React.Component {
           {isMobile ? <br /> : null}
           <button className="my-button" onClick={e => {this.aClick("active", "home", "willacy");}}>
             Willacy County
-          </button>
+          </button> */}
           <br/>
           <br/>
           <br/>
@@ -649,7 +648,6 @@ class Home extends React.Component {
                             rel="noopener noreferrer"
                             target="_blank"
                           >
-                            
                             <p>{getFBPostTime(item.date_modified)}</p>
                           </a>
                         </div>

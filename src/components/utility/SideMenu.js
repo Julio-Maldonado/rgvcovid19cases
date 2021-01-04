@@ -12,7 +12,7 @@ const SideMenu = props => {
         Home
       </Link>
       <br />
-      <Link onClick={() => props.linkClick("active", props.endpoint, props.county)} smooth to={`/${props.county}/active`} className="menu-item">
+      {/* <Link onClick={() => props.linkClick("active", props.endpoint, props.county)} smooth to={`/${props.county}/active`} className="menu-item">
         Active
       </Link>
       <br />
@@ -27,7 +27,7 @@ const SideMenu = props => {
       <Link onClick={() => props.linkClick("deaths", props.endpoint, props.county)} smooth to={`/${props.county}/deaths`} className="menu-item">
         Deaths
       </Link>
-      <br />
+      <br /> */}
       <Link onClick={() => {props.linkClick("resources", props.endpoint, props.county); scrollToTop();}} smooth to={{ pathname: "/resources", state: { county: props.county } }} className="menu-item">
         Resources
       </Link>

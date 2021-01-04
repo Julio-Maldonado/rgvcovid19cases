@@ -584,7 +584,7 @@ const getCoronaCases = async(endpoint, county) => {
 const getSiteData = async(endpoint) => {
   try {
     const resp = await fetch(`https://rgvcovid19backend.herokuapp.com/${endpoint}`, {
-    // const resp = await fetch(`http://localhost:7555/${endpoint}/${county}`, {
+    // const resp = await fetch(`http://localhost:7555/${endpoint}`, {
       mode: 'cors',
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -600,7 +600,7 @@ const getSiteData = async(endpoint) => {
 const getAllActiveCases = async(endpoint) => {
   try {
     const resp = await fetch(`https://rgvcovid19backend.herokuapp.com/getActiveCases/${endpoint}`, {
-    // const resp = await fetch(`http://localhost:7555/${endpoint}/${county}`, {
+    // const resp = await fetch(`http://localhost:7555/getActiveCases/${endpoint}`, {
       mode: 'cors',
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },

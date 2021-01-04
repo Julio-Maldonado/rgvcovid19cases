@@ -226,9 +226,7 @@ class Home extends React.Component {
       })
       // console.log({feedItems})
     }
-
     this.setState({feedUrl, feedItems});
-
   }
 
   setActiveCases = async (county) => {
