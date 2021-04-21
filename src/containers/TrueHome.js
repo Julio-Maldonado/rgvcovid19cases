@@ -393,8 +393,16 @@ class Home extends React.Component {
         <div className="App-content">
         <h1>RGV COVID-19 Curves</h1>
         <h2>
-          This graph shows the COVID-19 active curves for Cameron, Hidalgo, Starr, and Willacy County and is updated daily.
+          This graph shows the COVID-19 active curves for Cameron, Hidalgo, Starr, and Willacy County up to December 31, 2020.
         </h2>
+        <h3>
+          This website was visited by 11,385 residents of the RGV and raised $1,366 for the Food Bank of the RGV.
+        </h3>
+        <h3>
+          Get vaccinated to help keep our community safe!
+        </h3> 
+        <h4>Follow us on <a href="https://www.facebook.com/risergv" rel="noopener noreferrer" target="_blank"> our Facebook page</a>
+        </h4>
           <CoronaChart
             width={width}
             height={height}
@@ -405,7 +413,8 @@ class Home extends React.Component {
             screenState={screenState}
           />
           <br/>
-          <p>Last updated: {site_last_updated_at ? getFBPostTime(site_last_updated_at) : ''}</p>
+          {/* <p>Last updated: {site_last_updated_at ? getFBPostTime(site_last_updated_at) : ''}</p> */}
+          <p>Last updated: December 31, 2020</p>
           Active Cases
           <div className='split-screen'>
             <div className='half-pane'>
