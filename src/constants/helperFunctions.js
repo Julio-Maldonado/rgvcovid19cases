@@ -620,7 +620,6 @@ const getFBPosts = async() => {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
     });
-    console.log({resp})
 
     return resp.json();
   } catch (e) {
